@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "palladiumcheatengine",
+  "version": "0.1",
+
+  "name": "Palladium Cheat Engine",
+  "description": "A cheat engine and utility mod for Minecraft.",
+  "authors": [
+    "cubert3d"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.cubert3d.palladium.Main"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

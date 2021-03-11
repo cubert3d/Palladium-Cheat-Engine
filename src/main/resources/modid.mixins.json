@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.cubert3d.palladium.event.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "InGameHudInvoker",
+    "ClientPlayNetworkHandlerMixin",
+    "ClientPlayerEntityMixin",
+    "DrawTextMixin",
+    "InGameHudMixin",
+    "InventoryUpdateMixin",
+    "HungerManagerMixin",
+    "PlayerEntityMixin",
+    "MineBlockMixin",
+    "BlockMixin",
+    "ItemStackDamageMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
