@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "palladiumcheatengine",
+  "id": "palladium_cheat_engine",
   "version": "0.1",
 
   "name": "Palladium Cheat Engine",
@@ -9,12 +9,12 @@
     "cubert3d"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "email": "cubert3d@gmail.com",
+    "sources": "https://github.com/cubert3d/Palladium-Cheat-Engine"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/palladium/icon.png",
 
   "environment": "*",
   "entrypoints": {
@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "palladium.mixins.json"
   ],
 
   "depends": {
