@@ -2,6 +2,7 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.module.ModuleList;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,9 +14,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/10/2021",
+        status = "benched"
+)
+
 @DebugOnly
 @Mixin(Block.class)
-public class BlockMixin {
+public final class BlockMixin {
     @Inject(method = "isTranslucent(" +
             "Lnet/minecraft/block/BlockState;" +
             "Lnet/minecraft/world/BlockView;" +

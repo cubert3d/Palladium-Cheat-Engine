@@ -1,16 +1,20 @@
 package me.cubert3d.palladium.module.setting;
 
 import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 
-/**
- * This is the base class for all Setting classes. A Setting is essentially
- * a named value, and it can be referenced by its name.
- *
- *
- *
- * @author cubert3d
- * @version 0.1
+/*
+This is the base class for all Setting classes. A Setting is essentially
+a named value, and it can be referenced by its name.
  */
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/4/2021",
+        status = "complete"
+)
 
 abstract class AbstractSetting<T> implements Named {
 

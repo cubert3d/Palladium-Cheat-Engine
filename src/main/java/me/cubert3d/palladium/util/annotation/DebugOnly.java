@@ -1,6 +1,14 @@
 package me.cubert3d.palladium.util.annotation;
 
-// Written by cubert3d on 3/8/2021
+// Used for methods that are either in development or for testing.
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/8/2021",
+        status = "complete"
+)
 
 public @interface DebugOnly {
 }

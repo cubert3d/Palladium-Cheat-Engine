@@ -6,6 +6,7 @@ import me.cubert3d.palladium.event.callback.MineBlockCallback;
 import me.cubert3d.palladium.module.AbstractModule;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -17,6 +18,14 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/7/2021",
+        status = "benched"
+)
 
 public final class ToolSaverModule extends AbstractModule {
 

@@ -1,7 +1,16 @@
 package me.cubert3d.palladium.cmd;
 
 import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.NotNull;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/4/2021",
+        status = "complete"
+)
 
 public enum CommandError {
     COMMAND_NOT_FOUND("Command not found!"),
@@ -20,11 +29,7 @@ public enum CommandError {
         return errorMessage;
     }
 
-    /**
-     * Sends the error message to the player's chat-HUD.
-     *
-     * @param error  the particular command-error that had occurred
-     */
+    // Send an error message to the player's chat-HUD.
     public static void sendErrorMessage(@NotNull CommandError error) {
         Common.sendMessage(error.getErrorMessage());
     }

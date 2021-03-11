@@ -2,6 +2,7 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,6 +10,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/10/2021",
+        status = "in-progress"
+)
 
 @Mixin(ClientPlayerEntity.class)
 public final class ClientPlayerEntityMixin {

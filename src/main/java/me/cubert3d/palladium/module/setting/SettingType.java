@@ -1,5 +1,15 @@
 package me.cubert3d.palladium.module.setting;
 
+import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/5/2021",
+        status = "unused"
+)
+
 public enum SettingType {
     BOOLEAN(false),
     INTEGER(true),

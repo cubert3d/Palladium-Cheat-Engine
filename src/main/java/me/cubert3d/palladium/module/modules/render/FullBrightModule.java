@@ -4,6 +4,15 @@ import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.AbstractModule;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/9/2021",
+        status = "complete"
+)
 
 public final class FullBrightModule extends AbstractModule {
 

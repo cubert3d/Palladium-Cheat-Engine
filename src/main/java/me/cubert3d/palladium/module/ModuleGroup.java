@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,9 +10,15 @@ import java.util.Set;
 /*
     Like a module category, but the user will be able to define their own.
     Inspired by Nodus.
-
-    Written by cubert3d on 3/6/2021
  */
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/6/2021",
+        status = "complete"
+)
 
 public final class ModuleGroup implements Named {
 

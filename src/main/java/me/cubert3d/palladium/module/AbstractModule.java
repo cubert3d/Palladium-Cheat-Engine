@@ -3,6 +3,15 @@ package me.cubert3d.palladium.module;
 import me.cubert3d.palladium.Main;
 import me.cubert3d.palladium.module.setting.BooleanSetting;
 import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/3/2021",
+        status = "in-progress"
+)
 
 public abstract class AbstractModule implements Named {
 

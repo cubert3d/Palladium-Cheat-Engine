@@ -10,12 +10,21 @@ import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/4/2021",
+        status = "complete"
+)
 
 public final class ModuleList {
 

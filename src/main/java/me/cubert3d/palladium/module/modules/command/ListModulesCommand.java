@@ -5,8 +5,17 @@ import me.cubert3d.palladium.module.AbstractModule;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleList;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 // Written by cubert3d on 3/8/2021
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/8/2021",
+        status = "in-progress"
+)
 
 public final class ListModulesCommand extends AbstractModule {
 

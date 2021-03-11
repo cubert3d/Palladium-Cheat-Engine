@@ -1,10 +1,19 @@
-package me.cubert3d.palladium.event.listener;
+package me.cubert3d.palladium.network;
 
 import me.cubert3d.palladium.event.callback.SendPacketCallback;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.util.ActionResult;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/7/2021",
+        status = "complete"
+)
 
 @DebugOnly
 public final class PacketListener {

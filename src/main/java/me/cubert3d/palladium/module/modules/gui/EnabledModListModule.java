@@ -5,12 +5,19 @@ import me.cubert3d.palladium.event.callback.DrawTextCallback;
 import me.cubert3d.palladium.module.AbstractModule;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.ActionResult;
 
-// Written by cubert3d on 3/8/2021
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/8/2021",
+        status = "benched"
+)
 
 public final class EnabledModListModule extends AbstractModule {
 

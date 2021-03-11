@@ -1,11 +1,19 @@
 package me.cubert3d.palladium.cmd;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.AbstractModule;
 import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/6/2021",
+        status = "in-progress"
+)
 
 public final class CommandListener {
 

@@ -1,5 +1,15 @@
 package me.cubert3d.palladium.module.setting;
 
+import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/4/2021",
+        status = "complete"
+)
+
 public final class IntegerSetting extends NumberSetting<Integer> {
 
     public IntegerSetting(String name, int defaultValue, int minValue, int maxValue) {

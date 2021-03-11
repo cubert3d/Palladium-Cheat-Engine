@@ -2,6 +2,7 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,8 +18,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
 import java.util.function.Consumer;
 
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/8/2021",
+        status = "in-progress"
+)
+
 @Mixin(ItemStack.class)
-public class ItemStackDamageMixin {
+public final class ItemStackDamageMixin {
 
     /*
     @Inject(at = @At(value = "TAIL"),

@@ -1,5 +1,6 @@
 package me.cubert3d.palladium;
 
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -14,6 +15,15 @@ import java.util.Objects;
 /*
     A collection of common, useful fields and methods, to be used anywhere
  */
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "3/4/2021",
+        status = "in-progress"
+)
+
 public final class Common {
 
     // COMMON GETTERS
