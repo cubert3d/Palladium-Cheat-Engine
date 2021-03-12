@@ -2,9 +2,11 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,6 +36,17 @@ public final class ClientPlayerEntityMixin {
 
         if (result.equals(ActionResult.FAIL))
             info.cancel();
+    }
+
+    @Inject(at = @At(value = "TAIL"),
+            method = "swingHand(Lnet/minecraft/util/Hand;)V",
+            cancellable = true)
+    private void onSwingHand(Hand hand, final CallbackInfo info) {
+
+        ClickTPModule module = (ClickTPModule) ModuleList.getModule("ClickTP");
+
+        if (module.isEnabled() && hand.equals(ClickTPModule.HAND))
+            module.teleport();
     }
 
     @Inject(at = @At(value = "HEAD"),

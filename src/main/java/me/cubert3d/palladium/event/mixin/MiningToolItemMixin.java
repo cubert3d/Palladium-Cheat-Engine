@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @DebugOnly
 @Mixin(MiningToolItem.class)
-public final class MineBlockMixin {
+public final class MiningToolItemMixin {
 
     /*
     @Inject(at = @At(value = "TAIL"),
@@ -68,7 +68,7 @@ public final class MineBlockMixin {
                     "Lnet/minecraft/block/BlockState;" +            // BlockState state
                     "Lnet/minecraft/util/math/BlockPos;" +          // BlockPos pos
                     "Lnet/minecraft/entity/LivingEntity;)Z")        // LivingEntity miner
-    private void onMineBlock(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner,
+    private void onPostMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner,
                              CallbackInfoReturnable<Boolean> info) {
         ActionResult result = MineBlockCallback.EVENT.invoker().interact((PlayerEntity) miner, stack);
 

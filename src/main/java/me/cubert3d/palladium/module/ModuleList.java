@@ -1,7 +1,8 @@
 package me.cubert3d.palladium.module;
 
-import me.cubert3d.palladium.module.modules.command.ListModulesCommand;
+import me.cubert3d.palladium.module.modules.command.SearchCommand;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
+import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.AutoToolModule;
@@ -40,7 +41,7 @@ public final class ModuleList {
         numAvailableModules = 0;
 
         // COMMANDS
-        addModule(new ListModulesCommand());
+        addModule(new SearchCommand());
 
         //GUI
         addModule(new EnabledModListModule());
@@ -58,6 +59,7 @@ public final class ModuleList {
         // MOVEMENT
         addModule(new SprintModule());
         addModule(new SneakModule());
+        addModule(new ClickTPModule());
     }
 
     private static void addModule(AbstractModule module) {

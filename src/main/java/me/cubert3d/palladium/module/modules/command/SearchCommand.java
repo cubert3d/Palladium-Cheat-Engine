@@ -14,25 +14,25 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
                 "cubert3d"
         },
         date = "3/8/2021",
-        status = "in-progress"
+        status = "complete"
 )
 
-public final class ListModulesCommand extends AbstractModule {
+public final class SearchCommand extends AbstractModule {
 
-    public ListModulesCommand() {
-        super("ListModules", "Lists the modules available in Palladium Cheat Engine.",
+    public SearchCommand() {
+        super("Search", "Searches for modules and commands by name.",
                 ModuleType.EXECUTE_ONCE, ModuleDevStatus.AVAILABLE);
     }
 
     @Override
     public void execute(String[] args) {
-        Common.sendMessage("Modules in Palladium Cheat Engine: ");
+        //Common.sendMessage("Modules in Palladium Cheat Engine: ");
         for (AbstractModule module : ModuleList.getModuleCollection()) {
             if (module.isAvailable()) {
                 String name = module.getName();
                 String description = module.getDescription();
 
-                // Search function: if the name of the module starts with the first argument, then list it
+                // Search function: if the name of the module starts with the first argument, then list it.
                 if (args.length > 0) {
                     String search = args[0];
                     if (name.toLowerCase().startsWith(search.toLowerCase()))
