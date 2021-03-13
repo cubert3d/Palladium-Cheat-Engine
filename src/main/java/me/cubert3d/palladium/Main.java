@@ -42,8 +42,6 @@ public final class Main implements ModInitializer {
 		// Listeners
 		PacketListener.registerListener();
 		CommandListener.registerListener();
-
-		ChatFilter.addPhrase("faggot");
 	}
 
 	public static boolean isDebugModeEnabled() {
