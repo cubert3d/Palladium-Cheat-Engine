@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.module.modules.command.HelpCommand;
 import me.cubert3d.palladium.module.modules.command.SearchCommand;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
@@ -7,6 +8,7 @@ import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.AutoToolModule;
 import me.cubert3d.palladium.module.modules.player.BlinkModule;
+import me.cubert3d.palladium.module.modules.player.ChatFilterModule;
 import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
@@ -14,10 +16,9 @@ import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @ClassDescription(
         authors = {
@@ -29,7 +30,7 @@ import java.util.Map;
 
 public final class ModuleList {
 
-    private static final Map<String, AbstractModule> moduleMap = new HashMap<>();
+    private static final LinkedHashSet<AbstractModule> moduleSet = new LinkedHashSet<>();
 
     // Store the number of modules separately, so that the modules can be counted as they are loaded.
     private static int numModules;
@@ -41,6 +42,7 @@ public final class ModuleList {
         numAvailableModules = 0;
 
         // COMMANDS
+        addModule(new HelpCommand());
         addModule(new SearchCommand());
 
         //GUI
@@ -55,6 +57,7 @@ public final class ModuleList {
         addModule(new AutoToolModule());
         addModule(new ToolSaverModule());
         addModule(new BlinkModule());
+        addModule(new ChatFilterModule());
 
         // MOVEMENT
         addModule(new SprintModule());
@@ -63,7 +66,7 @@ public final class ModuleList {
     }
 
     private static void addModule(AbstractModule module) {
-        moduleMap.put(module.getName().toLowerCase(), module);
+        moduleSet.add(module);
         module.onLoad();
         // Update the module counters.
         numModules++;
@@ -71,17 +74,18 @@ public final class ModuleList {
             numAvailableModules++;
     }
 
-    public static Map<String, AbstractModule> getModuleMap() {
-        return moduleMap;
-    }
-
     @Contract(pure = true)
-    public static @NotNull Collection<AbstractModule> getModuleCollection() {
-        return moduleMap.values();
+    public static @NotNull LinkedHashSet<AbstractModule> getModuleCollection() {
+        return moduleSet;
     }
 
-    public static AbstractModule getModule(@NotNull String name) {
-        return getModuleMap().get(name.toLowerCase());
+    public static @Nullable AbstractModule getModule(@NotNull String name) {
+        name = name.trim();
+        for (AbstractModule module : moduleSet) {
+            if (module.getName().equalsIgnoreCase(name))
+                return module;
+        }
+        return null;
     }
 
     public static int getNumModules() {

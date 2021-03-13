@@ -17,30 +17,35 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         status = "complete"
 )
 
-public final class SearchCommand extends AbstractModule {
+public final class SearchCommand extends AbstractCommand {
 
     public SearchCommand() {
-        super("Search", "Searches for modules and commands by name.",
-                ModuleType.EXECUTE_ONCE, ModuleDevStatus.AVAILABLE);
+        super("Search", "Searches for modules and commands by name.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override
     public void execute(String[] args) {
-        //Common.sendMessage("Modules in Palladium Cheat Engine: ");
+
+        String searchPhrase = "";
+        boolean search = false;
+
+        if (args.length > 0 && args[0].length() > 0) {
+            searchPhrase = args[0];
+            search = true;
+            Common.sendMessage(String.format("Showing modules beginning with \"%s\":", searchPhrase));
+        }
+        else
+            Common.sendMessage("Showing all modules:");
+
         for (AbstractModule module : ModuleList.getModuleCollection()) {
             if (module.isAvailable()) {
                 String name = module.getName();
                 String description = module.getDescription();
 
                 // Search function: if the name of the module starts with the first argument, then list it.
-                if (args.length > 0) {
-                    String search = args[0];
-                    if (name.toLowerCase().startsWith(search.toLowerCase()))
-                        Common.sendMessage(name + ": " + description);
-                }
-                else
+                if (!search || name.toLowerCase().startsWith(searchPhrase.toLowerCase())) {
                     Common.sendMessage(name + ": " + description);
-
+                }
             }
         }
     }

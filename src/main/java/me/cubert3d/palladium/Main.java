@@ -3,6 +3,7 @@ package me.cubert3d.palladium;
 import me.cubert3d.palladium.cmd.CommandListener;
 import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.util.ChatFilter;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.fabricmc.api.ModInitializer;
 
@@ -41,6 +42,8 @@ public final class Main implements ModInitializer {
 		// Listeners
 		PacketListener.registerListener();
 		CommandListener.registerListener();
+
+		ChatFilter.addPhrase("faggot");
 	}
 
 	public static boolean isDebugModeEnabled() {

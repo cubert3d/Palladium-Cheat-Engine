@@ -12,6 +12,7 @@
     "MouseMixin",
     "DrawTextMixin",
     "InGameHudMixin",
+    "ChatHudMixin",
     "InventoryUpdateMixin",
     "HungerManagerMixin",
     "PlayerEntityMixin",

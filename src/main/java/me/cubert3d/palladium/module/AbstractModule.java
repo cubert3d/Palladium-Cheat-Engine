@@ -55,7 +55,7 @@ public abstract class AbstractModule implements Named {
         return moduleType;
     }
 
-    protected final ModuleDevStatus getDevStatus() {
+    public final ModuleDevStatus getDevStatus() {
         return status;
     }
 

@@ -35,3 +35,4 @@ run/
 # else
 
 *.txt
+build_jar.bat
