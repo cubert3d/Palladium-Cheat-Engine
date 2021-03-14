@@ -16,11 +16,10 @@ a named value, and it can be referenced by its name.
         status = "complete"
 )
 
-abstract class AbstractSetting<T> implements Named {
+public abstract class AbstractSetting<T> implements Named {
 
     private final String name;
     private final T defaultValue;
-
     private T value;
 
     protected AbstractSetting(String name, T defaultValue) {

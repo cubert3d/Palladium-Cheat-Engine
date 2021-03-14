@@ -4,6 +4,8 @@ import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.AbstractModule;
 import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.setting2.Setting;
+import me.cubert3d.palladium.module.setting2.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
 
@@ -53,6 +55,7 @@ public final class CommandListener {
                         // Check the number of arguments.
                         // 0: report whether the module is enabled or disabled.
                         // 1: enable or disable the module. (args[0] = enable/disable/toggle)
+                        //    or check a setting to see its value.
                         // 2: change a setting. (args[0] = setting name, args[1] = new value)
 
                         switch (args.length) {
@@ -81,11 +84,28 @@ public final class CommandListener {
                                             Common.sendMessage(module.getName() + " is now disabled");
                                         break;
                                     default:
-                                        CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+
+                                        Setting setting = module.getSetting(args[0]);
+
+                                        if (setting != null)
+                                            Common.sendMessage(String.format("%s: %s", setting.getName(), setting.getValue()));
+                                        else
+                                            CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
                                 }
                                 break;
                             // Change a setting (NOT IMPLEMENTED YET)
                             case 2:
+
+                                String settingName = args[0];
+                                String newValue = args[1];
+
+                                if (module.getSetting(settingName) != null
+                                        && module.changeSettingWithString(settingName, newValue)) {
+                                    Common.sendMessage(String.format("%s set to %s", settingName, newValue));
+                                }
+                                else
+                                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+
                                 break;
                             // Too many arguments!
                             default:

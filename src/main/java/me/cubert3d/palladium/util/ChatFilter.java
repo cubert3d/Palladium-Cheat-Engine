@@ -13,7 +13,7 @@ import java.util.ArrayList;
         status = "complete"
 )
 
-public class ChatFilter {
+public final class ChatFilter {
 
     private static final ArrayList<String> phrases = new ArrayList<>();
 

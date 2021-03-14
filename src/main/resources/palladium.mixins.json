@@ -10,7 +10,6 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientPlayerEntityMixin",
     "MouseMixin",
-    "DrawTextMixin",
     "InGameHudMixin",
     "ChatHudMixin",
     "InventoryUpdateMixin",

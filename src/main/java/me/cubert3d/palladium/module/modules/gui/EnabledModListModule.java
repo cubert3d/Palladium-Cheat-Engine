@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module.modules.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.DrawTextCallback;
 import me.cubert3d.palladium.module.AbstractModule;
@@ -30,26 +31,10 @@ public final class EnabledModListModule extends AbstractModule {
     protected void onLoad() {
 
 
-        DrawTextCallback.EVENT.register((matrices, text, x, y, color) -> {
-
-            if (!isEnabled())
-                return ActionResult.PASS;
-
-            String message = String.format("text=\"%s\", x=%f, y=%f, color=%d", text, x, y, color);
-
-            System.out.println(message);
-            Common.sendMessage(message);
-
-            return ActionResult.PASS;
-        });
-
-
     }
 
     @Override
     protected void onEnable() {
-
-
 
     }
 
@@ -61,20 +46,6 @@ public final class EnabledModListModule extends AbstractModule {
     @DebugOnly
     private void test() {
 
-        Common.getMC().getProfiler().push("test");
-
-        MatrixStack matrices = new MatrixStack();
-
-        matrices.push();
-
-        while (isEnabled()) {
-            Common.getMC().textRenderer.draw(matrices, "test", 314.0F, 100.0F, 8453920);
-        }
-
-
-        matrices.pop();
-
-        Common.getMC().getProfiler().pop();
 
     }
 }

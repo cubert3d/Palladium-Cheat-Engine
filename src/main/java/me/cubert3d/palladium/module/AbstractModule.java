@@ -1,9 +1,19 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Main;
+import me.cubert3d.palladium.module.setting.AbstractSetting;
 import me.cubert3d.palladium.module.setting.BooleanSetting;
+import me.cubert3d.palladium.module.setting2.Setting;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.HorseEntity;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @ClassDescription(
         authors = {
@@ -22,6 +32,8 @@ public abstract class AbstractModule implements Named {
 
     private final ModuleType moduleType;
     private final BooleanSetting enabledSetting = new BooleanSetting("Enabled", false);
+
+    protected final Set<Setting> settings = new HashSet<>();
 
     private final ModuleDevStatus status;
 
@@ -64,6 +76,8 @@ public abstract class AbstractModule implements Named {
     }
 
 
+
+    // ENABLE
 
     public final boolean isEnabled() {
         if (moduleType.equals(ModuleType.TOGGLE))
@@ -108,6 +122,40 @@ public abstract class AbstractModule implements Named {
     }
 
 
+
+    // SETTING
+
+    protected final void addSetting(Setting setting) {
+        this.settings.add(setting);
+    }
+
+    public final @Nullable Setting getSetting(String name) {
+        for (Setting setting : settings) {
+            if (setting.getName().equalsIgnoreCase(name))
+                return setting;
+        }
+        return null;
+    }
+
+    public boolean changeSetting(String name, Object value) {
+        for (Setting setting : settings) {
+            if (setting.getName().equalsIgnoreCase(name))
+                return setting.setValue(value);
+        }
+        return false;
+    }
+
+    public boolean changeSettingWithString(String name, String value) {
+        for (Setting setting : settings) {
+            if (setting.getName().equalsIgnoreCase(name))
+                return setting.setValueFromString(value);
+        }
+        return false;
+    }
+
+
+
+    // LOAD
 
     protected void onLoad() {}
 
