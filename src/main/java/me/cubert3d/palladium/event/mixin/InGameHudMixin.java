@@ -21,7 +21,7 @@ public final class InGameHudMixin {
               at = @At(value = "INVOKE",
                        target = "Lnet/minecraft/client/gui/hud/InGameHud;renderPumpkinOverlay()V"))
     private void renderPumpkinOverlayRedirect(InGameHud hud) {
-        if (!ModuleList.getModule("AntiOverlay").isEnabled())
+        if (!ModuleList.getModule("AntiOverlay").get().isEnabled())
             ((InGameHudInvoker) hud).invokeRenderPumpkinOverlay();
     }
 }

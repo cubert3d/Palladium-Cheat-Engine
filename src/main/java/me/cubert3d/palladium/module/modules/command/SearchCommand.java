@@ -1,10 +1,9 @@
 package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleList;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 // Written by cubert3d on 3/8/2021
@@ -17,7 +16,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         status = "complete"
 )
 
-public final class SearchCommand extends AbstractCommand {
+public final class SearchCommand extends Command {
 
     public SearchCommand() {
         super("Search", "Searches for modules and commands by name.", ModuleDevStatus.AVAILABLE);
@@ -37,7 +36,7 @@ public final class SearchCommand extends AbstractCommand {
         else
             Common.sendMessage("Showing all modules:");
 
-        for (AbstractModule module : ModuleList.getModuleCollection()) {
+        for (Module module : ModuleList.getModuleCollection()) {
             if (module.isAvailable()) {
                 String name = module.getName();
                 String description = module.getDescription();

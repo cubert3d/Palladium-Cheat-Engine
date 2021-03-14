@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules.command;
 
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.ArgumentTree;
@@ -14,11 +14,11 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         status = "in-progress"
 )
 
-abstract class AbstractCommand extends AbstractModule {
+abstract class Command extends Module {
 
     protected ArgumentTree argumentTree;
 
-    protected AbstractCommand(String name, String description, ModuleDevStatus status) {
+    protected Command(String name, String description, ModuleDevStatus status) {
         super(name, description, ModuleType.EXECUTE_ONCE, status);
     }
 

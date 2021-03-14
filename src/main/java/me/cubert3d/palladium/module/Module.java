@@ -1,18 +1,12 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Main;
-import me.cubert3d.palladium.module.setting.AbstractSetting;
-import me.cubert3d.palladium.module.setting.BooleanSetting;
-import me.cubert3d.palladium.module.setting2.Setting;
+import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
-import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.entity.passive.HorseEntity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @ClassDescription(
@@ -23,7 +17,7 @@ import java.util.Set;
         status = "in-progress"
 )
 
-public abstract class AbstractModule implements Named {
+public abstract class Module implements Named {
 
     // The name of this module must be unique
     private final String name;
@@ -31,24 +25,23 @@ public abstract class AbstractModule implements Named {
     private final String description;
 
     private final ModuleType moduleType;
-    private final BooleanSetting enabledSetting = new BooleanSetting("Enabled", false);
-
+    private boolean enabled;
     protected final Set<Setting> settings = new HashSet<>();
-
     private final ModuleDevStatus status;
 
-    protected AbstractModule(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
+    protected Module(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
         this.name = name;
         this.description = description;
         this.moduleType = moduleType;
+        this.enabled = false;
         this.status = status;
     }
 
     @Override
     public final boolean equals(Object obj) {
         // Two modules should be equal if their names are equal, case-sensitively.
-        if (obj instanceof AbstractModule) {
-            AbstractModule otherModule = (AbstractModule) obj;
+        if (obj instanceof Module) {
+            Module otherModule = (Module) obj;
             return this.getName().equals(otherModule.getName());
         }
         return false;
@@ -81,7 +74,7 @@ public abstract class AbstractModule implements Named {
 
     public final boolean isEnabled() {
         if (moduleType.equals(ModuleType.TOGGLE))
-            return enabledSetting.getValue();
+            return enabled;
         else
             return false;
     }
@@ -89,7 +82,7 @@ public abstract class AbstractModule implements Named {
     public final void enable() {
         if (status.equals(ModuleDevStatus.AVAILABLE) || Main.isDebugModeEnabled()) {
             if (moduleType.equals(ModuleType.TOGGLE)) {
-                enabledSetting.setValue(true);
+                enabled = true;
                 onEnable();
             }
         }
@@ -98,7 +91,7 @@ public abstract class AbstractModule implements Named {
     public final void disable() {
         if (status.equals(ModuleDevStatus.AVAILABLE) || Main.isDebugModeEnabled()) {
             if (moduleType.equals(ModuleType.TOGGLE)) {
-                enabledSetting.setValue(false);
+                enabled = false;
                 onDisable();
             }
         }
@@ -117,7 +110,7 @@ public abstract class AbstractModule implements Named {
 
     public final void resetEnabled() {
         if (moduleType.equals(ModuleType.TOGGLE)) {
-            enabledSetting.resetValue();
+            disable();
         }
     }
 
@@ -129,12 +122,17 @@ public abstract class AbstractModule implements Named {
         this.settings.add(setting);
     }
 
-    public final @Nullable Setting getSetting(String name) {
+    public final Optional<Setting> getSetting(String name) {
+
+        Optional<Setting> optional = Optional.empty();
+
         for (Setting setting : settings) {
-            if (setting.getName().equalsIgnoreCase(name))
-                return setting;
+            if (setting.getName().equalsIgnoreCase(name)) {
+                optional = Optional.of(setting);
+                break;
+            }
         }
-        return null;
+        return optional;
     }
 
     public boolean changeSetting(String name, Object value) {
@@ -146,11 +144,18 @@ public abstract class AbstractModule implements Named {
     }
 
     public boolean changeSettingWithString(String name, String value) {
+        boolean isSuccessful = false;
         for (Setting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
-                return setting.setValueFromString(value);
+                isSuccessful = setting.setValueFromString(value);
+                onChangeSetting();
+                return isSuccessful;
         }
-        return false;
+        return isSuccessful;
+    }
+
+    protected void onChangeSetting() {
+
     }
 
 

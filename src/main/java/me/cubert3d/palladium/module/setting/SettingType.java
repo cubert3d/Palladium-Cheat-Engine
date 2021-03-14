@@ -1,22 +1,25 @@
-package me.cubert3d.palladium.module.setting2;
+package me.cubert3d.palladium.module.setting;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
                 "cubert3d"
         },
         date = "3/5/2021",
-        status = "unused"
+        status = "complete"
 )
 
 public enum SettingType {
     BOOLEAN(false),
     INTEGER(true),
     DOUBLE(true),
-    STRING(false);
+    STRING(false),
+    COMMAND(false); // To be implemented.
 
     private final boolean numberType;
 
@@ -29,16 +32,15 @@ public enum SettingType {
     }
 
     @Contract(pure = true)
-    public static @Nullable SettingType getTypeFromObject(Object object) {
+    public static Optional<SettingType> getTypeFromObject(Object object) {
         if (object instanceof Boolean)
-            return BOOLEAN;
+            return Optional.of(BOOLEAN);
         else if (object instanceof Integer)
-            return INTEGER;
+            return Optional.of(INTEGER);
         else if (object instanceof Double)
-            return DOUBLE;
+            return Optional.of(DOUBLE);
         else if (object instanceof String)
-            return STRING;
-
-        return null;
+            return Optional.of(STRING);
+        return Optional.empty();
     }
 }

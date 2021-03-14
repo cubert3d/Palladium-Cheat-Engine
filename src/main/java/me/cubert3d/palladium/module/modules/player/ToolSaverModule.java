@@ -3,7 +3,7 @@ package me.cubert3d.palladium.module.modules.player;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -27,7 +27,7 @@ import java.util.Objects;
         status = "benched"
 )
 
-public final class ToolSaverModule extends AbstractModule {
+public final class ToolSaverModule extends Module {
 
     public ToolSaverModule() {
         super("ToolSaver", "Swaps tools out of your hand when they reach their last point of durability.",

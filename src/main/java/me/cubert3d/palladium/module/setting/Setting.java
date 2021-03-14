@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.module.setting2;
+package me.cubert3d.palladium.module.setting;
 
 import me.cubert3d.palladium.util.Conversion;
 import me.cubert3d.palladium.util.Named;
@@ -49,9 +49,9 @@ public final class Setting implements Named {
     // this bitch got so many shields it's insane
     public Object getValue() {
 
-        SettingType valueType = SettingType.getTypeFromObject(value);
+        Optional<SettingType> valueType = SettingType.getTypeFromObject(value);
 
-        if (valueType != null && valueType.equals(getType()))
+        if (valueType.isPresent() && valueType.get().equals(getType()))
             return value;
         else if (resetValue())
             return value;
@@ -67,9 +67,9 @@ public final class Setting implements Named {
      */
     public boolean setValue(Object value) {
 
-        SettingType valueType = SettingType.getTypeFromObject(value);
+        Optional<SettingType> valueType = SettingType.getTypeFromObject(value);
 
-        if (valueType != null && valueType.equals(getType())) {
+        if (valueType.isPresent() && valueType.get().equals(getType())) {
             this.value = value;
             return true;
         }
@@ -115,10 +115,10 @@ public final class Setting implements Named {
      */
     public boolean resetValue() {
 
-        SettingType valueType = SettingType.getTypeFromObject(value);
-        SettingType defaultType = SettingType.getTypeFromObject(defaultValue);
+        Optional<SettingType> valueType = SettingType.getTypeFromObject(value);
+        Optional<SettingType> defaultType = SettingType.getTypeFromObject(defaultValue);
 
-        if (valueType != null && valueType == defaultType) {
+        if (valueType.isPresent() && defaultType.isPresent() && valueType.get() == defaultType.get()) {
             value = defaultValue;
             return true;
         }
@@ -138,9 +138,9 @@ public final class Setting implements Named {
      */
     private boolean setDefaultValue(Object value) {
 
-        SettingType valueType = SettingType.getTypeFromObject(value);
+        Optional<SettingType> valueType = SettingType.getTypeFromObject(value);
 
-        if (valueType != null && valueType.equals(getType())) {
+        if (valueType.isPresent() && valueType.get().equals(getType())) {
             this.defaultValue = value;
             return true;
         }

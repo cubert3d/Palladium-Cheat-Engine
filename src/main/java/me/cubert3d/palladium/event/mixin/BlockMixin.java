@@ -34,7 +34,7 @@ public final class BlockMixin {
             cancellable = true)
     private void onShouldDrawSide(BlockState state, BlockView world, BlockPos pos,
                                          CallbackInfoReturnable<Boolean> info) {
-        if (ModuleList.getModule("XRay").isEnabled() && XRayModule.isXRayPassable(state.getBlock())) {
+        if (ModuleList.getModule("XRay").get().isEnabled() && XRayModule.isXRayPassable(state.getBlock())) {
             info.setReturnValue(false);
         }
     }

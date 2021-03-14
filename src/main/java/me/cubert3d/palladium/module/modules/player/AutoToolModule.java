@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules.player;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -22,7 +22,7 @@ import net.minecraft.world.GameMode;
         status = "complete"
 )
 
-public final class AutoToolModule extends AbstractModule {
+public final class AutoToolModule extends Module {
 
     // TODO: add setting for whether to pick a tool based on its effectiveness, or its durability.
 

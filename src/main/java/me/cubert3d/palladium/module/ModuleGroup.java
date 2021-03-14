@@ -23,13 +23,13 @@ import java.util.Set;
 public final class ModuleGroup implements Named {
 
     private final String name;
-    private final Set<AbstractModule> modules = new HashSet<>();
+    private final Set<Module> modules = new HashSet<>();
 
     public ModuleGroup(String name) {
         this.name = name;
     }
 
-    public ModuleGroup(String name, AbstractModule... modules) {
+    public ModuleGroup(String name, Module... modules) {
         this.name = name;
         this.modules.addAll(Arrays.asList(modules));
     }
@@ -39,11 +39,11 @@ public final class ModuleGroup implements Named {
         return name;
     }
 
-    public final Set<AbstractModule> getModules() {
+    public final Set<Module> getModules() {
         return modules;
     }
 
-    public final void addModule(AbstractModule module) {
+    public final void addModule(Module module) {
         modules.add(module);
     }
 

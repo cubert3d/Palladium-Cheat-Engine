@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -15,7 +15,7 @@ import net.minecraft.block.Blocks;
         status = "benched"
 )
 
-public final class XRayModule extends AbstractModule {
+public final class XRayModule extends Module {
 
     private static final Block[] ores = new Block[]{
             Blocks.COAL_ORE,

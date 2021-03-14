@@ -1,8 +1,7 @@
 package me.cubert3d.palladium.module.modules.movement;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.event.callback.MouseCallback;
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -12,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -32,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
         status = "in-progress"
 )
 
-public final class ClickTPModule extends AbstractModule {
+public final class ClickTPModule extends Module {
 
     // Maximum distance, in blocks, that the player is allowed to teleport.
     private static final double maxDistance = 10.0;

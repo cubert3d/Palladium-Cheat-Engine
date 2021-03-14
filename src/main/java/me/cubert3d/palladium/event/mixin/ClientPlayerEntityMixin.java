@@ -43,7 +43,7 @@ public final class ClientPlayerEntityMixin {
             cancellable = true)
     private void onSwingHand(Hand hand, final CallbackInfo info) {
 
-        ClickTPModule module = (ClickTPModule) ModuleList.getModule("ClickTP");
+        ClickTPModule module = (ClickTPModule) ModuleList.getModule("ClickTP").get();
 
         if (module.isEnabled() && hand.equals(ClickTPModule.HAND))
             module.teleport();
@@ -53,7 +53,7 @@ public final class ClientPlayerEntityMixin {
             method = "isSneaking()Z",
             cancellable = true)
     private void onIsSneaking(final CallbackInfoReturnable<Boolean> info) {
-        if (ModuleList.getModule("Sneak").isEnabled())
+        if (ModuleList.getModule("Sneak").get().isEnabled())
             info.setReturnValue(true);
     }
 

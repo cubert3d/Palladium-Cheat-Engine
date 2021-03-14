@@ -23,7 +23,7 @@ public final class ClientPlayNetworkHandlerMixin {
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",
             cancellable = true)
     private void onSendPacket(Packet<?> packet, final CallbackInfo info) {
-        if (ModuleList.getModule("Blink").isEnabled()) {
+        if (ModuleList.getModule("Blink").get().isEnabled()) {
             info.cancel();
         }
     }

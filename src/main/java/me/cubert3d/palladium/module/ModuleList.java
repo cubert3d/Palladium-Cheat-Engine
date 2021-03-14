@@ -16,7 +16,6 @@ import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -30,7 +29,7 @@ import java.util.*;
 
 public final class ModuleList {
 
-    private static final LinkedHashSet<AbstractModule> moduleSet = new LinkedHashSet<>();
+    private static final LinkedHashSet<Module> moduleSet = new LinkedHashSet<>();
 
     // Store the number of modules separately, so that the modules can be counted as they are loaded.
     private static int numModules;
@@ -65,7 +64,7 @@ public final class ModuleList {
         addModule(new ClickTPModule());
     }
 
-    private static void addModule(AbstractModule module) {
+    private static void addModule(Module module) {
         moduleSet.add(module);
         module.onLoad();
         // Update the module counters.
@@ -75,17 +74,22 @@ public final class ModuleList {
     }
 
     @Contract(pure = true)
-    public static @NotNull LinkedHashSet<AbstractModule> getModuleCollection() {
+    public static @NotNull LinkedHashSet<Module> getModuleCollection() {
         return moduleSet;
     }
 
-    public static @Nullable AbstractModule getModule(@NotNull String name) {
+    public static Optional<Module> getModule(@NotNull String name) {
+
+        Optional<Module> optional = Optional.empty();
         name = name.trim();
-        for (AbstractModule module : moduleSet) {
-            if (module.getName().equalsIgnoreCase(name))
-                return module;
+
+        for (Module module : moduleSet) {
+            if (module.getName().equalsIgnoreCase(name)) {
+                optional = Optional.of(module);
+                break;
+            }
         }
-        return null;
+        return optional;
     }
 
     public static int getNumModules() {

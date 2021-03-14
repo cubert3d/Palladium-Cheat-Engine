@@ -3,7 +3,7 @@ package me.cubert3d.palladium.module.modules.command;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.Main;
 import me.cubert3d.palladium.cmd.CommandError;
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleList;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -11,9 +11,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 @ClassDescription(
         authors = {
@@ -23,7 +21,7 @@ import java.util.Set;
         status = "in-progress"
 )
 
-public final class HelpCommand extends AbstractCommand {
+public final class HelpCommand extends Command {
 
     private static final int PAGE_SIZE = 10;
 
@@ -50,11 +48,11 @@ public final class HelpCommand extends AbstractCommand {
             return;
         }
 
-        Collection<AbstractModule> page = getPage(pageNumber);
+        Collection<Module> page = getPage(pageNumber);
 
         if (page != null && page.size() > 0) {
             Common.sendMessage(String.format("Displaying page %d of modules: ", pageNumber));
-            for (AbstractModule module : page) {
+            for (Module module : page) {
 
                 String message;
 
@@ -72,12 +70,12 @@ public final class HelpCommand extends AbstractCommand {
     }
 
     @Contract(pure = true)
-    private static @Nullable LinkedHashSet<AbstractModule> getPage(final int pageNumber) {
+    private static @Nullable LinkedHashSet<Module> getPage(final int pageNumber) {
 
         // Cannot access a zero or negative page.
         if (pageNumber < 1) return null;
 
-        LinkedHashSet<AbstractModule> page = new LinkedHashSet<>();
+        LinkedHashSet<Module> page = new LinkedHashSet<>();
 
         // Used to count the index of the modules.
         int counter = 0;
@@ -88,7 +86,7 @@ public final class HelpCommand extends AbstractCommand {
         int lastIndex = pageNumber * PAGE_SIZE;
 
         // Iterate through the full set of modules to build the page.
-        for (AbstractModule module : ModuleList.getModuleCollection()) {
+        for (Module module : ModuleList.getModuleCollection()) {
 
             // Add the module if it is in the page range.
             if (counter >= firstIndex && counter < lastIndex)

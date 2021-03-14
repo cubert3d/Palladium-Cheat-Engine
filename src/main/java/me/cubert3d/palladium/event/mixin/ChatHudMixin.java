@@ -25,7 +25,7 @@ public final class ChatHudMixin {
             method = "addMessage(Lnet/minecraft/text/Text;IIZ)V",
             cancellable = true)
     private void onAddMessage(Text message, int messageId, int timestamp, boolean refresh, final CallbackInfo info) {
-        if (ModuleList.getModule("ChatFilter").isEnabled()) {
+        if (ModuleList.getModule("ChatFilter").get().isEnabled()) {
             String msg = message.getString().trim().toLowerCase();
             if (ChatFilter.shouldMsgBeFiltered(msg)) {
                 info.cancel();

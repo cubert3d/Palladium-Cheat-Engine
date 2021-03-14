@@ -2,12 +2,13 @@ package me.cubert3d.palladium.cmd;
 
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
-import me.cubert3d.palladium.module.AbstractModule;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleList;
-import me.cubert3d.palladium.module.setting2.Setting;
-import me.cubert3d.palladium.module.setting2.SettingType;
+import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
+
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -41,9 +42,11 @@ public final class CommandListener {
             for (int i = 0; i < args.length; i++)
                 args[i] = words[i + 1];
 
-            AbstractModule module = ModuleList.getModule(label.toLowerCase());
+            Optional<Module> optionalModule = ModuleList.getModule(label.toLowerCase());
 
-            if (module != null) {
+            if (optionalModule.isPresent()) {
+
+                Module module = optionalModule.get();
 
                 // Check whether the module is a toggleable module,
                 // or an execute-once command.
@@ -85,23 +88,25 @@ public final class CommandListener {
                                         break;
                                     default:
 
-                                        Setting setting = module.getSetting(args[0]);
+                                        Optional<Setting> optionalSetting = module.getSetting(args[0]);
 
-                                        if (setting != null)
-                                            Common.sendMessage(String.format("%s: %s", setting.getName(), setting.getValue()));
+                                        if (optionalSetting.isPresent())
+                                            Common.sendMessage(String.format("%s: %s",
+                                                    optionalSetting.get().getName(), optionalSetting.get().getValue()));
                                         else
                                             CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
                                 }
                                 break;
-                            // Change a setting (NOT IMPLEMENTED YET)
+                            // Change a setting
                             case 2:
 
                                 String settingName = args[0];
                                 String newValue = args[1];
 
-                                if (module.getSetting(settingName) != null
+                                if (module.getSetting(settingName).isPresent()
                                         && module.changeSettingWithString(settingName, newValue)) {
-                                    Common.sendMessage(String.format("%s set to %s", settingName, newValue));
+                                    Setting setting = module.getSetting(settingName).get();
+                                    Common.sendMessage(String.format("%s set to %s", setting.getName(), setting.getValue()));
                                 }
                                 else
                                     CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
