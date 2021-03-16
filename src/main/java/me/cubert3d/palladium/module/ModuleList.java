@@ -1,23 +1,16 @@
 package me.cubert3d.palladium.module;
 
-import me.cubert3d.palladium.module.modules.command.HelpCommand;
-import me.cubert3d.palladium.module.modules.command.SearchCommand;
-import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
-import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
-import me.cubert3d.palladium.module.modules.movement.SneakModule;
-import me.cubert3d.palladium.module.modules.movement.SprintModule;
-import me.cubert3d.palladium.module.modules.player.AutoToolModule;
-import me.cubert3d.palladium.module.modules.player.BlinkModule;
-import me.cubert3d.palladium.module.modules.player.ChatFilterModule;
-import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
-import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.module.modules.render.FullBrightModule;
-import me.cubert3d.palladium.module.modules.render.XRayModule;
+import me.cubert3d.palladium.module.modules.command.*;
+import me.cubert3d.palladium.module.modules.gui.*;
+import me.cubert3d.palladium.module.modules.movement.*;
+import me.cubert3d.palladium.module.modules.player.*;
+import me.cubert3d.palladium.module.modules.render.*;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -57,6 +50,7 @@ public final class ModuleList {
         addModule(new ToolSaverModule());
         addModule(new BlinkModule());
         addModule(new ChatFilterModule());
+        addModule(new AutoDisconnectModule());
 
         // MOVEMENT
         addModule(new SprintModule());

@@ -24,7 +24,6 @@ public final class EnabledModListModule extends Module {
     @Override
     protected void onLoad() {
 
-
     }
 
     @Override
@@ -39,7 +38,6 @@ public final class EnabledModListModule extends Module {
 
     @DebugOnly
     private void test() {
-
 
     }
 }

@@ -2,6 +2,7 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Main;
 import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.module.setting.SettingResult;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -135,23 +136,27 @@ public abstract class Module implements Named {
         return optional;
     }
 
-    public boolean changeSetting(String name, Object value) {
+    public SettingResult changeSetting(String name, Object value) {
+        SettingResult result = SettingResult.SETTING_NOT_FOUND;
         for (Setting setting : settings) {
-            if (setting.getName().equalsIgnoreCase(name))
-                return setting.setValue(value);
+            if (setting.getName().equalsIgnoreCase(name)) {
+                result = setting.setValue(value);
+                onChangeSetting();
+                return result;
+            }
         }
-        return false;
+        return result;
     }
 
-    public boolean changeSettingWithString(String name, String value) {
-        boolean isSuccessful = false;
+    public SettingResult changeSettingWithString(String name, String value) {
+        SettingResult result = SettingResult.SETTING_NOT_FOUND;
         for (Setting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
-                isSuccessful = setting.setValueFromString(value);
+                result = setting.setValueFromString(value);
                 onChangeSetting();
-                return isSuccessful;
+                return result;
         }
-        return isSuccessful;
+        return result;
     }
 
     protected void onChangeSetting() {

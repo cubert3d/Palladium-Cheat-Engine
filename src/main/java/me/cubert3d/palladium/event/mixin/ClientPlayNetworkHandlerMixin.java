@@ -1,13 +1,25 @@
 package me.cubert3d.palladium.event.mixin;
 
+import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.event.callback.HealthUpdateCallback;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.HealthUpdateS2CPacket;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.ActionResult;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -19,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public final class ClientPlayNetworkHandlerMixin {
+
     @Inject(at = @At(value = "INVOKE"),
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",
             cancellable = true)
@@ -26,5 +39,23 @@ public final class ClientPlayNetworkHandlerMixin {
         if (ModuleList.getModule("Blink").get().isEnabled()) {
             info.cancel();
         }
+    }
+
+    @Inject(at = @At(value = "TAIL"),
+            method = "onHealthUpdate(Lnet/minecraft/network/packet/s2c/play/HealthUpdateS2CPacket;)V")
+    private void onHealthUpdate(@NotNull HealthUpdateS2CPacket packet, final CallbackInfo info) {
+
+        double health = packet.getHealth();
+        Optional<Module> optionalModule = ModuleList.getModule("AutoDisconnect");
+
+        optionalModule.ifPresent(module -> {
+            Optional<Setting> optionalSetting = module.getSetting("Threshold");
+            optionalSetting.ifPresent(setting -> {
+                double threshold = (double) setting.getValue();
+                if (health <= threshold) {
+                    Common.getMC().disconnect();
+                }
+            });
+        });
     }
 }

@@ -26,6 +26,8 @@ import java.util.Objects;
 
 public final class Common {
 
+    private Common() {}
+
     // COMMON GETTERS
 
     public static MinecraftClient getMC() {

@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public final class Conversion {
 
+    private Conversion() {}
+
     public static Optional<Boolean> parseBoolean(String string) {
         Optional<Boolean> optional = Optional.empty();
         string = string.trim().toLowerCase();

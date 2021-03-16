@@ -2,7 +2,6 @@ package me.cubert3d.palladium.module.setting;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -21,14 +20,14 @@ public enum SettingType {
     STRING(false),
     COMMAND(false); // To be implemented.
 
-    private final boolean numberType;
+    private final boolean numerical;
 
-    SettingType(boolean numberType) {
-        this.numberType = numberType;
+    SettingType(boolean numerical) {
+        this.numerical = numerical;
     }
 
-    public final boolean isNumberType() {
-        return numberType;
+    public final boolean isNumerical() {
+        return numerical;
     }
 
     @Contract(pure = true)

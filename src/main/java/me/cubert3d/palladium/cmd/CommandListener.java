@@ -5,8 +5,11 @@ import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleList;
 import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.module.setting.SettingResult;
+import me.cubert3d.palladium.util.StringUtil;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -94,23 +97,12 @@ public final class CommandListener {
                                             Common.sendMessage(String.format("%s: %s",
                                                     optionalSetting.get().getName(), optionalSetting.get().getValue()));
                                         else
-                                            CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                            CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
                                 }
                                 break;
                             // Change a setting
                             case 2:
-
-                                String settingName = args[0];
-                                String newValue = args[1];
-
-                                if (module.getSetting(settingName).isPresent()
-                                        && module.changeSettingWithString(settingName, newValue)) {
-                                    Setting setting = module.getSetting(settingName).get();
-                                    Common.sendMessage(String.format("%s set to %s", setting.getName(), setting.getValue()));
-                                }
-                                else
-                                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-
+                                changeSetting(module, args[0], args[1]);
                                 break;
                             // Too many arguments!
                             default:
@@ -120,10 +112,7 @@ public final class CommandListener {
                         break;
 
                     case EXECUTE_ONCE:
-
-                        // For now, just pass the arguments to the execute method
                         module.execute(args);
-
                         break;
                 }
             }
@@ -134,5 +123,28 @@ public final class CommandListener {
 
             return ActionResult.FAIL;
         });
+    }
+
+    private static void changeSetting(@NotNull Module module, String settingName, String newValue) {
+
+        SettingResult result = module.changeSettingWithString(settingName, newValue);
+        settingName = settingName.toLowerCase();
+        
+
+        switch (result) {
+            case SUCCESS:
+                Common.sendMessage(String.format("%s set to %s",
+                        StringUtil.capitalizeFirst(settingName), newValue));
+                break;
+            case INVALID_TYPE:
+                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                break;
+            case OUT_OF_BOUNDS:
+                CommandError.sendErrorMessage(CommandError.OUT_OF_BOUND_ARGUMENTS);
+                break;
+            case SETTING_NOT_FOUND:
+                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
+                break;
+        }
     }
 }
