@@ -3,15 +3,12 @@ package me.cubert3d.palladium.cmd;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.Module;
-import me.cubert3d.palladium.module.ModuleList;
-import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.setting.SettingResult;
 import me.cubert3d.palladium.util.StringUtil;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -25,6 +22,56 @@ public final class CommandListener {
 
     private static final String commandPrefix = ".";
 
+    public static void registerListener() {
+        PlayerChatCallback.EVENT.register((player, message) -> {
+
+            System.out.println("chat: " + message);
+
+            if (!message.startsWith(commandPrefix))
+                return ActionResult.PASS;
+
+            // Everything in the message except for the command prefix
+            String content = message.substring(commandPrefix.length());
+
+            // Split the content into words
+            String[] words = content.split(" ");
+
+            // The first word--used to get a module
+            String label = words[0];
+
+            // The arguments to be passed to the command
+            String[] args = new String[words.length - 1];
+            System.arraycopy(words, 1, args, 0, args.length);
+
+            ModuleManager.getModule(label.toLowerCase()).ifPresent(module -> module.execute(args));
+
+            return ActionResult.FAIL;
+        });
+    }
+
+    private static void changeSetting(@NotNull Module module, String settingName, String newValue) {
+
+        SettingResult result = module.changeSettingWithString(settingName, newValue);
+        settingName = settingName.toLowerCase();
+
+        switch (result) {
+            case SUCCESS:
+                Common.sendMessage(String.format("%s set to %s",
+                        StringUtil.capitalizeFirst(settingName), newValue));
+                break;
+            case INVALID_TYPE:
+                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                break;
+            case OUT_OF_BOUNDS:
+                CommandError.sendErrorMessage(CommandError.OUT_OF_BOUND_ARGUMENTS);
+                break;
+            case SETTING_NOT_FOUND:
+                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
+                break;
+        }
+    }
+
+    /*
     public static void registerListener() {
         PlayerChatCallback.EVENT.register((player, message) -> {
 
@@ -124,27 +171,5 @@ public final class CommandListener {
             return ActionResult.FAIL;
         });
     }
-
-    private static void changeSetting(@NotNull Module module, String settingName, String newValue) {
-
-        SettingResult result = module.changeSettingWithString(settingName, newValue);
-        settingName = settingName.toLowerCase();
-        
-
-        switch (result) {
-            case SUCCESS:
-                Common.sendMessage(String.format("%s set to %s",
-                        StringUtil.capitalizeFirst(settingName), newValue));
-                break;
-            case INVALID_TYPE:
-                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                break;
-            case OUT_OF_BOUNDS:
-                CommandError.sendErrorMessage(CommandError.OUT_OF_BOUND_ARGUMENTS);
-                break;
-            case SETTING_NOT_FOUND:
-                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
-                break;
-        }
-    }
+     */
 }

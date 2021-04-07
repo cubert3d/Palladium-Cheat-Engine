@@ -5,9 +5,10 @@ import me.cubert3d.palladium.Main;
 import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -30,7 +31,7 @@ public final class HelpCommand extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String @NotNull [] args) {
 
         int pageNumber = 1;
 
@@ -86,7 +87,7 @@ public final class HelpCommand extends Command {
         int lastIndex = pageNumber * PAGE_SIZE;
 
         // Iterate through the full set of modules to build the page.
-        for (Module module : ModuleList.getModuleCollection()) {
+        for (Module module : ModuleManager.getModuleCollection()) {
 
             // Add the module if it is in the page range.
             if (counter >= firstIndex && counter < lastIndex)

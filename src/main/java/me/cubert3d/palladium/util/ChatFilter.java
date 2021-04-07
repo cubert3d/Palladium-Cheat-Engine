@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.util;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -13,7 +14,10 @@ import java.util.ArrayList;
         status = "complete"
 )
 
+@UtilityClass
 public final class ChatFilter {
+
+    private ChatFilter() {}
 
     private static final ArrayList<String> phrases = new ArrayList<>();
 

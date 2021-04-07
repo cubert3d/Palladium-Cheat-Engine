@@ -3,8 +3,9 @@ package me.cubert3d.palladium.module.modules.command;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import org.jetbrains.annotations.NotNull;
 
 // Written by cubert3d on 3/8/2021
 
@@ -23,7 +24,7 @@ public final class SearchCommand extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String @NotNull [] args) {
 
         String searchPhrase = "";
         boolean search = false;
@@ -36,7 +37,7 @@ public final class SearchCommand extends Command {
         else
             Common.sendMessage("Showing all modules:");
 
-        for (Module module : ModuleList.getModuleCollection()) {
+        for (Module module : ModuleManager.getModuleCollection()) {
             if (module.isAvailable()) {
                 String name = module.getName();
                 String description = module.getDescription();

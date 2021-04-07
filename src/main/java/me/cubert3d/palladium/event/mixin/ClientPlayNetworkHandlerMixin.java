@@ -1,18 +1,13 @@
 package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.event.callback.HealthUpdateCallback;
 import me.cubert3d.palladium.module.Module;
-import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.setting.Setting;
-import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.HealthUpdateS2CPacket;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +31,7 @@ public final class ClientPlayNetworkHandlerMixin {
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",
             cancellable = true)
     private void onSendPacket(Packet<?> packet, final CallbackInfo info) {
-        if (ModuleList.getModule("Blink").get().isEnabled()) {
+        if (ModuleManager.getModule("Blink").get().isEnabled()) {
             info.cancel();
         }
     }
@@ -46,7 +41,7 @@ public final class ClientPlayNetworkHandlerMixin {
     private void onHealthUpdate(@NotNull HealthUpdateS2CPacket packet, final CallbackInfo info) {
 
         double health = packet.getHealth();
-        Optional<Module> optionalModule = ModuleList.getModule("AutoDisconnect");
+        Optional<Module> optionalModule = ModuleManager.getModule("AutoDisconnect");
 
         optionalModule.ifPresent(module -> {
             Optional<Setting> optionalSetting = module.getSetting("Threshold");

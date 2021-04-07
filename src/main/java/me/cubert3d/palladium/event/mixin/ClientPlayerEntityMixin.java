@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
-import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -43,7 +43,7 @@ public final class ClientPlayerEntityMixin {
             cancellable = true)
     private void onSwingHand(Hand hand, final CallbackInfo info) {
 
-        ClickTPModule module = (ClickTPModule) ModuleList.getModule("ClickTP").get();
+        ClickTPModule module = (ClickTPModule) ModuleManager.getModule("ClickTP").get();
 
         if (module.isEnabled() && hand.equals(ClickTPModule.HAND))
             module.teleport();
@@ -53,7 +53,7 @@ public final class ClientPlayerEntityMixin {
             method = "isSneaking()Z",
             cancellable = true)
     private void onIsSneaking(final CallbackInfoReturnable<Boolean> info) {
-        if (ModuleList.getModule("Sneak").get().isEnabled())
+        if (ModuleManager.getModule("Sneak").get().isEnabled())
             info.setReturnValue(true);
     }
 

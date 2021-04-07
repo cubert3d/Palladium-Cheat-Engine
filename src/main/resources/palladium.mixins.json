@@ -16,8 +16,13 @@
     "HungerManagerMixin",
     "PlayerEntityMixin",
     "MiningToolItemMixin",
+    "ItemStackDamageMixin",
     "BlockMixin",
-    "ItemStackDamageMixin"
+    "AbstractBlockStateMixin",
+    "FluidRendererMixin",
+    "ChunkLightProviderMixin",
+    "BlockRenderManagerMixin",
+    "BlockEntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

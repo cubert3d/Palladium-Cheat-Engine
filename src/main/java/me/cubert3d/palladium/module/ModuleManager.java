@@ -6,8 +6,10 @@ import me.cubert3d.palladium.module.modules.movement.*;
 import me.cubert3d.palladium.module.modules.player.*;
 import me.cubert3d.palladium.module.modules.render.*;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -20,13 +22,16 @@ import java.util.Optional;
         status = "complete"
 )
 
-public final class ModuleList {
+@UtilityClass
+public final class ModuleManager {
 
     private static final LinkedHashSet<Module> moduleSet = new LinkedHashSet<>();
 
     // Store the number of modules separately, so that the modules can be counted as they are loaded.
     private static int numModules;
     private static int numAvailableModules;
+
+    private ModuleManager() {}
 
     public static void fillModuleMap() {
 
@@ -67,6 +72,10 @@ public final class ModuleList {
             numAvailableModules++;
     }
 
+
+
+    // GETTERS
+
     @Contract(pure = true)
     public static @NotNull LinkedHashSet<Module> getModuleCollection() {
         return moduleSet;
@@ -84,6 +93,26 @@ public final class ModuleList {
             }
         }
         return optional;
+    }
+
+
+
+    // CLASS GETTERS
+
+    public static @Nullable Module getModuleByClass(Class<? extends Module> clazz) {
+        for (Module module : moduleSet) {
+            if (module.getClass().equals(clazz))
+                return module;
+        }
+        return null;
+    }
+
+    public static boolean isModuleEnabled(Class<? extends Module> clazz) {
+        for (Module module : moduleSet) {
+            if (module.getClass().equals(clazz))
+                return module.isEnabled();
+        }
+        return false;
     }
 
     public static int getNumModules() {

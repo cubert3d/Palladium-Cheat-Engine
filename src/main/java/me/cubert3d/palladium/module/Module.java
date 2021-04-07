@@ -1,10 +1,12 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.Main;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.SettingResult;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -18,7 +20,7 @@ import java.util.Set;
         status = "in-progress"
 )
 
-public abstract class Module implements Named {
+public abstract class   Module implements Named {
 
     // The name of this module must be unique
     private final String name;
@@ -85,6 +87,7 @@ public abstract class Module implements Named {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 enabled = true;
                 onEnable();
+                Common.sendMessage(this.getName() + " is now enabled");
             }
         }
     }
@@ -94,6 +97,7 @@ public abstract class Module implements Named {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 enabled = false;
                 onDisable();
+                Common.sendMessage(this.getName() + " is now disabled");
             }
         }
     }
@@ -107,12 +111,6 @@ public abstract class Module implements Named {
             return isEnabled();
         }
         return false;
-    }
-
-    public final void resetEnabled() {
-        if (moduleType.equals(ModuleType.TOGGLE)) {
-            disable();
-        }
     }
 
 
@@ -173,5 +171,19 @@ public abstract class Module implements Named {
 
     protected void onDisable() {}
 
-    public void execute(String[] args) {}
+    public void execute(String @NotNull [] args) {
+        if (args.length == 1 && this.getType().equals(ModuleType.TOGGLE)) {
+            switch (args[0].toLowerCase()) {
+                case "enable":
+                    this.enable();
+                    break;
+                case "disable":
+                    this.disable();
+                    break;
+                case "toggle":
+                    this.toggle();
+                    break;
+            }
+        }
+    }
 }

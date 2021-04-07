@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleList;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.gui.hud.InGameHud;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +21,7 @@ public final class InGameHudMixin {
               at = @At(value = "INVOKE",
                        target = "Lnet/minecraft/client/gui/hud/InGameHud;renderPumpkinOverlay()V"))
     private void renderPumpkinOverlayRedirect(InGameHud hud) {
-        if (!ModuleList.getModule("AntiOverlay").get().isEnabled())
+        if (!ModuleManager.getModule("AntiOverlay").get().isEnabled())
             ((InGameHudInvoker) hud).invokeRenderPumpkinOverlay();
     }
 }
