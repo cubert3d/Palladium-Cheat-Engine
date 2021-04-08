@@ -4,7 +4,9 @@ import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
-import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.module.setting.BaseSetting;
+import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.module.setting.single.DoubleSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.Optional;
@@ -13,8 +15,7 @@ import java.util.Optional;
         authors = {
                 "cubert3d"
         },
-        date = "3/9/2021",
-        status = "complete"
+        date = "3/9/2021"
 )
 
 public final class FullBrightModule extends Module {
@@ -24,7 +25,7 @@ public final class FullBrightModule extends Module {
 
     public FullBrightModule() {
         super("FullBright", "Fully illuminates all blocks.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
-        addSetting(new Setting("Gamma", 10.0, 1.0, 10.0));
+        this.addSetting(new DoubleSetting("Brightness", 10.0));
     }
 
     @Override
@@ -46,10 +47,10 @@ public final class FullBrightModule extends Module {
 
     private void updateGamma() {
         double newGamma = fullGamma;
-        Optional<Setting> optional = this.getSetting("Gamma");
+        Optional<BaseSetting> optionalSetting = this.getSettingByName("Brightness");
 
-        if (optional.isPresent()) {
-            newGamma = (double) optional.get().getValue();
+        if (optionalSetting.isPresent() && optionalSetting.get().getType().equals(SettingType.DOUBLE)) {
+            newGamma = ((DoubleSetting) optionalSetting.get()).getValue();
         }
 
         Common.getMC().options.gamma = newGamma;

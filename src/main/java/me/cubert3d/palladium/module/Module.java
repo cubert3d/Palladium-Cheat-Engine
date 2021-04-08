@@ -2,10 +2,17 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.Main;
-import me.cubert3d.palladium.module.setting.Setting;
-import me.cubert3d.palladium.module.setting.SettingResult;
+import me.cubert3d.palladium.cmd.CommandError;
+import me.cubert3d.palladium.module.setting.*;
+import me.cubert3d.palladium.module.setting.list.*;
+import me.cubert3d.palladium.module.setting.single.*;
+import me.cubert3d.palladium.util.Conversion;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -22,15 +29,15 @@ import java.util.Set;
 
 public abstract class   Module implements Named {
 
-    // The name of this module must be unique
+    // The name of this module must be unique.
     private final String name;
-    // Should be brief and concise
+    // Should be brief and concise.
     private final String description;
 
     private final ModuleType moduleType;
     private boolean enabled;
-    protected final Set<Setting> settings = new HashSet<>();
     private final ModuleDevStatus status;
+    private final Set<BaseSetting> settings = new HashSet<>();
 
     protected Module(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
         this.name = name;
@@ -38,6 +45,7 @@ public abstract class   Module implements Named {
         this.moduleType = moduleType;
         this.enabled = false;
         this.status = status;
+        this.onConstruct();
     }
 
     @Override
@@ -117,44 +125,21 @@ public abstract class   Module implements Named {
 
     // SETTING
 
-    protected final void addSetting(Setting setting) {
-        this.settings.add(setting);
+    public final Set<BaseSetting> getSettings() {
+        return settings;
     }
 
-    public final Optional<Setting> getSetting(String name) {
-
-        Optional<Setting> optional = Optional.empty();
-
-        for (Setting setting : settings) {
-            if (setting.getName().equalsIgnoreCase(name)) {
-                optional = Optional.of(setting);
-                break;
-            }
-        }
-        return optional;
-    }
-
-    public SettingResult changeSetting(String name, Object value) {
-        SettingResult result = SettingResult.SETTING_NOT_FOUND;
-        for (Setting setting : settings) {
-            if (setting.getName().equalsIgnoreCase(name)) {
-                result = setting.setValue(value);
-                onChangeSetting();
-                return result;
-            }
-        }
-        return result;
-    }
-
-    public SettingResult changeSettingWithString(String name, String value) {
-        SettingResult result = SettingResult.SETTING_NOT_FOUND;
-        for (Setting setting : settings) {
+    public final Optional<BaseSetting> getSettingByName(String name) {
+        name = name.trim();
+        for (BaseSetting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
-                result = setting.setValueFromString(value);
-                onChangeSetting();
-                return result;
+                return Optional.of(setting);
         }
-        return result;
+        return Optional.empty();
+    }
+
+    protected final void addSetting(BaseSetting setting) {
+        settings.add(setting);
     }
 
     protected void onChangeSetting() {
@@ -163,27 +148,204 @@ public abstract class   Module implements Named {
 
 
 
-    // LOAD
+    // ON-UPDATE METHODS
 
+    // Called when the abstract module's constructor is used.
+    protected void onConstruct() {}
+
+    // Called when this module is loaded by the module manager.
     protected void onLoad() {}
 
+    // Called when this module is enabled.
     protected void onEnable() {}
 
+    // Called when this module is disabled.
     protected void onDisable() {}
 
     public void execute(String @NotNull [] args) {
-        if (args.length == 1 && this.getType().equals(ModuleType.TOGGLE)) {
-            switch (args[0].toLowerCase()) {
-                case "enable":
-                    this.enable();
-                    break;
-                case "disable":
-                    this.disable();
-                    break;
-                case "toggle":
-                    this.toggle();
-                    break;
+        if (args.length == 1) {
+            if (moduleType.equals(ModuleType.TOGGLE)) {
+                /*
+                If this module is a toggle-able module, then check if the first
+                argument is enable/disable/toggle before looking for a setting.
+                 */
+                switch (args[0].toLowerCase()) {
+                    case "enable":
+                        this.enable();
+                        break;
+                    case "disable":
+                        this.disable();
+                        break;
+                    case "toggle":
+                        this.toggle();
+                        break;
+                    default:
+                        /*
+                         This bit of code is repeated in the else-statement because
+                         otherwise it would say "Setting not found!" every time the
+                         player would toggle the module.
+                        */
+                        Optional<BaseSetting> optional = getSettingByName(args[0]);
+                        if (optional.isPresent()) {
+                            Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
+                        }
+                        else {
+                            Common.sendMessage("Setting not found!");
+                        }
+                        break;
+                }
+            }
+            else {
+                Optional<BaseSetting> optional = getSettingByName(args[0]);
+
+                if (optional.isPresent()) {
+                    Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
+                }
+                else {
+                    Common.sendMessage("Setting not found!");
+                }
             }
         }
+        else if (args.length > 1) {
+
+            Optional<BaseSetting> optional = getSettingByName(args[0]);
+            BaseSetting setting;
+
+            if (!optional.isPresent()) {
+                Common.sendMessage("Setting not found!");
+                return;
+            }
+            else {
+                setting = optional.get();
+            }
+
+            if (args.length == 2) {
+
+                // "<command> <setting> reset": reset the value of the setting to the default
+                if (args[1].equalsIgnoreCase("reset")) {
+                    setting.reset();
+                    this.onChangeSetting();
+                    Common.sendMessage(setting.getName() + " reset to default");
+                }
+
+                // "<command> <single-setting> [value]": change the value of the setting
+                else if (setting instanceof SingleSetting) {
+                    SingleSetting<?> singleSetting = (SingleSetting<?>) setting;
+
+                    switch (singleSetting.getType()) {
+                        case BOOLEAN:
+                            Optional<Boolean> optionalBoolean = Conversion.parseBoolean(args[1]);
+                            if (optionalBoolean.isPresent()) {
+                                ((BooleanSetting) singleSetting).setValue(optionalBoolean.get());
+                            }
+                            else {
+                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                return;
+                            }
+                            break;
+                        case INTEGER:
+                            Optional<Integer> optionalInteger = Conversion.parseInteger(args[1]);
+                            if (optionalInteger.isPresent()) {
+                                ((IntegerSetting) singleSetting).setValue(optionalInteger.get());
+                            }
+                            else {
+                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                return;
+                            }
+                            break;
+                        case DOUBLE:
+                            Optional<Double> optionalDouble = Conversion.parseDouble(args[1]);
+                            if (optionalDouble.isPresent()) {
+                                ((DoubleSetting) singleSetting).setValue(optionalDouble.get());
+                            }
+                            else {
+                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                return;
+                            }
+                            break;
+                        case STRING:
+                            ((StringSetting) singleSetting).setValue(args[1]);
+                            break;
+                    }
+
+                    this.onChangeSetting();
+                    Common.sendMessage(setting.getName() + " is now set to " + ((SingleSetting<?>) setting).getValue().toString());
+                }
+            }
+            else if (args.length == 3) {
+
+                if (setting.isListSetting()) {
+
+                    // "<command> <list-setting> add/remove [value]":
+                    if (args[1].equalsIgnoreCase("add")) {
+                        switch (setting.getType()) {
+                            case LIST_STRING:
+                                ((StringListSetting) setting).addElement(args[2]);
+                                Common.sendMessage("Added \"" + args[2] + "\" to " + setting.getName());
+                                break;
+                            case LIST_BLOCK:
+                                Block block = Common.getBlockFromString(args[2]);
+                                ((BlockListSetting) setting).addElement(block);
+                                Common.sendMessage("Added " + block.getName().getString() + " to " + setting.getName());
+                                break;
+                            case LIST_ENTITY:
+                                EntityType<? extends Entity> entityType = Common.getEntityTypeFromString(args[2]);
+                                ((EntityListSetting) setting).addElement(entityType);
+                                Common.sendMessage("Added " + entityType.getName().getString() + " to " + setting.getName());
+                                break;
+                            case LIST_ITEM:
+                                Item item = Common.getItemFromString(args[2]);
+                                ((ItemListSetting) setting).addElement(item);
+                                Common.sendMessage("Added " + item.getName().getString() + " to " + setting.getName());
+                                break;
+                        }
+                        this.onChangeSetting();
+                    }
+                    else if (args[1].equalsIgnoreCase("remove")) {
+                        switch (setting.getType()) {
+                            case LIST_STRING:
+                                ((StringListSetting) setting).removeElement(args[2]);
+                                Common.sendMessage("Removed \"" + args[2] + "\" from " + setting.getName());
+                                break;
+                            case LIST_BLOCK:
+                                Block block = Common.getBlockFromString(args[2]);
+                                ((BlockListSetting) setting).removeElement(block);
+                                Common.sendMessage("Removed " + block.getName().getString() + " from " + setting.getName());
+                                break;
+                            case LIST_ENTITY:
+                                EntityType<? extends Entity> entityType = Common.getEntityTypeFromString(args[2]);
+                                Common.sendMessage("Removed " + entityType.getName().getString() + " from " + setting.getName());
+                                ((EntityListSetting) setting).removeElement(entityType);
+                                break;
+                            case LIST_ITEM:
+                                Item item = Common.getItemFromString(args[2]);
+                                ((ItemListSetting) setting).removeElement(item);
+                                Common.sendMessage("Removed " + item.getName().getString() + " from " + setting.getName());
+                                break;
+                        }
+                        this.onChangeSetting();
+                    }
+                    else {
+                        CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                    }
+                }
+                else {
+                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                }
+            }
+            else {
+                CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
+            }
+        }
+
+
+        /*
+        Check the number of arguments:
+
+        1: toggle, or check the value(s) of a setting (DONE)
+        2: change the value of a single-type-setting
+            or reset any kind of setting (DONE)
+        3: add or remove from a list-type-setting
+         */
     }
 }

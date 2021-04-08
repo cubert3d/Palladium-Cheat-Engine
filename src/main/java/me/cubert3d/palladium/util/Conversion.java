@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.util;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.UtilityClass;
 
 import java.util.Optional;
 
@@ -12,44 +13,38 @@ import java.util.Optional;
         status = "in-progress"
 )
 
+@UtilityClass
 public final class Conversion {
 
     private Conversion() {}
 
     public static Optional<Boolean> parseBoolean(String string) {
-        Optional<Boolean> optional = Optional.empty();
-        string = string.trim().toLowerCase();
+        string = string.trim();
 
-        if (string.equals("true"))
-            optional = Optional.of(true);
-        else if (string.equals("false"))
-            optional = Optional.of(false);
+        if (string.equalsIgnoreCase("true"))
+            return Optional.of(true);
+        else if (string.equalsIgnoreCase("false"))
+            return Optional.of(false);
 
-        return optional;
+        return Optional.empty();
     }
 
     public static Optional<Integer> parseInteger(String string) {
-        Optional<Integer> optional = Optional.empty();
-
         try {
-            optional = Optional.of(Integer.valueOf(string));
+            return Optional.of(Integer.valueOf(string));
         }
         catch (NumberFormatException ignored) {
-
+            return Optional.empty();
         }
-        return optional;
     }
 
     public static Optional<Double> parseDouble(String string) {
-        Optional<Double> optional = Optional.empty();
-
         try {
-            optional = Optional.of(Double.valueOf(string));
+            return Optional.of(Double.valueOf(string));
         }
         catch (NumberFormatException ignored) {
-
+            return Optional.empty();
         }
-        return optional;
     }
 
     // All integers are rational numbers, but not all rational numbers are integers

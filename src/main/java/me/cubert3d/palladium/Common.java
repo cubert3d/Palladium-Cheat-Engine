@@ -6,6 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -43,14 +46,6 @@ public final class Common {
         return getMC().player;
     }
 
-    public static ClientWorld getClientWorld() {
-        return getMC().world;
-    }
-
-    public static boolean isWorldClient() {
-        return getClientPlayer().world.isClient();
-    }
-
     public static @Nullable GameMode getGameMode() {
 
         PlayerListEntry playerListEntry = Objects.requireNonNull(getMC().getNetworkHandler()).getPlayerListEntry(getClientPlayer().getUuid());
@@ -63,13 +58,17 @@ public final class Common {
 
     // COMMON METHODS
 
-    public static void sendMessage(Text message) {
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(message);
-    }
-
     public static void sendMessage(String message) {
         Text textMessage = new LiteralText(message);
         MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(textMessage);
+    }
+
+
+
+    // RENDERING
+
+    public static void reloadRenderer() {
+        getMC().worldRenderer.reload();
     }
 
 
@@ -117,7 +116,15 @@ public final class Common {
         return new Identifier(namespace, path);
     }
 
-    public static @NotNull Block getBlockFromName(String name) {
+    public static @NotNull Block getBlockFromString(String name) {
         return Registry.BLOCK.get(buildID(name));
+    }
+
+    public static @NotNull EntityType<? extends Entity> getEntityTypeFromString(String name) {
+        return Registry.ENTITY_TYPE.get(buildID(name));
+    }
+
+    public static @NotNull Item getItemFromString(String name) {
+        return Registry.ITEM.get(buildID(name));
     }
 }

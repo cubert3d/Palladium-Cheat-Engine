@@ -1,14 +1,9 @@
 package me.cubert3d.palladium.cmd;
 
-import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleManager;
-import me.cubert3d.palladium.module.setting.SettingResult;
-import me.cubert3d.palladium.util.StringUtil;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
-import org.jetbrains.annotations.NotNull;
 
 @ClassDescription(
         authors = {
@@ -47,28 +42,6 @@ public final class CommandListener {
 
             return ActionResult.FAIL;
         });
-    }
-
-    private static void changeSetting(@NotNull Module module, String settingName, String newValue) {
-
-        SettingResult result = module.changeSettingWithString(settingName, newValue);
-        settingName = settingName.toLowerCase();
-
-        switch (result) {
-            case SUCCESS:
-                Common.sendMessage(String.format("%s set to %s",
-                        StringUtil.capitalizeFirst(settingName), newValue));
-                break;
-            case INVALID_TYPE:
-                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                break;
-            case OUT_OF_BOUNDS:
-                CommandError.sendErrorMessage(CommandError.OUT_OF_BOUND_ARGUMENTS);
-                break;
-            case SETTING_NOT_FOUND:
-                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
-                break;
-        }
     }
 
     /*

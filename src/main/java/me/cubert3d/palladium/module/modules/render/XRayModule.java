@@ -1,9 +1,10 @@
 package me.cubert3d.palladium.module.modules.render;
 
+import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
-import me.cubert3d.palladium.util.RenderUtil;
+import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -100,32 +101,47 @@ public final class XRayModule extends Module {
             Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE
     };
 
+    private static final List<Block> defaultWhiteList = new ArrayList<>();
     private static final List<Block> whitelist = new ArrayList<>();
 
     public XRayModule() {
         super("XRay", "Lets you see ores in the ground", ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+        this.addSetting(new BlockListSetting("Whitelist", defaultWhiteList));
     }
 
     @Override
-    protected void onLoad() {
-        loadDefaultWhitelist();
+    protected void onConstruct() {
+        this.fillDefaultWhitelist();
     }
 
     @Override
     protected void onEnable() {
-        RenderUtil.reloadRenderer();
+        Common.reloadRenderer();
     }
 
     @Override
     protected void onDisable() {
-        RenderUtil.reloadRenderer();
+        Common.reloadRenderer();
     }
 
-    private static void loadDefaultWhitelist() {
-        whitelist.addAll(Arrays.asList(ores));
-        whitelist.addAll(Arrays.asList(containers));
-        whitelist.addAll(Arrays.asList(special));
-        whitelist.addAll(Arrays.asList(hazards));
+    @Override
+    protected void onChangeSetting() {
+        // shitty patchwork to use before i revise the old system
+        this.getSettingByName("Whitelist").ifPresent(setting -> {
+            whitelist.clear();
+            whitelist.addAll(((BlockListSetting) setting).getList());
+        });
+        // The renderer doesn't need any reloading if X-Ray isn't even enabled.
+        if (isEnabled())
+            Common.reloadRenderer();
+    }
+
+    private void fillDefaultWhitelist() {
+        defaultWhiteList.addAll(Arrays.asList(ores));
+        defaultWhiteList.addAll(Arrays.asList(containers));
+        defaultWhiteList.addAll(Arrays.asList(special));
+        defaultWhiteList.addAll(Arrays.asList(hazards));
+        whitelist.addAll(defaultWhiteList);
     }
 
     // Whether a block should be made invisible when X-Ray is enabled.

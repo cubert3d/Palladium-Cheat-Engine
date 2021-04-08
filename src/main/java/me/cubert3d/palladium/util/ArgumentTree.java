@@ -15,6 +15,8 @@ import java.util.Set;
         status = "in-progress"
 )
 
+// Unused, will probably be deleted.
+@Deprecated
 public final class ArgumentTree {
 
     enum Type {
