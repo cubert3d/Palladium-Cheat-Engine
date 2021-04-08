@@ -21,7 +21,6 @@
     "AbstractBlockStateMixin",
     "FluidRendererMixin",
     "ChunkLightProviderMixin",
-    "BlockRenderManagerMixin",
     "BlockEntityRenderDispatcherMixin"
   ],
   "injectors": {

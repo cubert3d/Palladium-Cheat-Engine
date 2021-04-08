@@ -32,6 +32,11 @@ public final class BlockMixin {
             cancellable = true)
     private static void onShouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction facing,
                                          CallbackInfoReturnable<Boolean> info) {
+        /*
+         Basic X-Ray method. Makes whitelisted blocks visible, and non-whitelisted blocks invisible.
+         However, this mixin is not enough--see AbstractBlockStateMixin, BlockEntityRenderDispatcherMixin,
+         ChunkLightProviderMixin, and FluidRendererMixin.
+        */
         if (ModuleManager.isModuleEnabled(XRayModule.class)) {
             info.setReturnValue(XRayModule.modifyDrawSide(state, world, pos, facing, info.getReturnValueZ()));
         }

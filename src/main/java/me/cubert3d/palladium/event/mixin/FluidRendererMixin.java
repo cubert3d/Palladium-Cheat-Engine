@@ -24,24 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FluidRenderer.class)
 public final class FluidRendererMixin {
-
-    /*
-    @Inject(method = "isSideCovered(" +
-            "Lnet/minecraft/world/BlockRenderView;" +
-            "Lnet/minecraft/util/math/BlockPos;" +
-            "Lnet/minecraft/util/math/FluidState;" +
-            "F" +
-            ")Z",
-            at = @At("INVOKE"),
-            cancellable = true)
-    private static void onIsSideCovered(BlockView world, BlockPos pos, Direction direction, float maxDeviation,
-                                        CallbackInfoReturnable<Boolean> info) {
-        if (ModuleManager.isModuleEnabled(XRayModule.class)) {
-            info.setReturnValue(false);
-        }
-    }
-     */
-
     @Inject(method = "render(" +
             "Lnet/minecraft/world/BlockRenderView;" +
             "Lnet/minecraft/util/math/BlockPos;" +
@@ -52,6 +34,7 @@ public final class FluidRendererMixin {
             cancellable = true)
     private void onRender(BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, FluidState state,
                           CallbackInfoReturnable<Boolean> info) {
+        // Helps the X-Ray module handle fluid blocks in addition to solid blocks.
         if (ModuleManager.isModuleEnabled(XRayModule.class)
                 && XRayModule.isSeeThrough(state.getBlockState().getBlock())) {
             info.setReturnValue(false);

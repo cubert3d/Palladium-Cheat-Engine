@@ -33,6 +33,11 @@ public abstract class AbstractBlockStateMixin {
             cancellable = true)
     private void onGetAmbientOcclusionLightLevel(BlockView world, BlockPos pos,
                                                  CallbackInfoReturnable<Float> info) {
+        /*
+         Turns off all smooth lighting when X-Ray is enabled, because it
+         would make all whitelisted blocks really dark, even with their
+         light level set to max, if smooth lighting is enabled.
+        */
         if (ModuleManager.isModuleEnabled(XRayModule.class))
             info.setReturnValue(1F);
     }
@@ -41,6 +46,12 @@ public abstract class AbstractBlockStateMixin {
             at = @At(value = "INVOKE"),
             cancellable = true)
     private void onGetRenderType(CallbackInfoReturnable<BlockRenderType> info) {
+        /*
+         When X-Ray is enabled, this overrides all non-whitelisted block
+         models to being INVISIBLE: this is because merely cancelling the
+         shouldDrawSide method in the Block class is not enough for blocks
+         which are not full blocks, such as stairs, or flowers.
+        */
         Block thisBlock = ((BlockState) (Object) this).getBlock();
         if (ModuleManager.isModuleEnabled(XRayModule.class)
                 && XRayModule.isSeeThrough(thisBlock)) {
