@@ -25,7 +25,7 @@ public final class FullBrightModule extends Module {
 
     public FullBrightModule() {
         super("FullBright", "Fully illuminates all blocks.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
-        this.addSetting(new DoubleSetting("Brightness", 10.0));
+        this.addSetting(new DoubleSetting("Brightness", 10.0, 10.0));
     }
 
     @Override

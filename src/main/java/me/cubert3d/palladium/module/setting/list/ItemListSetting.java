@@ -1,9 +1,17 @@
 package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.item.Item;
 
 import java.util.Collection;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "4/7/2021"
+)
 
 public final class ItemListSetting extends ListSetting<Item> {
 

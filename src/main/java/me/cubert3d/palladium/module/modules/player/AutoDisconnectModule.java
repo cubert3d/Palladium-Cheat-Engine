@@ -18,6 +18,6 @@ public final class AutoDisconnectModule extends Module {
     public AutoDisconnectModule() {
         super("AutoDisconnect", "Disconnects you once you reach a certain health.",
                 ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
-        addSetting(new DoubleSetting("Threshold", 4.0));
+        addSetting(new DoubleSetting("Threshold", 4.0, 19.0));
     }
 }

@@ -1,6 +1,14 @@
 package me.cubert3d.palladium.module.setting.single;
 
 import me.cubert3d.palladium.module.setting.BaseSetting;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "4/7/2021"
+)
 
 public abstract class SingleSetting<T> extends BaseSetting {
 

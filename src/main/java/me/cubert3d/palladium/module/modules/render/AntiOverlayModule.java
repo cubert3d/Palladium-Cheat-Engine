@@ -16,6 +16,6 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 public final class AntiOverlayModule extends Module {
     public AntiOverlayModule() {
         super("AntiOverlay", "Removes obtrusive overlays.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
-        addSetting(new BooleanSetting("Pumpkin", true));
+        this.addSetting(new BooleanSetting("Pumpkin", true));
     }
 }

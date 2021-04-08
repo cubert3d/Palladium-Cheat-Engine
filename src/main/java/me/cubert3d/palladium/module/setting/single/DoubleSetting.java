@@ -1,11 +1,23 @@
 package me.cubert3d.palladium.module.setting.single;
 
 import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 
-public final class DoubleSetting extends SingleSetting<Double> {
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "4/7/2021"
+)
 
-    public DoubleSetting(final String name, Double defaultValue) {
-        super(name, defaultValue);
+public final class DoubleSetting extends NumberSetting<Double> {
+
+    public DoubleSetting(final String name, Double defaultValue, double maxValue) {
+        super(name, defaultValue, 0.0, maxValue);
+    }
+
+    public DoubleSetting(final String name, Double defaultValue, double minValue, double maxValue) {
+        super(name, defaultValue, minValue, maxValue);
     }
 
     @Override
@@ -15,6 +27,8 @@ public final class DoubleSetting extends SingleSetting<Double> {
 
     @Override
     public final void setValue(Double value) {
+        value = Math.max(value, getMinValue());
+        value = Math.min(value, getMaxValue());
         super.setValue(value);
     }
 }
