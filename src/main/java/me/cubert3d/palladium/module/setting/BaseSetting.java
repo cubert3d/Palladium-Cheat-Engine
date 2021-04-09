@@ -1,8 +1,10 @@
 package me.cubert3d.palladium.module.setting;
 
-import me.cubert3d.palladium.module.setting.single.IntegerSetting;
+import me.cubert3d.palladium.module.setting.single.*;
+import me.cubert3d.palladium.module.setting.list.*;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import org.jetbrains.annotations.Nullable;
 
 @ClassDescription(
         authors = {
@@ -12,6 +14,12 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 )
 
 public abstract class BaseSetting implements Named {
+
+    public static final String[] FORBIDDEN_SETTING_NAMES = new String[]{
+            "enable",
+            "disable",
+            "toggle"
+    };
 
     private final String name;
 
@@ -30,9 +38,32 @@ public abstract class BaseSetting implements Named {
 
     public abstract void reset();
 
-    public IntegerSetting asIntegerSetting() {
-        if (this instanceof IntegerSetting)
+    // CONVERSION
+
+    public @Nullable BooleanSetting asBooleanSetting() {
+        if (this.getType().equals(SettingType.BOOLEAN))
+            return (BooleanSetting) this;
+        else
+            return null;
+    }
+
+    public @Nullable IntegerSetting asIntegerSetting() {
+        if (this.getType().equals(SettingType.INTEGER))
             return (IntegerSetting) this;
+        else
+            return null;
+    }
+
+    public @Nullable DoubleSetting asDoubleSetting() {
+        if (this.getType().equals(SettingType.DOUBLE))
+            return (DoubleSetting) this;
+        else
+            return null;
+    }
+
+    public @Nullable StringSetting asStringSetting() {
+        if (this.getType().equals(SettingType.STRING))
+            return (StringSetting) this;
         else
             return null;
     }

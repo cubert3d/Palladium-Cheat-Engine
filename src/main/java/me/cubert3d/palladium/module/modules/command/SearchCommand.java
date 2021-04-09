@@ -4,6 +4,7 @@ import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,10 +18,11 @@ import org.jetbrains.annotations.NotNull;
         status = "complete"
 )
 
-public final class SearchCommand extends Command {
+public final class SearchCommand extends Module {
 
     public SearchCommand() {
-        super("Search", "Searches for modules and commands by name.", ModuleDevStatus.AVAILABLE);
+        super("Search", "Searches for modules and commands by name.",
+                ModuleType.EXECUTE_ONCE, ModuleDevStatus.AVAILABLE);
     }
 
     @Override

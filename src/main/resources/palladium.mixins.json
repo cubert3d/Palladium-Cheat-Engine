@@ -6,12 +6,12 @@
   "mixins": [
   ],
   "client": [
-    "InGameHudInvoker",
     "ClientPlayNetworkHandlerMixin",
     "ClientPlayerEntityMixin",
     "MouseMixin",
     "InGameHudMixin",
     "ChatHudMixin",
+    "LivingEntityMixin",
     "InventoryUpdateMixin",
     "HungerManagerMixin",
     "PlayerEntityMixin",

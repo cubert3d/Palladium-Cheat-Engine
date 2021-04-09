@@ -6,6 +6,7 @@ import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -22,12 +23,12 @@ import java.util.LinkedHashSet;
         status = "in-progress"
 )
 
-public final class HelpCommand extends Command {
+public final class HelpCommand extends Module {
 
     private static final int PAGE_SIZE = 10;
 
     public HelpCommand() {
-        super("Help", "Lists the modules and commands, and their descriptions.", ModuleDevStatus.DEBUG_ONLY);
+        super("Help", "Lists the modules and commands, and their descriptions.", ModuleType.EXECUTE_ONCE, ModuleDevStatus.DEBUG_ONLY);
     }
 
     @Override

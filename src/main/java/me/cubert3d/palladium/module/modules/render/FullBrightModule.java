@@ -47,7 +47,7 @@ public final class FullBrightModule extends Module {
 
     private void updateGamma() {
         double newGamma = fullGamma;
-        Optional<BaseSetting> optionalSetting = this.getSettingByName("Brightness");
+        Optional<BaseSetting> optionalSetting = this.getSettingOptional("Brightness");
 
         if (optionalSetting.isPresent() && optionalSetting.get().getType().equals(SettingType.DOUBLE)) {
             newGamma = ((DoubleSetting) optionalSetting.get()).getValue();

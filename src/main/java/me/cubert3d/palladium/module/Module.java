@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -27,7 +28,7 @@ import java.util.Set;
         status = "in-progress"
 )
 
-public abstract class   Module implements Named {
+public abstract class Module implements Named {
 
     // The name of this module must be unique.
     private final String name;
@@ -129,7 +130,20 @@ public abstract class   Module implements Named {
         return settings;
     }
 
-    public final Optional<BaseSetting> getSettingByName(String name) {
+    // Nullable method with no Optional, used for code references,
+    // where the setting's existence should be guaranteed.
+    public final @Nullable BaseSetting getSetting(String name) {
+        name = name.trim();
+        for (BaseSetting setting : settings) {
+            if (setting.getName().equalsIgnoreCase(name))
+                return setting;
+        }
+        return null;
+    }
+
+    // Not-null method that returns an optional, used for user input,
+    // where the setting may or may not exist.
+    public final Optional<BaseSetting> getSettingOptional(String name) {
         name = name.trim();
         for (BaseSetting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
@@ -138,8 +152,31 @@ public abstract class   Module implements Named {
         return Optional.empty();
     }
 
-    protected final void addSetting(BaseSetting setting) {
-        settings.add(setting);
+    protected final void addSetting(@NotNull BaseSetting setting) {
+        if (isSettingNameValid(setting.getName()))
+            settings.add(setting);
+        else
+            throw new IllegalArgumentException();
+    }
+
+    private boolean isSettingNameValid(String name) {
+
+        // First, check if the name is one of the default
+        // forbidden names ("enable," "disable," "toggle").
+        for (String forbiddenSettingName : BaseSetting.FORBIDDEN_SETTING_NAMES) {
+            if (forbiddenSettingName.equalsIgnoreCase(name))
+                return false;
+        }
+
+        // Second, check if this module already has a setting
+        // of the same name.
+        for (BaseSetting setting : settings) {
+            if (setting.getName().equalsIgnoreCase(name))
+                return false;
+        }
+
+        // If both checks are passed, then return true.
+        return true;
     }
 
     protected void onChangeSetting() {
@@ -185,7 +222,7 @@ public abstract class   Module implements Named {
                          otherwise it would say "Setting not found!" every time the
                          player would toggle the module.
                         */
-                        Optional<BaseSetting> optional = getSettingByName(args[0]);
+                        Optional<BaseSetting> optional = getSettingOptional(args[0]);
                         if (optional.isPresent()) {
                             Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
                         }
@@ -196,7 +233,7 @@ public abstract class   Module implements Named {
                 }
             }
             else {
-                Optional<BaseSetting> optional = getSettingByName(args[0]);
+                Optional<BaseSetting> optional = getSettingOptional(args[0]);
 
                 if (optional.isPresent()) {
                     Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
@@ -208,7 +245,7 @@ public abstract class   Module implements Named {
         }
         else if (args.length > 1) {
 
-            Optional<BaseSetting> optional = getSettingByName(args[0]);
+            Optional<BaseSetting> optional = getSettingOptional(args[0]);
             BaseSetting setting;
 
             if (!optional.isPresent()) {

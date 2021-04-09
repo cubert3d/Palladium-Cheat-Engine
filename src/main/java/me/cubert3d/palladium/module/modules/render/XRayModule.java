@@ -127,7 +127,7 @@ public final class XRayModule extends Module {
     @Override
     protected void onChangeSetting() {
         // shitty patchwork to use before i revise the old system
-        this.getSettingByName("Whitelist").ifPresent(setting -> {
+        this.getSettingOptional("Whitelist").ifPresent(setting -> {
             whitelist.clear();
             whitelist.addAll(((BlockListSetting) setting).getList());
         });
