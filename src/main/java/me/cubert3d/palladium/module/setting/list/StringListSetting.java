@@ -41,7 +41,8 @@ public final class StringListSetting extends ListSetting<String> {
 
     @Override
     public final boolean addElement(String element) {
-        element = element.trim().substring(0, StringSetting.MAX_STRING_LENGTH);
+        if (element.length() > StringSetting.MAX_STRING_LENGTH)
+            element = element.trim().substring(0, StringSetting.MAX_STRING_LENGTH);
         return super.addElement(element);
     }
 

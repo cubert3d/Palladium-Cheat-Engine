@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.util;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 @ClassDescription(
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
         status = "in-progress"
 )
 
+@UtilityClass
 public final class StringUtil {
 
     private StringUtil() {}

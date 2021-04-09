@@ -4,7 +4,6 @@ import me.cubert3d.palladium.module.setting.single.*;
 import me.cubert3d.palladium.module.setting.list.*;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
-import org.jetbrains.annotations.Nullable;
 
 @ClassDescription(
         authors = {
@@ -40,31 +39,59 @@ public abstract class BaseSetting implements Named {
 
     // CONVERSION
 
-    public @Nullable BooleanSetting asBooleanSetting() {
+    public final BooleanSetting asBooleanSetting() {
         if (this.getType().equals(SettingType.BOOLEAN))
             return (BooleanSetting) this;
         else
-            return null;
+            throw new ClassCastException();
     }
 
-    public @Nullable IntegerSetting asIntegerSetting() {
+    public final IntegerSetting asIntegerSetting() {
         if (this.getType().equals(SettingType.INTEGER))
             return (IntegerSetting) this;
         else
-            return null;
+            throw new ClassCastException();
     }
 
-    public @Nullable DoubleSetting asDoubleSetting() {
+    public final DoubleSetting asDoubleSetting() {
         if (this.getType().equals(SettingType.DOUBLE))
             return (DoubleSetting) this;
         else
-            return null;
+            throw new ClassCastException();
     }
 
-    public @Nullable StringSetting asStringSetting() {
+    public final StringSetting asStringSetting() {
         if (this.getType().equals(SettingType.STRING))
             return (StringSetting) this;
         else
-            return null;
+            throw new ClassCastException();
+    }
+
+    public final StringListSetting asStringListSetting() {
+        if (this.getType().equals(SettingType.LIST_STRING))
+            return (StringListSetting) this;
+        else
+            throw new ClassCastException();
+    }
+
+    public final BlockListSetting asBlockListSetting() {
+        if (this.getType().equals(SettingType.LIST_BLOCK))
+            return (BlockListSetting) this;
+        else
+            throw new ClassCastException();
+    }
+
+    public final EntityListSetting asEntityListSetting() {
+        if (this.getType().equals(SettingType.LIST_ENTITY))
+            return (EntityListSetting) this;
+        else
+            throw new ClassCastException();
+    }
+
+    public final ItemListSetting asItemListSetting() {
+        if (this.getType().equals(SettingType.LIST_ITEM))
+            return (ItemListSetting) this;
+        else
+            throw new ClassCastException();
     }
 }

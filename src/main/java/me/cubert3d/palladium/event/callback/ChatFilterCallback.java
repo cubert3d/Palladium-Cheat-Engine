@@ -3,22 +3,21 @@ package me.cubert3d.palladium.event.callback;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 @ClassDescription(
         authors = {
                 "cubert3d"
         },
-        date = "3/2/2021"
+        date = "4/8/2021"
 )
 
-public interface PlayerChatCallback {
+public interface ChatFilterCallback {
 
-    Event<PlayerChatCallback> EVENT = EventFactory.createArrayBacked(PlayerChatCallback.class,
-            (listeners) -> (player, message) -> {
-                for (PlayerChatCallback listener : listeners) {
-                    ActionResult result = listener.interact(player, message);
+    Event<ChatFilterCallback> EVENT = EventFactory.createArrayBacked(ChatFilterCallback.class,
+            (listeners) -> (message) -> {
+                for (ChatFilterCallback listener : listeners) {
+                    ActionResult result = listener.interact(message);
 
                     if (result != ActionResult.PASS)
                         return result;
@@ -27,5 +26,5 @@ public interface PlayerChatCallback {
                 return ActionResult.PASS;
             });
 
-    ActionResult interact(ClientPlayerEntity player, String message);
+    ActionResult interact(String message);
 }
