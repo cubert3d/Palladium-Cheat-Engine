@@ -6,8 +6,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         authors = {
                 "cubert3d"
         },
-        date = "3/8/2021",
-        status = "complete"
+        date = "3/8/2021"
 )
 
 public enum ModuleDevStatus {

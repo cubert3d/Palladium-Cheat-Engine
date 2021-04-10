@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.Main;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
@@ -58,7 +58,7 @@ public final class HelpCommand extends Module {
 
                 String message;
 
-                if (Main.isDebugModeEnabled())
+                if (Palladium.isDebugModeEnabled())
                     message = String.format("%s: %s (%s)", module.getName(), module.getDescription(), module.getDevStatus().toString());
                 else
                     message = String.format("%s: %s", module.getName(), module.getDescription());

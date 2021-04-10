@@ -11,12 +11,12 @@ import net.minecraft.util.ActionResult;
         authors = {
                 "cubert3d"
         },
-        date = "3/7/2021",
-        status = "complete"
+        date = "3/7/2021"
 )
 
 @DebugOnly
 public interface SendPacketCallback {
+
     Event<SendPacketCallback> EVENT = EventFactory.createArrayBacked(SendPacketCallback.class,
             (listeners) -> (packet) -> {
                 for (SendPacketCallback listener : listeners) {

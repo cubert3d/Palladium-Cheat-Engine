@@ -4,8 +4,7 @@ package me.cubert3d.palladium.util.annotation;
         authors = {
                 "cubert3d"
         },
-        date = "3/11/2021",
-        status = "in-progress"
+        date = "3/11/2021"
 )
 
 public @interface ClassDescription {

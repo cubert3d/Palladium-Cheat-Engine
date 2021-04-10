@@ -1,11 +1,13 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.modules.command.*;
 import me.cubert3d.palladium.module.modules.gui.*;
 import me.cubert3d.palladium.module.modules.movement.*;
 import me.cubert3d.palladium.module.modules.player.*;
 import me.cubert3d.palladium.module.modules.render.*;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.InternalOnly;
 import me.cubert3d.palladium.util.annotation.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -43,12 +45,15 @@ public final class ModuleManager {
         addModule(new SearchCommand());
 
         //GUI
+        addModule(new PalladiumHudModule());
+        addModule(new PlayerInfoModule());
         addModule(new EnabledModListModule());
 
         // RENDER
         addModule(new AntiOverlayModule());
         addModule(new FullBrightModule());
         addModule(new XRayModule());
+        addModule(new ChamsModule());
 
         // PLAYER
         addModule(new AutoToolModule());
@@ -56,6 +61,7 @@ public final class ModuleManager {
         addModule(new BlinkModule());
         addModule(new ChatFilterModule());
         addModule(new AutoDisconnectModule());
+        addModule(new PacketManagerModule());
 
         // MOVEMENT
         addModule(new SprintModule());
@@ -70,6 +76,12 @@ public final class ModuleManager {
         numModules++;
         if (module.getDevStatus().equals(ModuleDevStatus.AVAILABLE))
             numAvailableModules++;
+    }
+
+    // Universal static method called whenever any module is enabled.
+    // Like onEnable/onDisable, but this method is the same for all modules.
+    public static void onModuleToggle(@NotNull Module module) {
+        ((EnabledModListModule) ModuleManager.getModuleByClass(EnabledModListModule.class)).onEnabledModListUpdate(module);
     }
 
 
@@ -99,6 +111,7 @@ public final class ModuleManager {
 
     // CLASS GETTERS
 
+    @InternalOnly
     public static @Nullable Module getModuleByClass(Class<? extends Module> clazz) {
         for (Module module : moduleSet) {
             if (module.getClass().equals(clazz))
@@ -107,6 +120,7 @@ public final class ModuleManager {
         return null;
     }
 
+    @InternalOnly
     public static boolean isModuleEnabled(Class<? extends Module> clazz) {
         for (Module module : moduleSet) {
             if (module.getClass().equals(clazz))

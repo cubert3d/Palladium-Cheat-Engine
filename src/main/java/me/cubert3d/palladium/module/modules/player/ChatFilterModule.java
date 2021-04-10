@@ -19,7 +19,7 @@ public final class ChatFilterModule extends Module {
 
     public ChatFilterModule() {
         super("ChatFilter", "Blocks any messages that contain a blocked phrase.",
-                ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+                ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
         this.addSetting(new StringListSetting("Blacklist"));
     }
 

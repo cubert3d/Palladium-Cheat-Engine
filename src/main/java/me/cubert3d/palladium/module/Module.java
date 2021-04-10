@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.Main;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.module.setting.*;
 import me.cubert3d.palladium.module.setting.list.*;
@@ -9,6 +9,7 @@ import me.cubert3d.palladium.module.setting.single.*;
 import me.cubert3d.palladium.util.Conversion;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.InternalOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -77,7 +78,7 @@ public abstract class Module implements Named {
     }
 
     public final boolean isAvailable() {
-        return status.equals(ModuleDevStatus.AVAILABLE) || Main.isDebugModeEnabled();
+        return status.equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled();
     }
 
 
@@ -92,20 +93,22 @@ public abstract class Module implements Named {
     }
 
     public final void enable() {
-        if (status.equals(ModuleDevStatus.AVAILABLE) || Main.isDebugModeEnabled()) {
+        if (status.equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled()) {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 enabled = true;
                 onEnable();
+                ModuleManager.onModuleToggle(this);
                 Common.sendMessage(this.getName() + " is now enabled");
             }
         }
     }
 
     public final void disable() {
-        if (status.equals(ModuleDevStatus.AVAILABLE) || Main.isDebugModeEnabled()) {
+        if (status.equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled()) {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 enabled = false;
                 onDisable();
+                ModuleManager.onModuleToggle(this);
                 Common.sendMessage(this.getName() + " is now disabled");
             }
         }
@@ -132,6 +135,7 @@ public abstract class Module implements Named {
 
     // Nullable method with no Optional, used for code references,
     // where the setting's existence should be guaranteed.
+    @InternalOnly
     public final @Nullable BaseSetting getSetting(String name) {
         name = name.trim();
         for (BaseSetting setting : settings) {
@@ -200,7 +204,17 @@ public abstract class Module implements Named {
     protected void onDisable() {}
 
     public void execute(String @NotNull [] args) {
-        if (args.length == 1) {
+        if (args.length == 0) {
+            if (moduleType.equals(ModuleType.TOGGLE)) {
+                if (this.isEnabled()) {
+                    Common.sendMessage(this.getName() + " is currently enabled");
+                }
+                else {
+                    Common.sendMessage(this.getName() + " is currently disabled");
+                }
+            }
+        }
+        else if (args.length == 1) {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 /*
                 If this module is a toggle-able module, then check if the first
@@ -216,34 +230,24 @@ public abstract class Module implements Named {
                     case "toggle":
                         this.toggle();
                         break;
+                    case "settings":
+                        listSettings();
+                        break;
                     default:
-                        /*
-                         This bit of code is repeated in the else-statement because
-                         otherwise it would say "Setting not found!" every time the
-                         player would toggle the module.
-                        */
-                        Optional<BaseSetting> optional = getSettingOptional(args[0]);
-                        if (optional.isPresent()) {
-                            Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
-                        }
-                        else {
-                            Common.sendMessage("Setting not found!");
-                        }
+                        listSetting(args[0]);
                         break;
                 }
             }
             else {
-                Optional<BaseSetting> optional = getSettingOptional(args[0]);
-
-                if (optional.isPresent()) {
-                    Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
+                if (args[0].equalsIgnoreCase("settings")) {
+                    listSettings();
                 }
                 else {
-                    Common.sendMessage("Setting not found!");
+                    listSetting(args[0]);
                 }
             }
         }
-        else if (args.length > 1) {
+        else {
 
             Optional<BaseSetting> optional = getSettingOptional(args[0]);
             BaseSetting setting;
@@ -384,5 +388,51 @@ public abstract class Module implements Named {
             or reset any kind of setting (DONE)
         3: add or remove from a list-type-setting
          */
+    }
+
+
+
+    // EXTRA
+
+    private void listSetting(String settingName) {
+        Optional<BaseSetting> optional = getSettingOptional(settingName);
+        if (optional.isPresent()) {
+            Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
+        }
+        else {
+            Common.sendMessage("Setting not found!");
+        }
+    }
+
+    private void listSettings() {
+        String listOfSettings;
+        if (this.getSettings().size() > 0) {
+
+            // What will be sent to the player's chatHUD.
+            listOfSettings = this.getName() + " settings: ";
+            // Counter for the loop through the settings.
+            int counter = 0;
+            // Limit the number of settings displayed to 50 at the most.
+            int limit = Math.min(this.getSettings().size(), StringListSetting.MAX_DISPLAY_COUNT);
+
+            for (BaseSetting setting : this.getSettings()) {
+
+                // Make sure this loop doesn't exceed that limit.
+                if (counter < limit) {
+                    listOfSettings = listOfSettings.concat(setting.getName());
+                    if (!setting.isListSetting())
+                        listOfSettings = listOfSettings.concat(" (" + setting.toString() + ")");
+                }
+
+                // Append a comma and space if this is not the last iteration in the list.
+                if (counter < (limit - 1))
+                    listOfSettings = listOfSettings.concat(", ");
+                counter++;
+            }
+        }
+        else {
+            listOfSettings = this.getName() + " has no settings";
+        }
+        Common.sendMessage(listOfSettings);
     }
 }

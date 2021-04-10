@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.module.modules.player.BlinkModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.Packet;
@@ -25,7 +26,7 @@ public final class ClientPlayNetworkHandlerMixin {
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",
             cancellable = true)
     private void onSendPacket(Packet<?> packet, final CallbackInfo info) {
-        if (ModuleManager.getModule("Blink").get().isEnabled()) {
+        if (ModuleManager.isModuleEnabled(BlinkModule.class)) {
             info.cancel();
         }
     }

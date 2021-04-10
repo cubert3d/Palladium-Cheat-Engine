@@ -3,6 +3,7 @@ package me.cubert3d.palladium.module.modules.render;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
+import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -16,14 +17,14 @@ import net.minecraft.world.BlockView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @ClassDescription(
         authors = {
                 "cubert3d"
         },
-        date = "3/10/2021",
-        status = "in-progress"
+        date = "3/10/2021"
 )
 
 public final class XRayModule extends Module {
@@ -102,10 +103,9 @@ public final class XRayModule extends Module {
     };
 
     private static final List<Block> defaultWhiteList = new ArrayList<>();
-    private static final List<Block> whitelist = new ArrayList<>();
 
     public XRayModule() {
-        super("XRay", "Lets you see ores in the ground", ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+        super("XRay", "Lets you see ores in the ground", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
         this.addSetting(new BlockListSetting("Whitelist", defaultWhiteList));
     }
 
@@ -126,11 +126,6 @@ public final class XRayModule extends Module {
 
     @Override
     protected void onChangeSetting() {
-        // shitty patchwork to use before i revise the old system
-        this.getSettingOptional("Whitelist").ifPresent(setting -> {
-            whitelist.clear();
-            whitelist.addAll(((BlockListSetting) setting).getList());
-        });
         // The renderer doesn't need any reloading if X-Ray isn't even enabled.
         if (isEnabled())
             Common.reloadRenderer();
@@ -141,11 +136,11 @@ public final class XRayModule extends Module {
         defaultWhiteList.addAll(Arrays.asList(containers));
         defaultWhiteList.addAll(Arrays.asList(special));
         defaultWhiteList.addAll(Arrays.asList(hazards));
-        whitelist.addAll(defaultWhiteList);
     }
 
     // Whether a block should be made invisible when X-Ray is enabled.
     public static boolean isSeeThrough(Block block) {
+        List<Block> whitelist = ModuleManager.getModuleByClass(XRayModule.class).getSetting("Whitelist").asBlockListSetting().getList();
         for (Block other : whitelist) {
             if (block.is(other))
                 return false;

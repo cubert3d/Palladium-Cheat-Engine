@@ -4,6 +4,7 @@ import me.cubert3d.palladium.module.setting.single.*;
 import me.cubert3d.palladium.module.setting.list.*;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.InternalOnly;
 
 @ClassDescription(
         authors = {
@@ -17,7 +18,8 @@ public abstract class BaseSetting implements Named {
     public static final String[] FORBIDDEN_SETTING_NAMES = new String[]{
             "enable",
             "disable",
-            "toggle"
+            "toggle",
+            "settings"
     };
 
     private final String name;
@@ -39,6 +41,7 @@ public abstract class BaseSetting implements Named {
 
     // CONVERSION
 
+    @InternalOnly
     public final BooleanSetting asBooleanSetting() {
         if (this.getType().equals(SettingType.BOOLEAN))
             return (BooleanSetting) this;
@@ -46,6 +49,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final IntegerSetting asIntegerSetting() {
         if (this.getType().equals(SettingType.INTEGER))
             return (IntegerSetting) this;
@@ -53,6 +57,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final DoubleSetting asDoubleSetting() {
         if (this.getType().equals(SettingType.DOUBLE))
             return (DoubleSetting) this;
@@ -60,6 +65,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final StringSetting asStringSetting() {
         if (this.getType().equals(SettingType.STRING))
             return (StringSetting) this;
@@ -67,6 +73,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final StringListSetting asStringListSetting() {
         if (this.getType().equals(SettingType.LIST_STRING))
             return (StringListSetting) this;
@@ -74,6 +81,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final BlockListSetting asBlockListSetting() {
         if (this.getType().equals(SettingType.LIST_BLOCK))
             return (BlockListSetting) this;
@@ -81,6 +89,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final EntityListSetting asEntityListSetting() {
         if (this.getType().equals(SettingType.LIST_ENTITY))
             return (EntityListSetting) this;
@@ -88,6 +97,7 @@ public abstract class BaseSetting implements Named {
             throw new ClassCastException();
     }
 
+    @InternalOnly
     public final ItemListSetting asItemListSetting() {
         if (this.getType().equals(SettingType.LIST_ITEM))
             return (ItemListSetting) this;

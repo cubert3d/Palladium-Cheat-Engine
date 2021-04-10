@@ -21,7 +21,9 @@ Handles initialization.
 		status = "in-progress"
 )
 
-public final class Main implements ModInitializer {
+public final class Palladium implements ModInitializer {
+
+	public static final String VERSION = "0.1";
 
 	/*
 	In debug mode, modules and other features that are
