@@ -18,6 +18,7 @@ public final class HudTextManager {
 
     private Supplier<ArrayList<String>> topLeftSupplier;
     private Supplier<ArrayList<String>> topRightSupplier;
+    private Supplier<ArrayList<String>> bottomRightSupplier;
 
     protected HudTextManager() {
 
@@ -37,6 +38,13 @@ public final class HudTextManager {
             return Optional.empty();
     }
 
+    public final Optional<ArrayList<String>> getBottomRightStrings() {
+        if (bottomRightSupplier != null)
+            return Optional.of(bottomRightSupplier.get());
+        else
+            return Optional.empty();
+    }
+
     public final void setTopLeftSupplier(Supplier<ArrayList<String>> topLeftSupplier) {
         this.topLeftSupplier = topLeftSupplier;
     }
@@ -45,11 +53,19 @@ public final class HudTextManager {
         this.topRightSupplier = supplier;
     }
 
+    public void setBottomRightSupplier(Supplier<ArrayList<String>> supplier) {
+        this.bottomRightSupplier = supplier;
+    }
+
     public final void clearTopLeftSupplier() {
         this.topLeftSupplier = null;
     }
 
     public final void clearTopRightSupplier() {
         this.topRightSupplier = null;
+    }
+
+    public final void clearBottomRightSupplier() {
+        this.bottomRightSupplier = null;
     }
 }

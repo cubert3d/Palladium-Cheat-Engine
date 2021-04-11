@@ -44,10 +44,11 @@ public final class ModuleManager {
         addModule(new HelpCommand());
         addModule(new SearchCommand());
 
-        //GUI
+        // GUI
         addModule(new PalladiumHudModule());
         addModule(new PlayerInfoModule());
         addModule(new EnabledModListModule());
+        addModule(new SuppliesModule());
 
         // RENDER
         addModule(new AntiOverlayModule());

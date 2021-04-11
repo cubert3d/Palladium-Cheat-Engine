@@ -6,9 +6,18 @@ import me.cubert3d.palladium.gui.HudRenderer;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
+
+@ClassDescription(
+        authors = {
+                "cubert3d"
+        },
+        date = "4/10/2021",
+        status = "in-progress"
+)
 
 public final class PlayerInfoModule extends Module {
 
@@ -16,7 +25,7 @@ public final class PlayerInfoModule extends Module {
 
     public PlayerInfoModule() {
         super("Info", "Displays information about the player and the game on-screen.",
-                ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+                ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
     }
 
     @Override

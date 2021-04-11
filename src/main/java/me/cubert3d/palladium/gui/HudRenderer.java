@@ -58,7 +58,7 @@ public final class HudRenderer {
         DrawableHelper.fill(matrices, x, y1 + 1, x + 1, y2, color);
     }
 
-    public static void drawTopLeftStack(MatrixStack matrices) {
+    public static void drawTopLeftList(MatrixStack matrices) {
         textManager.getTopLeftStrings().ifPresent(strings -> {
             for (int i = 0; i < strings.size(); i++) {
                 String string = strings.get(i);
@@ -71,19 +71,30 @@ public final class HudRenderer {
         });
     }
 
-    private static void drawTopRightStack(MatrixStack matrices) {
+    private static void drawTopRightList(MatrixStack matrices) {
         textManager.getTopRightStrings().ifPresent(strings -> {
             for (int i = 0; i < strings.size(); i++) {
                 String string = strings.get(i);
 
                 int x = Common.getMC().getWindow().getScaledWidth() - textRenderer.getWidth(string) - 1;
-                int y = 1 + ((textRenderer.fontHeight) * i);
+                int y = 1 + (textRenderer.fontHeight * i);
 
-                /* Used for the border line.
                 int b_x = x - 2;
                 int b_y1 = y - 1;
                 int b_y2 = b_y1 + textRenderer.fontHeight;
-                 */
+
+                drawText(matrices, string, x, y);
+            }
+        });
+    }
+
+    private static void drawBottomRightList(MatrixStack matrices) {
+        textManager.getBottomRightStrings().ifPresent(strings -> {
+            for (int i = 0; i < strings.size(); i++) {
+                String string = strings.get(i);
+
+                int x = Common.getMC().getWindow().getScaledWidth() - textRenderer.getWidth(string) - 1;
+                int y = (Common.getMC().getWindow().getScaledHeight() - textRenderer.fontHeight) - (textRenderer.fontHeight * i);
 
                 drawText(matrices, string, x, y);
             }
@@ -92,7 +103,8 @@ public final class HudRenderer {
 
     // Master render method that uses all the other methods to draw everything.
     public static void render(MatrixStack matrices) {
-        drawTopLeftStack(matrices);
-        drawTopRightStack(matrices);
+        drawTopLeftList(matrices);
+        drawTopRightList(matrices);
+        drawBottomRightList(matrices);
     }
 }

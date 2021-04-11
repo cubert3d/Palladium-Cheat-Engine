@@ -134,13 +134,13 @@ public abstract class Module implements Named {
     // Nullable method with no Optional, used for code references,
     // where the setting's existence should be guaranteed.
     @InternalOnly
-    public final @Nullable BaseSetting getSetting(String name) {
+    public final @NotNull BaseSetting getSetting(String name) {
         name = name.trim();
         for (BaseSetting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
                 return setting;
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 
     // Not-null method that returns an optional, used for user input,

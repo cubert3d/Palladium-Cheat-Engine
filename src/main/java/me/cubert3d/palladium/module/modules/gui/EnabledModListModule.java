@@ -42,12 +42,14 @@ public final class EnabledModListModule extends Module {
         modListSupplier = () -> {
             ArrayList<String> strings = new ArrayList<>();
 
-            strings.add("Enabled Modules");
+            int counter = 0;
             for (Module module : ModuleManager.getModules()) {
                 if (module.isEnabled()) {
                     strings.add(module.getName());
+                    counter++;
                 }
             }
+            strings.add(0, "Enabled Modules (" + counter + ")");
 
             return strings;
         };
