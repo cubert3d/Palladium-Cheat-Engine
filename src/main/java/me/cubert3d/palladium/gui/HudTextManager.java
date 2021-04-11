@@ -3,6 +3,8 @@ package me.cubert3d.palladium.gui;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @ClassDescription(
         authors = {
@@ -14,22 +16,40 @@ import java.util.ArrayList;
 
 public final class HudTextManager {
 
-    private final ArrayList<String> topLeft = new ArrayList<>();
-    private final ArrayList<String> topRight = new ArrayList<>();
+    private Supplier<ArrayList<String>> topLeftSupplier;
+    private Supplier<ArrayList<String>> topRightSupplier;
 
     protected HudTextManager() {
 
     }
 
-    public final ArrayList<String> getTopLeftStrings() {
-        return topLeft;
+    public final Optional<ArrayList<String>> getTopLeftStrings() {
+        if (topLeftSupplier != null)
+            return Optional.of(topLeftSupplier.get());
+        else
+            return Optional.empty();
     }
 
-    public final ArrayList<String> getTopRightStrings() {
-        return topRight;
+    public final Optional<ArrayList<String>> getTopRightStrings() {
+        if (topRightSupplier != null)
+            return Optional.of(topRightSupplier.get());
+        else
+            return Optional.empty();
     }
 
-    public final void changeTopLeftString (String oldString, String newString) {
+    public final void setTopLeftSupplier(Supplier<ArrayList<String>> topLeftSupplier) {
+        this.topLeftSupplier = topLeftSupplier;
+    }
 
+    public final void setTopRightSupplier(Supplier<ArrayList<String>> supplier) {
+        this.topRightSupplier = supplier;
+    }
+
+    public final void clearTopLeftSupplier() {
+        this.topLeftSupplier = null;
+    }
+
+    public final void clearTopRightSupplier() {
+        this.topRightSupplier = null;
     }
 }

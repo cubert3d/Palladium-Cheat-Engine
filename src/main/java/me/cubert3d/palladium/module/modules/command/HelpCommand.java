@@ -88,7 +88,7 @@ public final class HelpCommand extends Module {
         int lastIndex = pageNumber * PAGE_SIZE;
 
         // Iterate through the full set of modules to build the page.
-        for (Module module : ModuleManager.getModuleCollection()) {
+        for (Module module : ModuleManager.getModules()) {
 
             // Add the module if it is in the page range.
             if (counter >= firstIndex && counter < lastIndex)

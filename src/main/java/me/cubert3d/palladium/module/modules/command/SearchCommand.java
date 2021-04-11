@@ -39,7 +39,7 @@ public final class SearchCommand extends Module {
         else
             Common.sendMessage("Showing all modules:");
 
-        for (Module module : ModuleManager.getModuleCollection()) {
+        for (Module module : ModuleManager.getModules()) {
             if (module.isAvailable()) {
                 String name = module.getName();
                 String description = module.getDescription();

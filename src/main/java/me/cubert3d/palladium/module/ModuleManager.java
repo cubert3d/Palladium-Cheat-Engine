@@ -78,18 +78,12 @@ public final class ModuleManager {
             numAvailableModules++;
     }
 
-    // Universal static method called whenever any module is enabled.
-    // Like onEnable/onDisable, but this method is the same for all modules.
-    public static void onModuleToggle(@NotNull Module module) {
-        ((EnabledModListModule) ModuleManager.getModuleByClass(EnabledModListModule.class)).onEnabledModListUpdate(module);
-    }
-
 
 
     // GETTERS
 
     @Contract(pure = true)
-    public static @NotNull LinkedHashSet<Module> getModuleCollection() {
+    public static @NotNull LinkedHashSet<Module> getModules() {
         return moduleSet;
     }
 
@@ -112,12 +106,12 @@ public final class ModuleManager {
     // CLASS GETTERS
 
     @InternalOnly
-    public static @Nullable Module getModuleByClass(Class<? extends Module> clazz) {
+    public static @NotNull Module getModuleByClass(Class<? extends Module> clazz) {
         for (Module module : moduleSet) {
             if (module.getClass().equals(clazz))
                 return module;
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 
     @InternalOnly

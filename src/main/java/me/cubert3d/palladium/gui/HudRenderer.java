@@ -21,11 +21,15 @@ public final class HudRenderer {
     private static final TextRenderer textRenderer = Common.getMC().textRenderer;
     private static final HudTextManager textManager = new HudTextManager();
 
+    private HudRenderer() {}
+
     public static HudTextManager getTextManager() {
         return textManager;
     }
 
     public static boolean shouldRender() {
+
+        // Only render the text-HUD if the HUD module is enabled and the f3 menu is not enabled.
         return ModuleManager.isModuleEnabled(PalladiumHudModule.class)
                 && !Common.getOptions().debugEnabled;
     }
@@ -55,31 +59,35 @@ public final class HudRenderer {
     }
 
     public static void drawTopLeftStack(MatrixStack matrices) {
-        for (int i = 0; i < textManager.getTopLeftStrings().size(); i++) {
-            String string = textManager.getTopLeftStrings().get(i);
+        textManager.getTopLeftStrings().ifPresent(strings -> {
+            for (int i = 0; i < strings.size(); i++) {
+                String string = strings.get(i);
 
-            int x = 1;
-            int y = 1 + ((textRenderer.fontHeight) * i);
+                int x = 1;
+                int y = 1 + ((textRenderer.fontHeight) * i);
 
-            drawText(matrices, string, x, y);
-        }
+                drawText(matrices, string, x, y);
+            }
+        });
     }
 
     private static void drawTopRightStack(MatrixStack matrices) {
-        for (int i = 0; i < textManager.getTopRightStrings().size(); i++) {
-            String string = textManager.getTopRightStrings().get(i);
+        textManager.getTopRightStrings().ifPresent(strings -> {
+            for (int i = 0; i < strings.size(); i++) {
+                String string = strings.get(i);
 
-            int x = Common.getMC().getWindow().getScaledWidth() - textRenderer.getWidth(string) - 1;
-            int y = 1 + ((textRenderer.fontHeight) * i);
+                int x = Common.getMC().getWindow().getScaledWidth() - textRenderer.getWidth(string) - 1;
+                int y = 1 + ((textRenderer.fontHeight) * i);
 
-            /* Used for the border line.
-            int b_x = x - 2;
-            int b_y1 = y - 1;
-            int b_y2 = b_y1 + textRenderer.fontHeight;
-             */
+                /* Used for the border line.
+                int b_x = x - 2;
+                int b_y1 = y - 1;
+                int b_y2 = b_y1 + textRenderer.fontHeight;
+                 */
 
-            drawText(matrices, string, x, y);
-        }
+                drawText(matrices, string, x, y);
+            }
+        });
     }
 
     // Master render method that uses all the other methods to draw everything.

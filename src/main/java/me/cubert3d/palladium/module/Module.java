@@ -97,7 +97,6 @@ public abstract class Module implements Named {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 enabled = true;
                 onEnable();
-                ModuleManager.onModuleToggle(this);
                 Common.sendMessage(this.getName() + " is now enabled");
             }
         }
@@ -108,7 +107,6 @@ public abstract class Module implements Named {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 enabled = false;
                 onDisable();
-                ModuleManager.onModuleToggle(this);
                 Common.sendMessage(this.getName() + " is now disabled");
             }
         }
