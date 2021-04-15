@@ -1,8 +1,7 @@
 package me.cubert3d.palladium.module.modules.gui;
 
 import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.gui.HudRenderer;
-import me.cubert3d.palladium.gui.HudTextManager;
+import me.cubert3d.palladium.gui.TextHudRenderer;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
@@ -35,12 +34,12 @@ public final class SuppliesModule extends Module {
 
     @Override
     protected void onEnable() {
-        HudRenderer.getTextManager().setBottomRightSupplier(suppliesSupplier);
+        TextHudRenderer.getTextManager().setBottomRightSupplier(suppliesSupplier);
     }
 
     @Override
     protected void onDisable() {
-        HudRenderer.getTextManager().clearBottomRightSupplier();
+        TextHudRenderer.getTextManager().clearBottomRightSupplier();
     }
 
     static {

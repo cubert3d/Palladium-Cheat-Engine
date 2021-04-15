@@ -1,17 +1,21 @@
 package me.cubert3d.palladium.module;
 
-import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.module.modules.command.*;
+import me.cubert3d.palladium.module.modules.command.HelpCommand;
+import me.cubert3d.palladium.module.modules.command.SearchCommand;
 import me.cubert3d.palladium.module.modules.gui.*;
-import me.cubert3d.palladium.module.modules.movement.*;
+import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
+import me.cubert3d.palladium.module.modules.movement.SneakModule;
+import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.*;
-import me.cubert3d.palladium.module.modules.render.*;
+import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
+import me.cubert3d.palladium.module.modules.render.ChamsModule;
+import me.cubert3d.palladium.module.modules.render.FullBrightModule;
+import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
 import me.cubert3d.palladium.util.annotation.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -20,8 +24,7 @@ import java.util.Optional;
         authors = {
                 "cubert3d"
         },
-        date = "3/4/2021",
-        status = "complete"
+        date = "3/4/2021"
 )
 
 @UtilityClass
@@ -49,6 +52,7 @@ public final class ModuleManager {
         addModule(new PlayerInfoModule());
         addModule(new EnabledModListModule());
         addModule(new SuppliesModule());
+        addModule(new ClickGUIModule());
 
         // RENDER
         addModule(new AntiOverlayModule());

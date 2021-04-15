@@ -8,6 +8,8 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "ClientPlayerEntityMixin",
+    "KeyboardMixin",
+    "KeyBindingAccessor",
     "MouseMixin",
     "InGameHudMixin",
     "ChatHudMixin",
@@ -21,7 +23,8 @@
     "AbstractBlockStateMixin",
     "FluidRendererMixin",
     "ChunkLightProviderMixin",
-    "BlockEntityRenderDispatcherMixin"
+    "BlockEntityRenderDispatcherMixin",
+    "MinecraftClientAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

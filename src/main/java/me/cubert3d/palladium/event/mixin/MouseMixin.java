@@ -1,12 +1,14 @@
 package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.event.callback.MouseCallback;
+import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @ClassDescription(
         authors = {

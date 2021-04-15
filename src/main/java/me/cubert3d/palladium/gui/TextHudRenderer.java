@@ -16,12 +16,12 @@ import net.minecraft.client.util.math.MatrixStack;
         status = "in-progress"
 )
 
-public final class HudRenderer {
+public final class TextHudRenderer {
 
     private static final TextRenderer textRenderer = Common.getMC().textRenderer;
     private static final HudTextManager textManager = new HudTextManager();
 
-    private HudRenderer() {}
+    private TextHudRenderer() {}
 
     public static HudTextManager getTextManager() {
         return textManager;
@@ -31,11 +31,12 @@ public final class HudRenderer {
 
         // Only render the text-HUD if the HUD module is enabled and the f3 menu is not enabled.
         return ModuleManager.isModuleEnabled(PalladiumHudModule.class)
-                && !Common.getOptions().debugEnabled;
+                && !Common.getOptions().debugEnabled
+                && !ClickGUI.isOpen();
     }
 
     private static void drawText(MatrixStack matrices, String text, int x, int y) {
-        drawText(matrices, text, x, y, TextColors.COLOR_WHITE, TextColors.BACKGROUND_COLOR_LAVENDER);
+        drawText(matrices, text, x, y, Colors.COLOR_WHITE, Colors.BACKGROUND_COLOR_LAVENDER);
     }
 
     private static void drawText(MatrixStack matrices, String text, int x, int y, int color, int backgroundColor) {

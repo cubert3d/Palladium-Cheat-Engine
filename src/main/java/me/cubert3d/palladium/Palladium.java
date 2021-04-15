@@ -1,6 +1,7 @@
 package me.cubert3d.palladium;
 
 import me.cubert3d.palladium.cmd.CommandListener;
+import me.cubert3d.palladium.input.Bindings;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
