@@ -4,9 +4,11 @@ import me.cubert3d.palladium.event.mixin.KeyBindingAccessor;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
+import java.util.Optional;
+
 public class PalladiumKeyBinding {
 
-    private static final String palladiumKeyCategory = "key.categories.palladium";
+    private static final String PALLADIUM_KEY_CATEGORY = "key.categories.palladium";
 
     private final KeyBinding binding;
 
@@ -16,11 +18,7 @@ public class PalladiumKeyBinding {
     private boolean wasReleased = true;
 
     public PalladiumKeyBinding(String translationKey, int code, Type type) {
-        this(translationKey, InputUtil.Type.KEYSYM, code, type);
-    }
-
-    public PalladiumKeyBinding(String translationKey, InputUtil.Type inputUtilType, int code, Type type) {
-        this.binding = new KeyBinding(translationKey, inputUtilType, code, palladiumKeyCategory);
+        this.binding = new KeyBinding(translationKey, InputUtil.Type.KEYSYM, code, PALLADIUM_KEY_CATEGORY);
         this.type = type;
     }
 
@@ -28,16 +26,22 @@ public class PalladiumKeyBinding {
         return type;
     }
 
-    public final String getTranslationKey() {
-        return this.binding.getTranslationKey();
-    }
-
     public final InputUtil.Key getBoundKey() {
         return ((KeyBindingAccessor) this.binding).getBoundKey();
     }
 
-    public final void setBoundKey(InputUtil.Key boundKey) {
+    private void setBoundKey(InputUtil.Key boundKey) {
         this.binding.setBoundKey(boundKey);
+    }
+
+    public final boolean setBoundKey(String translationKey) {
+        Optional<InputUtil.Key> optionalKey = Keys.getKey(translationKey);
+        if (optionalKey.isPresent()) {
+            setBoundKey(optionalKey.get());
+            return true;
+        }
+        else
+            return false;
     }
 
     public final int getKeyCode() {
