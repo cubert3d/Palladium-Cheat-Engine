@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.module.modules.gui;
 
-import me.cubert3d.palladium.gui.TextHudRenderer;
+import me.cubert3d.palladium.gui.text.ColorText;
+import me.cubert3d.palladium.gui.text.TextList;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
@@ -8,7 +9,6 @@ import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 @ClassDescription(
         authors = {
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public final class EnabledModListModule extends Module {
 
-    private static final Supplier<ArrayList<String>> modListSupplier;
+    public static final TextList modList;
 
     public EnabledModListModule() {
         super("ModList", "Displays a list of enabled modules on your screen.",
@@ -29,28 +29,36 @@ public final class EnabledModListModule extends Module {
 
     @Override
     protected void onEnable() {
-        TextHudRenderer.getTextManager().setTopRightSupplier(modListSupplier);
+        //TextHudRenderer.getTextManager().setTopRightList(modList);
     }
 
     @Override
     protected void onDisable() {
-        TextHudRenderer.getTextManager().clearTopRightSupplier();
+        //TextHudRenderer.getTextManager().clearTopRightList();
     }
 
     static {
-        modListSupplier = () -> {
-            ArrayList<String> strings = new ArrayList<>();
+        modList = new TextList(
+                () -> {
+                    int counter = 0;
+                    for (Module module : ModuleManager.getModules()) {
+                        if (module.isEnabled()) {
+                            counter++;
+                        }
+                    }
+                    return new ColorText("Enabled Modules (" + counter + ")");
+                },
+                () -> {
+                    ArrayList<ColorText> text = new ArrayList<>();
 
-            int counter = 0;
-            for (Module module : ModuleManager.getModules()) {
-                if (module.isEnabled()) {
-                    strings.add(module.getName());
-                    counter++;
+                    for (Module module : ModuleManager.getModules()) {
+                        if (module.isEnabled()) {
+                            text.add(new ColorText(module.getName()));
+                        }
+                    }
+
+                    return text;
                 }
-            }
-            strings.add(0, "Enabled Modules (" + counter + ")");
-
-            return strings;
-        };
+        );
     }
 }

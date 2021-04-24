@@ -24,7 +24,7 @@ public final class HungerManagerMixin {
             method = "setFoodLevel(I)V")
     private void onHungerUpdate(int foodLevel, CallbackInfo info) {
 
-        ActionResult result = HungerCallback.EVENT.invoker().interact(Common.getClientPlayer(), foodLevel);
+        ActionResult result = HungerCallback.EVENT.invoker().interact(Common.getPlayer(), foodLevel);
 
         if (result.equals(ActionResult.FAIL))
             info.cancel();

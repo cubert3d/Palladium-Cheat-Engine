@@ -1,10 +1,9 @@
 package me.cubert3d.palladium.gui;
 
+import me.cubert3d.palladium.gui.text.TextList;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @ClassDescription(
         authors = {
@@ -16,56 +15,47 @@ import java.util.function.Supplier;
 
 public final class HudTextManager {
 
-    private Supplier<ArrayList<String>> topLeftSupplier;
-    private Supplier<ArrayList<String>> topRightSupplier;
-    private Supplier<ArrayList<String>> bottomRightSupplier;
+    private TextList topLeftList;
+    private TextList topRightList;
+    private TextList bottomRightList;
 
     protected HudTextManager() {
 
     }
 
-    public final Optional<ArrayList<String>> getTopLeftStrings() {
-        if (topLeftSupplier != null)
-            return Optional.of(topLeftSupplier.get());
-        else
-            return Optional.empty();
+    public final Optional<TextList> getTopLeftList() {
+        return Optional.ofNullable(topLeftList);
     }
 
-    public final Optional<ArrayList<String>> getTopRightStrings() {
-        if (topRightSupplier != null)
-            return Optional.of(topRightSupplier.get());
-        else
-            return Optional.empty();
+    public final Optional<TextList> getTopRightList() {
+        return Optional.ofNullable(topRightList);
     }
 
-    public final Optional<ArrayList<String>> getBottomRightStrings() {
-        if (bottomRightSupplier != null)
-            return Optional.of(bottomRightSupplier.get());
-        else
-            return Optional.empty();
+    public final Optional<TextList> getBottomRightList() {
+        return Optional.ofNullable(bottomRightList);
     }
 
-    public final void setTopLeftSupplier(Supplier<ArrayList<String>> topLeftSupplier) {
-        this.topLeftSupplier = topLeftSupplier;
+    public final void setTopLeftList(TextList topLeftList) {
+        this.topLeftList = topLeftList;
     }
 
-    public final void setTopRightSupplier(Supplier<ArrayList<String>> supplier) {
-        this.topRightSupplier = supplier;
+    public final void setTopRightList(TextList topRightList) {
+        this.topRightList = topRightList;
     }
 
-    public void setBottomRightSupplier(Supplier<ArrayList<String>> supplier) {
-        this.bottomRightSupplier = supplier;
+    public final void setBottomRightList(TextList bottomRightList) {
+        this.bottomRightList = bottomRightList;
     }
 
-    public final void clearTopLeftSupplier() {
-        this.topLeftSupplier = null;
+    public final void clearTopLeftList() {
+        this.topLeftList = null;
     }
 
-    public final void clearTopRightSupplier() {
-        this.topRightSupplier = null;
+    public final void clearTopRightList() {
+        this.topRightList = null;
     }
 
-    public final void clearBottomRightSupplier() {
-        this.bottomRightSupplier = null;
+    public final void clearBottomRightList() {
+        this.bottomRightList = null;
     }
 }

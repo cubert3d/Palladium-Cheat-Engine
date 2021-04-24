@@ -1,10 +1,9 @@
 package me.cubert3d.palladium.cmd;
 
-import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.event.mixin.MinecraftClientAccessor;
 import me.cubert3d.palladium.input.Bindings;
-import me.cubert3d.palladium.input.PalladiumKeyBinding;
+import me.cubert3d.palladium.input.PlKeyBinding;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +20,7 @@ import net.minecraft.util.ActionResult;
 public final class CommandListener {
 
     private static final String commandPrefix = ".";
-    private static final PalladiumKeyBinding binding = new PalladiumKeyBinding("key.palladium_command", 46, PalladiumKeyBinding.Type.HOLD) {
+    private static final PlKeyBinding binding = new PlKeyBinding("key.palladium.command", 46, PlKeyBinding.Type.PRESS_ONCE) {
 
         // TODO: make this work properly with PRESS_ONCE
 
@@ -35,6 +34,8 @@ public final class CommandListener {
             this.onPressed();
         }
     };
+
+    private CommandListener() {}
 
     public static void registerListener() {
         PlayerChatCallback.EVENT.register((player, message) -> {
@@ -57,13 +58,13 @@ public final class CommandListener {
             String[] args = new String[words.length - 1];
             System.arraycopy(words, 1, args, 0, args.length);
 
-            ModuleManager.getModule(label.toLowerCase()).ifPresent(module -> module.execute(args));
+            ModuleManager.getModule(label.toLowerCase()).ifPresent(module -> module.parseArgs(args));
 
             return ActionResult.FAIL;
         });
     }
 
-    static {
+    public static void loadBinding() {
         Bindings.addBinding(binding);
     }
 }

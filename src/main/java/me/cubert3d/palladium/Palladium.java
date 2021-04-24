@@ -1,13 +1,11 @@
 package me.cubert3d.palladium;
 
 import me.cubert3d.palladium.cmd.CommandListener;
-import me.cubert3d.palladium.input.Bindings;
+import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 /*
 Main class of Palladium Cheat Engine.
@@ -47,6 +45,10 @@ public final class Palladium implements ModInitializer {
 		// Listeners
 		PacketListener.registerListener();
 		CommandListener.registerListener();
+
+		// Testing
+		CommandListener.loadBinding();
+		ClickGUI.loadBinding();
 	}
 
 	public static boolean isDebugModeEnabled() {

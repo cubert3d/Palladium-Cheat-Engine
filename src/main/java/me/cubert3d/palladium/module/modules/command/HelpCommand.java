@@ -32,7 +32,7 @@ public final class HelpCommand extends Module {
     }
 
     @Override
-    public void execute(String @NotNull [] args) {
+    public void parseArgs(String @NotNull [] args) {
 
         int pageNumber = 1;
 

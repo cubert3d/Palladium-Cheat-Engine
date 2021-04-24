@@ -1,6 +1,5 @@
 package me.cubert3d.palladium.gui;
 
-import me.cubert3d.palladium.input.PalladiumKeyBinding;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 @ClassDescription(

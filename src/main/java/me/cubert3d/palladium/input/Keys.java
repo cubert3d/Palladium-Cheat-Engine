@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.input;
 
+import me.cubert3d.palladium.Common;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.NotNull;
 

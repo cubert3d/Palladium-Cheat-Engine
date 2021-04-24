@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.input.Bindings;
-import me.cubert3d.palladium.input.PalladiumKeyBinding;
+import me.cubert3d.palladium.input.PlKeyBinding;
 import net.minecraft.client.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public final class KeyboardMixin {
     @Inject(method = "onKey(JIIII)V", at = @At("TAIL"))
     private void onOnKey(long window, int key, int scancode, int i, int j, CallbackInfo info) {
-        Bindings.getBindingFromCode(key).ifPresent(PalladiumKeyBinding::trigger);
+        for (PlKeyBinding binding : Bindings.getBindings()) {
+            if (binding.getKeyCode() == key && binding.shouldTrigger()) {
+                binding.trigger();
+            }
+        }
     }
 }

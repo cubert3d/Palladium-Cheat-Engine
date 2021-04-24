@@ -26,7 +26,7 @@ public final class SearchCommand extends Module {
     }
 
     @Override
-    public void execute(String @NotNull [] args) {
+    public void parseArgs(String @NotNull [] args) {
 
         String searchPhrase = "";
         boolean search = false;

@@ -26,7 +26,7 @@ public final class InventoryUpdateMixin {
             method = "onInventory(Lnet/minecraft/network/packet/s2c/play/InventoryS2CPacket;)V")
     private void onInventoryUpdate(InventoryS2CPacket packet, final CallbackInfo info) {
 
-        PlayerEntity player = Common.getClientPlayer();
+        PlayerEntity player = Common.getPlayer();
 
         ActionResult result = InventoryUpdateCallback.EVENT.invoker().interact(player, packet);
 

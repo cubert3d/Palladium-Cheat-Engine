@@ -182,7 +182,7 @@ public final class ClickTPModule extends Module {
 
         if (Common.getMC().getNetworkHandler() != null) {
 
-            Common.getClientPlayer().updatePosition(x, y, z);
+            Common.getPlayer().updatePosition(x, y, z);
             
             return true;
         }

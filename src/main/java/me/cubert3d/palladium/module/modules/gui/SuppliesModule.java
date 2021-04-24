@@ -1,7 +1,9 @@
 package me.cubert3d.palladium.module.modules.gui;
 
 import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.TextHudRenderer;
+import me.cubert3d.palladium.gui.text.TextList;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
@@ -18,13 +20,12 @@ import java.util.function.Supplier;
         authors = {
                 "cubert3d"
         },
-        date = "4/10/2021",
-        status = "complete"
+        date = "4/10/2021"
 )
 
 public final class SuppliesModule extends Module {
 
-    private static final Supplier<ArrayList<String>> suppliesSupplier;
+    public static final TextList suppliesList;
 
     public SuppliesModule() {
         super("Supplies", "Displays important supplies and their quantities you have on-screen.",
@@ -34,36 +35,39 @@ public final class SuppliesModule extends Module {
 
     @Override
     protected void onEnable() {
-        TextHudRenderer.getTextManager().setBottomRightSupplier(suppliesSupplier);
+        TextHudRenderer.getTextManager().setBottomRightList(suppliesList);
     }
 
     @Override
     protected void onDisable() {
-        TextHudRenderer.getTextManager().clearBottomRightSupplier();
+        TextHudRenderer.getTextManager().clearBottomRightList();
     }
 
     static {
-        suppliesSupplier = () -> {
-            ArrayList<String> strings = new ArrayList<>();
+        suppliesList = new TextList(
+                () -> new ColorText("Supplies"),
+                () -> {
+                    ArrayList<ColorText> text = new ArrayList<>();
 
-            for (Item item : ModuleManager.getModuleByClass(SuppliesModule.class).getSetting("Items").asItemListSetting().getList()) {
-                int itemCount = 0;
-                for (ItemStack stack : Common.getClientPlayer().inventory.main) {
-                    if (stack.getItem().equals(item))
-                        itemCount += stack.getCount();
-                }
-                for (ItemStack stack : Common.getClientPlayer().inventory.armor) {
-                    if (stack.getItem().equals(item))
-                        itemCount += stack.getCount();
-                }
-                for (ItemStack stack : Common.getClientPlayer().inventory.offHand) {
-                    if (stack.getItem().equals(item))
-                        itemCount += stack.getCount();
-                }
-                strings.add(item.getName().getString() + " x" + itemCount);
-            }
+                    for (Item item : ModuleManager.getModuleByClass(SuppliesModule.class).getSetting("Items").asItemListSetting().getList()) {
+                        int itemCount = 0;
+                        for (ItemStack stack : Common.getPlayer().inventory.main) {
+                            if (stack.getItem().equals(item))
+                                itemCount += stack.getCount();
+                        }
+                        for (ItemStack stack : Common.getPlayer().inventory.armor) {
+                            if (stack.getItem().equals(item))
+                                itemCount += stack.getCount();
+                        }
+                        for (ItemStack stack : Common.getPlayer().inventory.offHand) {
+                            if (stack.getItem().equals(item))
+                                itemCount += stack.getCount();
+                        }
+                        text.add(new ColorText(item.getName().getString() + " x" + itemCount));
+                    }
 
-            return strings;
-        };
+                    return text;
+                }
+        );
     }
 }

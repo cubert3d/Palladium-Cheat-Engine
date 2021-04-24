@@ -3,50 +3,119 @@ package me.cubert3d.palladium.input;
 import me.cubert3d.palladium.event.mixin.KeyBindingAccessor;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class PalladiumKeyBinding {
+public class PlKeyBinding {
 
     private static final String PALLADIUM_KEY_CATEGORY = "key.categories.palladium";
+    private static final int UNBOUND_PLACEHOLDER = -1;
 
     private final KeyBinding binding;
 
     // Whether this key-binding's method is triggered once
     // upon being pressed, or continues to fire as it is held.
     private final Type type;
+    private boolean isBound;
+    private final boolean hasDefault;
     private boolean wasReleased = true;
 
-    public PalladiumKeyBinding(String translationKey, int code, Type type) {
-        this.binding = new KeyBinding(translationKey, InputUtil.Type.KEYSYM, code, PALLADIUM_KEY_CATEGORY);
+    public PlKeyBinding(String translationKey, Type type) {
+        this.binding = new KeyBinding(translationKey, InputUtil.Type.KEYSYM, UNBOUND_PLACEHOLDER, PALLADIUM_KEY_CATEGORY);
         this.type = type;
+        this.isBound = false;
+        this.hasDefault = false;
     }
 
-    public final Type getType() {
-        return type;
+    public PlKeyBinding(String translationKey, int code, Type type) {
+        this.binding = new KeyBinding(translationKey, InputUtil.Type.KEYSYM, code, PALLADIUM_KEY_CATEGORY);
+        this.type = type;
+        this.isBound = true;
+        this.hasDefault = true;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof PlKeyBinding) {
+            PlKeyBinding other = (PlKeyBinding) obj;
+            return this.getTranslationKey().equalsIgnoreCase(other.getTranslationKey());
+        }
+        return false;
+    }
+
+    @Override
+    public final String toString() {
+        return getTranslationKey();
+    }
+
+
+
+    public final String getTranslationKey() {
+        return binding.getTranslationKey();
+    }
+
+    public final InputUtil.Key getDefaultKey() {
+        return binding.getDefaultKey();
     }
 
     public final InputUtil.Key getBoundKey() {
-        return ((KeyBindingAccessor) this.binding).getBoundKey();
+        return ((KeyBindingAccessor) binding).getBoundKey();
     }
 
     private void setBoundKey(InputUtil.Key boundKey) {
         this.binding.setBoundKey(boundKey);
     }
 
-    public final boolean setBoundKey(String translationKey) {
-        Optional<InputUtil.Key> optionalKey = Keys.getKey(translationKey);
-        if (optionalKey.isPresent()) {
-            setBoundKey(optionalKey.get());
-            return true;
+    // Bound key setter for user input; uses an Optional from Keys.
+    public final boolean setBoundKey(@NotNull String translationKey) {
+        switch (translationKey) {
+            case "none":
+                setBound(false);
+                return true;
+            case "reset":
+                resetBoundKey();
+                return true;
+            default:
+                Optional<InputUtil.Key> optionalKey = Keys.getKey(translationKey);
+                if (optionalKey.isPresent()) {
+                    setBoundKey(optionalKey.get());
+                    setBound(true);
+                    return true;
+                }
+                else {
+                    return false;
+                }
         }
-        else
-            return false;
+    }
+
+    public final void resetBoundKey() {
+        if (hasDefault) {
+            setBoundKey(getDefaultKey());
+            setBound(true);
+        }
+        else {
+            setBound(false);
+        }
+    }
+
+    public final Type getType() {
+        return type;
+    }
+
+    public final boolean isBound() {
+        return isBound;
+    }
+
+    public final void setBound(boolean bound) {
+        isBound = bound;
     }
 
     public final int getKeyCode() {
         return getBoundKey().getCode();
     }
+
+
 
     private boolean isPressed() {
         return binding.isPressed();
@@ -60,6 +129,10 @@ public class PalladiumKeyBinding {
         this.wasReleased = wasReleased;
     }
 
+    public boolean shouldTrigger() {
+        return isBound();
+    }
+
     /*
      Determines which of the three trigger methods, if any at all,
      should be called, depending on the trigger type of this binding
@@ -67,6 +140,7 @@ public class PalladiumKeyBinding {
      corresponding key is being pressed, held, or released.
     */
     public final void trigger() {
+        boolean wasPressed = wasPressed();
         switch (type) {
             case PRESS_ONCE:
 
@@ -74,7 +148,7 @@ public class PalladiumKeyBinding {
                     onPressed();
                     setReleased(false);
                 }
-                else if (!isPressed() && wasPressed()) {
+                else if (!isPressed() && !wasPressed) {
                     setReleased(true);
                 }
                 break;
@@ -85,7 +159,7 @@ public class PalladiumKeyBinding {
                     onPressed();
                     setReleased(false);
                 }
-                else if (!isPressed() && wasPressed()) {
+                else if (!isPressed() && !wasPressed) {
                     onReleased();
                     setReleased(true);
                 }
@@ -100,7 +174,7 @@ public class PalladiumKeyBinding {
                 else if (isPressed()) {
                     onHeld();
                 }
-                else if (wasPressed()) {
+                else if (!wasPressed) {
                     onReleased();
                     setReleased(true);
                 }

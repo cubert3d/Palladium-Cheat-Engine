@@ -6,7 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.options.GameOptions;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -43,7 +42,7 @@ public final class Common {
         return MinecraftClient.getInstance();
     }
 
-    public static ClientPlayerEntity getClientPlayer() {
+    public static ClientPlayerEntity getPlayer() {
         return getMC().player;
     }
 
@@ -57,7 +56,7 @@ public final class Common {
 
     public static @Nullable GameMode getGameMode() {
 
-        PlayerListEntry playerListEntry = Objects.requireNonNull(getMC().getNetworkHandler()).getPlayerListEntry(getClientPlayer().getUuid());
+        PlayerListEntry playerListEntry = Objects.requireNonNull(getMC().getNetworkHandler()).getPlayerListEntry(getPlayer().getUuid());
 
         if (playerListEntry != null)
             return playerListEntry.getGameMode();

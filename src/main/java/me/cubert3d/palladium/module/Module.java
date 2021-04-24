@@ -3,6 +3,8 @@ package me.cubert3d.palladium.module;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.cmd.CommandError;
+import me.cubert3d.palladium.input.Bindings;
+import me.cubert3d.palladium.input.PlKeyBinding;
 import me.cubert3d.palladium.module.setting.*;
 import me.cubert3d.palladium.module.setting.list.*;
 import me.cubert3d.palladium.module.setting.single.*;
@@ -15,7 +17,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -38,8 +39,10 @@ public abstract class Module implements Named {
 
     private final ModuleType moduleType;
     private boolean enabled;
-    private final ModuleDevStatus status;
+    private final PlKeyBinding binding;
     private final Set<BaseSetting> settings = new HashSet<>();
+
+    private final ModuleDevStatus status;
 
     protected Module(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
         this.name = name;
@@ -47,6 +50,13 @@ public abstract class Module implements Named {
         this.moduleType = moduleType;
         this.enabled = false;
         this.status = status;
+        this.binding = new PlKeyBinding("key.palladium.module." + name.toLowerCase(), PlKeyBinding.Type.PRESS_ONCE) {
+            @Override
+            protected void onPressed() {
+                onKeyPressed();
+            }
+        };
+        Bindings.addBinding(binding);
         this.onConstruct();
     }
 
@@ -201,14 +211,23 @@ public abstract class Module implements Named {
     // Called when this module is disabled.
     protected void onDisable() {}
 
-    public void execute(String @NotNull [] args) {
+    protected void onKeyPressed() {
+        if (moduleType.equals(ModuleType.TOGGLE)) {
+            this.toggle();
+        }
+        else if (moduleType.equals(ModuleType.EXECUTE_ONCE)) {
+            this.execute();
+        }
+    }
+
+    public void parseArgs(String @NotNull [] args) {
         if (args.length == 0) {
             if (moduleType.equals(ModuleType.TOGGLE)) {
                 if (this.isEnabled()) {
-                    Common.sendMessage(this.getName() + " is currently enabled");
+                    Common.sendMessage(name + " is currently enabled");
                 }
                 else {
-                    Common.sendMessage(this.getName() + " is currently disabled");
+                    Common.sendMessage(name + " is currently disabled");
                 }
             }
         }
@@ -250,15 +269,27 @@ public abstract class Module implements Named {
             Optional<BaseSetting> optional = getSettingOptional(args[0]);
             BaseSetting setting;
 
-            if (!optional.isPresent()) {
-                Common.sendMessage("Setting not found!");
-                return;
-            }
-            else {
-                setting = optional.get();
-            }
-
             if (args.length == 2) {
+
+                if (args[0].equalsIgnoreCase("bind")) {
+                    boolean successful = binding.setBoundKey(args[1].toLowerCase());
+                    if (binding.isBound())
+                        if (successful)
+                            Common.sendMessage(name + " has been bound to " + binding.getBoundKey().getTranslationKey());
+                        else
+                            Common.sendMessage("No such key found");
+                    else
+                        Common.sendMessage(name + " has been unbound");
+                    return;
+                }
+
+                if (!optional.isPresent()) {
+                    Common.sendMessage("Setting not found!");
+                    return;
+                }
+                else {
+                    setting = optional.get();
+                }
 
                 // "<command> <setting> reset": reset the value of the setting to the default
                 if (args[1].equalsIgnoreCase("reset")) {
@@ -312,6 +343,14 @@ public abstract class Module implements Named {
                 }
             }
             else if (args.length == 3) {
+
+                if (!optional.isPresent()) {
+                    Common.sendMessage("Setting not found!");
+                    return;
+                }
+                else {
+                    setting = optional.get();
+                }
 
                 if (setting.isListSetting()) {
 
@@ -387,6 +426,8 @@ public abstract class Module implements Named {
         3: add or remove from a list-type-setting
          */
     }
+
+    protected void execute() {}
 
 
 

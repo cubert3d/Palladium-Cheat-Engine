@@ -3,7 +3,9 @@ package me.cubert3d.palladium.module.modules.gui;
 import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.mixin.MinecraftClientAccessor;
+import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.TextHudRenderer;
+import me.cubert3d.palladium.gui.text.TextList;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
@@ -25,7 +27,7 @@ import java.util.function.Supplier;
 
 public final class PlayerInfoModule extends Module {
 
-    private static final Supplier<ArrayList<String>> infoSupplier;
+    private static final TextList infoList;
 
     public PlayerInfoModule() {
         super("Info", "Displays information about the player and the game on-screen.",
@@ -34,31 +36,35 @@ public final class PlayerInfoModule extends Module {
 
     @Override
     protected void onEnable() {
-        TextHudRenderer.getTextManager().setTopLeftSupplier(infoSupplier);
+        TextHudRenderer.getTextManager().setTopLeftList(infoList);
     }
 
     @Override
     protected void onDisable() {
-        TextHudRenderer.getTextManager().clearTopLeftSupplier();
+        TextHudRenderer.getTextManager().clearTopLeftList();
     }
 
-    private static @NotNull String getPlayerName() {
-        return "Name: " + Common.getClientPlayer().getName().getString();
+    private static @NotNull ColorText getClientInfo() {
+        return new ColorText(Palladium.NAME + " v" + Palladium.VERSION);
     }
 
-    private static @NotNull String getScore() {
-        return "Score: " + Common.getClientPlayer().getScore();
+    private static @NotNull ColorText getPlayerName() {
+        return new ColorText("Name: " + Common.getPlayer().getName().getString());
     }
 
-    private static String getCoordinatesString() {
-        double x = Common.getClientPlayer().getX();
-        double y = Common.getClientPlayer().getY();
-        double z = Common.getClientPlayer().getZ();
-        return String.format("Position: %.1f, %.1f, %.1f", x, y, z);
+    private static @NotNull ColorText getScore() {
+        return new ColorText("Score: " + Common.getPlayer().getScore());
     }
 
-    private static @NotNull String getDirectionFacing() {
-        Direction direction = Common.getClientPlayer().getHorizontalFacing();
+    private static @NotNull ColorText getCoordinatesString() {
+        double x = Common.getPlayer().getX();
+        double y = Common.getPlayer().getY();
+        double z = Common.getPlayer().getZ();
+        return new ColorText(String.format("Position: %.1f, %.1f, %.1f", x, y, z));
+    }
+
+    private static @NotNull ColorText getDirectionFacing() {
+        Direction direction = Common.getPlayer().getHorizontalFacing();
         String axis;
         switch (direction) {
             case NORTH:
@@ -74,29 +80,31 @@ public final class PlayerInfoModule extends Module {
                 axis = "+X";
                 break;
             default:
-                return "Facing: " + direction;
+                return new ColorText("Facing: " + direction);
         }
-        return "Facing: " + direction + " (" + axis + ")";
+        return new ColorText("Facing: " + direction + " (" + axis + ")");
     }
 
     @Contract(pure = true)
-    private static @NotNull String getFPS() {
+    private static @NotNull ColorText getFPS() {
         int fps = MinecraftClientAccessor.getCurrentFPS();
-        return "FPS: " + fps;
+        return new ColorText("FPS: " + fps);
     }
 
     static {
-        infoSupplier = () -> {
-            ArrayList<String> strings = new ArrayList<>();
+        infoList = new TextList(
+                PlayerInfoModule::getClientInfo,
+                () -> {
+                    ArrayList<ColorText> text = new ArrayList<>();
 
-            strings.add(Palladium.NAME + " v" + Palladium.VERSION);
-            strings.add(getPlayerName());
-            strings.add(getScore());
-            strings.add(getCoordinatesString());
-            strings.add(getDirectionFacing());
-            strings.add(getFPS());
+                    text.add(getPlayerName());
+                    text.add(getScore());
+                    text.add(getCoordinatesString());
+                    text.add(getDirectionFacing());
+                    text.add(getFPS());
 
-            return strings;
-        };
+                    return text;
+                }
+        );
     }
 }

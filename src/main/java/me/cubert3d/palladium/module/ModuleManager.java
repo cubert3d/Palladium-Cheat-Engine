@@ -52,6 +52,7 @@ public final class ModuleManager {
         addModule(new PlayerInfoModule());
         addModule(new EnabledModListModule());
         addModule(new SuppliesModule());
+        addModule(new EffectListModule());
         addModule(new ClickGUIModule());
 
         // RENDER
