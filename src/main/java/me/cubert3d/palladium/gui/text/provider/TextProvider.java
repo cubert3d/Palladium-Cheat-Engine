@@ -1,5 +1,6 @@
-package me.cubert3d.palladium.gui.text;
+package me.cubert3d.palladium.gui.text.provider;
 
+import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,23 +14,24 @@ import java.util.function.Supplier;
         date = "4/23/2021"
 )
 
-public final class TextList {
+public abstract class TextProvider {
 
     private final Supplier<ColorText> headerSupplier;
     private final Supplier<ArrayList<ColorText>> bodySupplier;
 
-    public TextList(Supplier<ColorText> headerSupplier, Supplier<ArrayList<ColorText>> bodySupplier) {
+    public TextProvider(Supplier<ColorText> headerSupplier, Supplier<ArrayList<ColorText>> bodySupplier) {
         this.headerSupplier = headerSupplier;
         this.bodySupplier = bodySupplier;
     }
 
-    public final ColorText getHeader() {
-        return headerSupplier.get();
+    public TextProvider() {
+        this.headerSupplier = null;
+        this.bodySupplier = null;
     }
 
-    public final ArrayList<ColorText> getBody() {
-        return bodySupplier.get();
-    }
+    public abstract ColorText getHeader();
+
+    public abstract ArrayList<ColorText> getBody();
 
     public final @NotNull ArrayList<ColorText> getAll() {
         ArrayList<ColorText> list = new ArrayList<>();

@@ -1,8 +1,20 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.gui.ClickGUI;
+import me.cubert3d.palladium.module.modules.gui.*;
+import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
+import me.cubert3d.palladium.module.modules.movement.SneakModule;
+import me.cubert3d.palladium.module.modules.movement.SprintModule;
+import me.cubert3d.palladium.module.modules.player.*;
+import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
+import me.cubert3d.palladium.module.modules.render.ChamsModule;
+import me.cubert3d.palladium.module.modules.render.FullBrightModule;
+import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,22 +28,23 @@ import java.util.Set;
         authors = {
                 "cubert3d"
         },
-        date = "3/6/2021",
-        status = "complete"
+        date = "3/6/2021"
 )
 
 public final class ModuleGroup implements Named {
 
-    private final String name;
-    private final Set<Module> modules = new HashSet<>();
+    private String name;
+    private final ArrayList<Module> modules = new ArrayList<>();
 
     public ModuleGroup(String name) {
         this.name = name;
     }
 
-    public ModuleGroup(String name, Module... modules) {
+    public ModuleGroup(String name, Class<? extends Module> @NotNull ... modules) {
         this.name = name;
-        this.modules.addAll(Arrays.asList(modules));
+        for (Class<? extends Module> moduleClass : modules) {
+            this.modules.add(ModuleManager.getModuleByClass(moduleClass));
+        }
     }
 
     @Override
@@ -39,21 +52,49 @@ public final class ModuleGroup implements Named {
         return name;
     }
 
-    public final Set<Module> getModules() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public final ArrayList<Module> getModules() {
         return modules;
     }
 
-    public final void addModule(Module module) {
-        modules.add(module);
+    public final boolean addModule(@NotNull Module module) {
+        if (module.getType().equals(ModuleType.TOGGLE)) {
+            return modules.add(module);
+        }
+        else {
+            return false;
+        }
     }
 
 
 
-    // Pre-defined module groups
+    public static final ModuleGroup MODULES_GUI = new ModuleGroup("GUI",
+            PalladiumHudModule.class,
+            ClickGUIModule.class,
+            PlayerInfoModule.class,
+            EnabledModListModule.class,
+            EffectListModule.class,
+            SuppliesModule.class);
 
-    public static final ModuleGroup DEFAULT_MOVEMENT = new ModuleGroup("Movement");
+    public static final ModuleGroup MODULES_RENDER = new ModuleGroup("Render",
+            AntiOverlayModule.class,
+            FullBrightModule.class,
+            XRayModule.class,
+            ChamsModule.class);
 
-    public static final ModuleGroup DEFAULT_PLAYER = new ModuleGroup("Player");
+    public static final ModuleGroup MODULES_MOVEMENT = new ModuleGroup("Movement",
+            SneakModule.class,
+            SprintModule.class,
+            ClickTPModule.class);
 
-    public static final ModuleGroup DEFAULT_RENDER = new ModuleGroup("Render");
+    public static final ModuleGroup MODULES_PLAYER = new ModuleGroup("Player",
+            ChatFilterModule.class,
+            PacketManagerModule.class,
+            AutoDisconnectModule.class,
+            AutoToolModule.class,
+            ToolSaverModule.class,
+            BlinkModule.class);
 }

@@ -1,10 +1,10 @@
 package me.cubert3d.palladium.gui.widget;
 
+import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.text.TextList;
+import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
@@ -22,48 +22,50 @@ import java.util.function.Supplier;
 This is a window that simply displays information, in the form of text.
  */
 
-public final class DisplayWindowWidget extends WindowWidget {
+public final class DisplayWindow extends Window {
 
     private static final Supplier<ArrayList<ColorText>> emptySupplier = ArrayList::new;
 
     private Supplier<ArrayList<ColorText>> textSupplier;
 
-    private TextList textList;
+    private TextProvider textProvider;
 
-    public DisplayWindowWidget(String id, String label) {
-        super(id, label);
+    public DisplayWindow(String id) {
+        super(id, "Window");
         this.textSupplier = emptySupplier;
     }
 
-    public DisplayWindowWidget(String id, String label, TextList textList) {
+    public DisplayWindow(String id, String label, TextProvider textProvider) {
         super(id, label);
-        this.textList = textList;
+        this.textProvider = textProvider;
     }
 
     @Override
     public final String getLabel() {
-        return textList.getHeader().getString();
+        return textProvider.getHeader().getString();
     }
 
-    public void setTextList(TextList textList) {
-        this.textList = textList;
-    }
-
-    // Gets the number of lines available in the window for text.
-    protected final int getListSpaceAvailable() {
-        return getWindowHeight() / (DrawHelper.getTextHeight());
+    public void setTextProvider(TextProvider textProvider) {
+        this.textProvider = textProvider;
     }
 
     @Override
     public void render(MatrixStack matrices) {
+        if (!minimized) {
+            drawMainWindow(matrices);
+            drawTextInWindow(matrices);
+        }
+        else {
+            drawMinimizedWindow(matrices);
+        }
+        drawWindowControls(matrices);
+    }
 
-        super.render(matrices);
-
-        // Text
+    private void drawTextInWindow(MatrixStack matrices) {
         int counter = 0;
         int size = textSupplier.get().size();
         boolean isListTooBig = size > getListSpaceAvailable();
-        for (ColorText text : textList.getBody()) {
+        for (ColorText text : textProvider.getBody()) {
 
             String string = text.getString();
 

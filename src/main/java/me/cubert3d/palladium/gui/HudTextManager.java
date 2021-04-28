@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.gui;
 
-import me.cubert3d.palladium.gui.text.TextList;
+import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.Optional;
@@ -15,35 +15,35 @@ import java.util.Optional;
 
 public final class HudTextManager {
 
-    private TextList topLeftList;
-    private TextList topRightList;
-    private TextList bottomRightList;
+    private TextProvider topLeftList;
+    private TextProvider topRightList;
+    private TextProvider bottomRightList;
 
     protected HudTextManager() {
 
     }
 
-    public final Optional<TextList> getTopLeftList() {
+    public final Optional<TextProvider> getTopLeftList() {
         return Optional.ofNullable(topLeftList);
     }
 
-    public final Optional<TextList> getTopRightList() {
+    public final Optional<TextProvider> getTopRightList() {
         return Optional.ofNullable(topRightList);
     }
 
-    public final Optional<TextList> getBottomRightList() {
+    public final Optional<TextProvider> getBottomRightList() {
         return Optional.ofNullable(bottomRightList);
     }
 
-    public final void setTopLeftList(TextList topLeftList) {
+    public final void setTopLeftList(TextProvider topLeftList) {
         this.topLeftList = topLeftList;
     }
 
-    public final void setTopRightList(TextList topRightList) {
+    public final void setTopRightList(TextProvider topRightList) {
         this.topRightList = topRightList;
     }
 
-    public final void setBottomRightList(TextList bottomRightList) {
+    public final void setBottomRightList(TextProvider bottomRightList) {
         this.bottomRightList = bottomRightList;
     }
 

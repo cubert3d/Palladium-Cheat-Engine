@@ -1,9 +1,9 @@
 package me.cubert3d.palladium.gui.widget;
 
 import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.util.math.MatrixStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +19,13 @@ import java.util.Set;
 public final class WidgetManager {
 
     private static final Set<Widget> widgets = new HashSet<>();
-    private static Widget focusedWidget;
+
+    /*
+     This holds the widget that is currently being clicked, so that the onDrag()
+     method does not have to iterate through the set of widgets every single time
+     the mouse is moved.
+    */
+    private static Widget clickedWidget;
 
     private WidgetManager() {}
 
@@ -29,13 +35,6 @@ public final class WidgetManager {
 
     static void addWidget(Widget widget) {
         widgets.add(widget);
-    }
-
-    static void setFocusedWidget(@NotNull Widget widget) {
-        Widget previousFocusedWidget = focusedWidget;
-        focusedWidget = widget;
-        widget.setFocused(true);
-        previousFocusedWidget.setFocused(false);
     }
 
     public static int getScaledWidth() {
@@ -50,5 +49,38 @@ public final class WidgetManager {
         for (Widget widget : widgets) {
             widget.render(matrices);
         }
+    }
+
+    public static void onClick(int mousePosX, int mousePosY, boolean isRelease) {
+
+        // Nothing should be clicked if there isn't anything to be clicked.
+        if (!ClickGUI.shouldRender()) {
+            return;
+        }
+
+        for (Widget widget : widgets) {
+            if (mousePosX >= widget.getX() && mousePosX <= widget.getX2()
+                    && mousePosY >= widget.getY() && mousePosY <= widget.getY2()) {
+
+                if (!isRelease)
+                    clickedWidget = widget;
+                else
+                    clickedWidget = null;
+
+                widget.onClick(mousePosX, mousePosY, isRelease);
+                break;
+            }
+        }
+    }
+
+    public static void onMouseMove(int mousePosX, int mousePosY) {
+        if (clickedWidget != null) {
+            clickedWidget.onDrag(mousePosX, mousePosY);
+        }
+    }
+
+    // This is called when the ClickGUI is closed.
+    public static void resetClickedWidget() {
+        clickedWidget = null;
     }
 }

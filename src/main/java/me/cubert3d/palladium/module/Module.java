@@ -79,6 +79,10 @@ public abstract class Module implements Named {
         return description;
     }
 
+    public Optional<String> getPrimaryInfo() {
+        return Optional.empty();
+    }
+
     public final ModuleType getType() {
         return moduleType;
     }

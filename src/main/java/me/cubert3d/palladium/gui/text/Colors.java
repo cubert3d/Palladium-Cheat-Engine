@@ -28,6 +28,7 @@ public final class Colors {
     public static final int BACKGROUND_GREEN = 0x6F28A12C;
     public static final int BACKGROUND_RED = 0x6F9C2828;
     public static final int BACKGROUND_BLUE = 0x6F2844A1;
+    public static final int BACKGROUND_YELLOW = 0x6FFFEC99;
 
 
 

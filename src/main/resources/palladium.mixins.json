@@ -25,6 +25,7 @@
     "FluidRendererMixin",
     "ChunkLightProviderMixin",
     "BlockEntityRenderDispatcherMixin",
+    "EntityRenderDispatcherMixin",
     "MinecraftClientAccessor"
   ],
   "injectors": {

@@ -29,6 +29,11 @@ public final class FullBrightModule extends Module {
     }
 
     @Override
+    public Optional<String> getPrimaryInfo() {
+        return Optional.ofNullable(getSetting("Brightness").asDoubleSetting().getValue().toString());
+    }
+
+    @Override
     protected void onChangeSetting() {
         if (isEnabled())
             updateGamma();

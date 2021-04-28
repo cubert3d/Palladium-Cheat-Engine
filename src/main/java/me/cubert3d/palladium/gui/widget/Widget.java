@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.gui.widget;
 
+import me.cubert3d.palladium.Common;
 import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.util.math.MatrixStack;
@@ -14,25 +15,29 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public abstract class Widget {
 
+    // Unique identifier for this widget, in the form a string.
     private final String id;
-    private boolean focused;
 
+    // Position of this widget on the screen.
     private int x;
     private int y;
+
+    // Dimensions of this widget.
     private int width;
     private int height;
+
+    // Special color of this widget.
     private int color;
 
     protected Widget(String id) {
         this.id = id;
-        this.focused = false;
         WidgetManager.addWidget(this);
     }
 
     @Override
     public final boolean equals(Object obj) {
         if (obj instanceof Widget) {
-            return ((Widget) obj).getId().equals(id);
+            return ((Widget) obj).getID().equals(id);
         }
         return false;
     }
@@ -42,20 +47,8 @@ public abstract class Widget {
         return id;
     }
 
-    public final String getId() {
+    public final String getID() {
         return id;
-    }
-
-    public final boolean isFocused() {
-        return focused;
-    }
-
-    protected final void makeFocused() {
-        WidgetManager.setFocusedWidget(this);
-    }
-
-    final void setFocused(boolean focused) {
-        this.focused = focused;
     }
 
 
@@ -68,6 +61,14 @@ public abstract class Widget {
         return y;
     }
 
+    public final int getX2() {
+        return x + getScaledWidth();
+    }
+
+    public final int getY2() {
+        return y + getScaledHeight();
+    }
+
     public final void setX(int x) {
         this.x = x;
     }
@@ -77,14 +78,6 @@ public abstract class Widget {
     }
 
 
-
-    public final int getWidth() {
-        return width;
-    }
-
-    public final int getHeight() {
-        return height;
-    }
 
     public final int getScaledWidth() {
         return width;
@@ -123,5 +116,21 @@ public abstract class Widget {
         return ClickGUI.shouldRender();
     }
 
+    /*
+    Renders this widget on the screen.
+     */
     public abstract void render(MatrixStack matrices);
+
+
+
+    /*
+    This method is called when this widget is clicked on.
+     */
+    protected void onClick(int mousePosX, int mousePosY, boolean isRelease) {
+
+    }
+
+    protected void onDrag(int mousePosX, int mousePosY) {
+
+    }
 }

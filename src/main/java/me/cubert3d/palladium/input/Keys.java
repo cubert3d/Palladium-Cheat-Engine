@@ -10,6 +10,10 @@ import java.util.Optional;
 
 public final class Keys {
 
+    public static final int LEFT_MOUSE_BUTTON = 0;
+    public static final int RIGHT_MOUSE_BUTTON = 1;
+    public static final int MIDDLE_MOUSE_BUTTON = 2;
+
     // This prefix in the translation key of the keys is to be removed.
     private static final String TRANSLATION_KEY_PREFIX = "key.keyboard.";
 
