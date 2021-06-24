@@ -2,7 +2,7 @@ package me.cubert3d.palladium.module.setting;
 
 import me.cubert3d.palladium.module.setting.single.*;
 import me.cubert3d.palladium.module.setting.list.*;
-import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
 

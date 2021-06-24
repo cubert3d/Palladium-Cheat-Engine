@@ -1,6 +1,4 @@
-package me.cubert3d.palladium.util;
-
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+package me.cubert3d.palladium.util.annotation;
 
 @ClassDescription(
         authors = {

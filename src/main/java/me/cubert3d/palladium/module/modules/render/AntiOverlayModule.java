@@ -5,7 +5,7 @@ import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
-import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
 

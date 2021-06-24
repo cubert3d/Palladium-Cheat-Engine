@@ -9,6 +9,7 @@ import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.*;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.ChamsModule;
+import me.cubert3d.palladium.module.modules.render.ESPModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -59,6 +60,7 @@ public final class ModuleManager {
         addModule(new AntiOverlayModule());
         addModule(new FullBrightModule());
         addModule(new XRayModule());
+        addModule(new ESPModule());
         addModule(new ChamsModule());
 
         // PLAYER

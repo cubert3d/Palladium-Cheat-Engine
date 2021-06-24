@@ -1,6 +1,5 @@
 package me.cubert3d.palladium.module;
 
-import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.module.modules.gui.*;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
@@ -10,14 +9,11 @@ import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.ChamsModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
-import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /*
     Like a module category, but the user will be able to define their own.

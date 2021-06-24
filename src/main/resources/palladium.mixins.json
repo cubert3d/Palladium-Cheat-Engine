@@ -16,6 +16,8 @@
     "ChatHudMixin",
     "LivingEntityMixin",
     "InventoryUpdateMixin",
+    "MinecraftClientMixin",
+    "RenderPhaseAccessor",
     "HungerManagerMixin",
     "PlayerEntityMixin",
     "MiningToolItemMixin",
