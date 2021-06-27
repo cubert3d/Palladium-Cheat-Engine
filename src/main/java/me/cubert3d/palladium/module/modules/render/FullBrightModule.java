@@ -1,10 +1,10 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
-import me.cubert3d.palladium.module.setting.BaseSetting;
+import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.module.setting.single.DoubleSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -52,7 +52,7 @@ public final class FullBrightModule extends Module {
 
     private void updateGamma() {
         double newGamma = fullGamma;
-        Optional<BaseSetting> optionalSetting = this.getSettingOptional("Brightness");
+        Optional<Setting> optionalSetting = this.getSettingOptional("Brightness");
 
         if (optionalSetting.isPresent() && optionalSetting.get().getType().equals(SettingType.DOUBLE)) {
             newGamma = ((DoubleSetting) optionalSetting.get()).getValue();

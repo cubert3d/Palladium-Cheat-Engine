@@ -7,6 +7,8 @@ import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.*;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.ChamsModule;
+import me.cubert3d.palladium.module.modules.render.ESPModule;
+import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.Named;
@@ -79,7 +81,9 @@ public final class ModuleGroup implements Named {
             AntiOverlayModule.class,
             FullBrightModule.class,
             XRayModule.class,
-            ChamsModule.class);
+            ChamsModule.class,
+            ESPModule.class,
+            FreecamModule.class);
 
     public static final ModuleGroup MODULES_MOVEMENT = new ModuleGroup("Movement",
             SneakModule.class,

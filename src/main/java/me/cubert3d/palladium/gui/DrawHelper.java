@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.gui;
 
-import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.gui.text.Colors;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.UtilityClass;
 import net.minecraft.client.gui.DrawableHelper;

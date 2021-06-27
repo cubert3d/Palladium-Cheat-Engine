@@ -10,6 +10,7 @@ import me.cubert3d.palladium.module.modules.player.*;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.ChamsModule;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
+import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @ClassDescription(
         authors = {
@@ -39,7 +41,7 @@ public final class ModuleManager {
 
     private ModuleManager() {}
 
-    public static void fillModuleMap() {
+    public static void fillModuleSet() {
 
         numModules = 0;
         numAvailableModules = 0;
@@ -62,6 +64,7 @@ public final class ModuleManager {
         addModule(new XRayModule());
         addModule(new ESPModule());
         addModule(new ChamsModule());
+        addModule(new FreecamModule());
 
         // PLAYER
         addModule(new AutoToolModule());
@@ -129,6 +132,15 @@ public final class ModuleManager {
                 return module.isEnabled();
         }
         return false;
+    }
+
+    public static void ifModuleEnabled(Class<? extends Module> clazz, Consumer<Module> action) {
+        for (Module module : moduleSet) {
+            if (module.getClass().equals(clazz)) {
+                action.accept(module);
+                break;
+            }
+        }
     }
 
     public static int getNumModules() {

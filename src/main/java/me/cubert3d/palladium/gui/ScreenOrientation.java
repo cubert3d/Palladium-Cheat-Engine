@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.gui;
 
-import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 @ClassDescription(

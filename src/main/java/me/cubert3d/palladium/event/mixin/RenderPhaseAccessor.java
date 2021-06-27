@@ -11,6 +11,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
         },
         date = "6/23/2021"
 )
+/*
+Provides accessors to the builder methods for render layers, for building custom render layers.
+ */
 
 @Mixin(RenderPhase.class)
 public interface RenderPhaseAccessor {

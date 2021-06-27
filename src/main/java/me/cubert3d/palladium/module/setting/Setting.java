@@ -6,6 +6,8 @@ import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
 
+import java.io.IOException;
+
 @ClassDescription(
         authors = {
                 "cubert3d"
@@ -13,7 +15,7 @@ import me.cubert3d.palladium.util.annotation.InternalOnly;
         date = "4/7/2021"
 )
 
-public abstract class BaseSetting implements Named {
+public abstract class Setting implements Named {
 
     public static final String[] FORBIDDEN_SETTING_NAMES = new String[]{
             "enable",
@@ -24,7 +26,7 @@ public abstract class BaseSetting implements Named {
 
     private final String name;
 
-    protected BaseSetting(final String name) {
+    protected Setting(final String name) {
         this.name = name;
     }
 
@@ -38,6 +40,23 @@ public abstract class BaseSetting implements Named {
     public abstract boolean isListSetting();
 
     public abstract void reset();
+
+    /*
+    Below are methods for reading and writing this setting's value, both for
+    player input, and for getting setting values from the config file.
+    The "getAsString" method simply returns the value of this setting as a
+    string, so that it can be written to a config file. The "setFromString"
+    method takes a string--either from the in-game command line, or from a
+    config file--and converts it into a value of the same type as this setting,
+    and then sets the value of this setting to that value. It also uses a helper
+    method, "parseString", which attempts to parse the string; it returns an
+    optional, which contains the value if it could be parsed, or is empty, if
+    it could not.
+     */
+
+    public abstract String getAsString();
+
+    public abstract void setFromString(String string) throws IOException;
 
     // CONVERSION
 
@@ -69,6 +88,14 @@ public abstract class BaseSetting implements Named {
     public final StringSetting asStringSetting() {
         if (this.getType().equals(SettingType.STRING))
             return (StringSetting) this;
+        else
+            throw new ClassCastException();
+    }
+
+    @InternalOnly
+    public final ListSetting<?> asListSetting() {
+        if (this.isListSetting())
+            return (ListSetting<?>) this;
         else
             throw new ClassCastException();
     }

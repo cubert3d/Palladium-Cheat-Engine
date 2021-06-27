@@ -1,11 +1,13 @@
 package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -52,5 +54,15 @@ public final class EntityListSetting extends ListSetting<EntityType<? extends En
     @Override
     public final boolean removeElement(EntityType<? extends Entity> element) {
         return super.removeElement(element);
+    }
+
+    @Override
+    protected final String getElementAsString(EntityType<? extends Entity> element) {
+        return EntityType.getId(element).toString();
+    }
+
+    @Override
+    protected final Optional<EntityType<? extends Entity>> parseString(String string) {
+        return Optional.of(Common.getEntityTypeFromString(string));
     }
 }

@@ -1,4 +1,4 @@
-package me.cubert3d.palladium;
+package me.cubert3d.palladium.util;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;

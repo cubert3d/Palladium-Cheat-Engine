@@ -5,6 +5,7 @@ import me.cubert3d.palladium.module.setting.single.StringSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -49,5 +50,15 @@ public final class StringListSetting extends ListSetting<String> {
     @Override
     public final boolean removeElement(String element) {
         return super.removeElement(element);
+    }
+
+    @Override
+    protected final String getElementAsString(String element) {
+        return element;
+    }
+
+    @Override
+    protected final Optional<String> parseString(String string) {
+        return Optional.of(string);
     }
 }

@@ -38,7 +38,7 @@ public final class Palladium implements ModInitializer {
 		debug = true;
 
 		// Various initialization tasks
-		ModuleManager.fillModuleMap();
+		ModuleManager.fillModuleSet();
 		System.out.println(String.format("Loaded %d modules (%d available, %d debug-only)",
 				ModuleManager.getNumModules(), ModuleManager.getNumAvailableModules(), ModuleManager.getNumModules() - ModuleManager.getNumAvailableModules()));
 
@@ -49,6 +49,9 @@ public final class Palladium implements ModInitializer {
 		// Testing
 		CommandListener.loadBinding();
 		ClickGUI.loadBinding();
+
+		Configuration.createFile();
+		Configuration.loadConfig();
 	}
 
 	public static boolean isDebugModeEnabled() {

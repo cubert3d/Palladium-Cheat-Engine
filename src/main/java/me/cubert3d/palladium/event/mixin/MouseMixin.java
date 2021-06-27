@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.gui.widget.WidgetManager;
 import me.cubert3d.palladium.input.Keys;
@@ -9,7 +9,6 @@ import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @ClassDescription(

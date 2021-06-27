@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules.player;
 
-import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
 import me.cubert3d.palladium.module.Module;

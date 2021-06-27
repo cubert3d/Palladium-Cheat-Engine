@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.util;
+package me.cubert3d.palladium.util.render;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -19,15 +19,16 @@ public final class ColorF {
 
     public static final ColorF WHITE = new ColorF(1.0F, 1.0F, 1.0F, 1.0F);
     public static final ColorF RED = new ColorF(1.0F, 0.0F, 0.0F, 1.0F);
-    public static final ColorF BLUE = new ColorF(0.0F, 1.0F, 0.0F, 1.0F);
-    public static final ColorF GREEN = new ColorF(0.0F, 0.0F, 1.0F, 1.0F);
+    public static final ColorF GREEN = new ColorF(0.0F, 1.0F, 0.0F, 1.0F);
+    public static final ColorF BLUE = new ColorF(0.0F, 0.0F, 1.0F, 1.0F);
+    public static final ColorF YELLOW = new ColorF(1.0F, 0.9F, 0.1F, 1.0F);
 
-    private final float red, blue, green, alpha;
+    private final float red, green, blue, alpha;
 
-    public ColorF(float red, float blue, float green, float alpha) {
+    public ColorF(float red, float green, float blue, float alpha) {
         this.red = red;
-        this.blue = blue;
         this.green = green;
+        this.blue = blue;
         this.alpha = alpha;
     }
 

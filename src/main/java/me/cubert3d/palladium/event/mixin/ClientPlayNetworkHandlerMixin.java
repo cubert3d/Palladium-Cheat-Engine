@@ -2,9 +2,11 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.player.BlinkModule;
+import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.Packet;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.HealthUpdateS2CPacket;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,7 +28,12 @@ public final class ClientPlayNetworkHandlerMixin {
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",
             cancellable = true)
     private void onSendPacket(Packet<?> packet, final CallbackInfo info) {
+
         if (ModuleManager.isModuleEnabled(BlinkModule.class)) {
+            info.cancel();
+        }
+
+        if (ModuleManager.isModuleEnabled(FreecamModule.class) && packet instanceof PlayerMoveC2SPacket) {
             info.cancel();
         }
     }

@@ -1,7 +1,10 @@
 package me.cubert3d.palladium.module.setting.single;
 
+import me.cubert3d.palladium.Configuration;
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -30,5 +33,22 @@ public final class DoubleSetting extends NumberSetting<Double> {
         value = Math.max(value, getMinValue());
         value = Math.min(value, getMaxValue());
         super.setValue(value);
+    }
+
+    @Override
+    public final String getAsString() {
+        return getValue().toString();
+    }
+
+    @Override
+    protected final Optional<Double> parseString(String string) {
+        try {
+            Double d = Double.valueOf(string.trim());
+            return Optional.of(d);
+        }
+        catch (NumberFormatException e) {
+            Configuration.printReadError();
+            return Optional.empty();
+        }
     }
 }

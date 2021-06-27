@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module;
 
-import me.cubert3d.palladium.Common;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.input.Bindings;
@@ -40,7 +40,7 @@ public abstract class Module implements Named {
     private final ModuleType moduleType;
     private boolean enabled;
     private final PlKeyBinding binding;
-    private final Set<BaseSetting> settings = new HashSet<>();
+    private final Set<Setting> settings = new HashSet<>();
 
     private final ModuleDevStatus status;
 
@@ -137,20 +137,29 @@ public abstract class Module implements Named {
         return false;
     }
 
+    // This method is to be used in the config reading, and not anywhere else; it skips
+    // over the onEnable and onDisable methods so that no unwanted effects occur when
+    // loading the modules.
+    public final void setEnabled(boolean enabled) {
+        if (moduleType.equals(ModuleType.TOGGLE)) {
+            this.enabled = enabled;
+        }
+    }
+
 
 
     // SETTING
 
-    public final Set<BaseSetting> getSettings() {
+    public final Set<Setting> getSettings() {
         return settings;
     }
 
     // Nullable method with no Optional, used for code references,
     // where the setting's existence should be guaranteed.
     @InternalOnly
-    public final @NotNull BaseSetting getSetting(String name) {
+    public final @NotNull Setting getSetting(String name) {
         name = name.trim();
-        for (BaseSetting setting : settings) {
+        for (Setting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
                 return setting;
         }
@@ -159,16 +168,16 @@ public abstract class Module implements Named {
 
     // Not-null method that returns an optional, used for user input,
     // where the setting may or may not exist.
-    public final Optional<BaseSetting> getSettingOptional(String name) {
+    public final Optional<Setting> getSettingOptional(String name) {
         name = name.trim();
-        for (BaseSetting setting : settings) {
+        for (Setting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
                 return Optional.of(setting);
         }
         return Optional.empty();
     }
 
-    protected final void addSetting(@NotNull BaseSetting setting) {
+    protected final void addSetting(@NotNull Setting setting) {
         if (isSettingNameValid(setting.getName()))
             settings.add(setting);
         else
@@ -179,14 +188,14 @@ public abstract class Module implements Named {
 
         // First, check if the name is one of the default
         // forbidden names ("enable," "disable," "toggle").
-        for (String forbiddenSettingName : BaseSetting.FORBIDDEN_SETTING_NAMES) {
+        for (String forbiddenSettingName : Setting.FORBIDDEN_SETTING_NAMES) {
             if (forbiddenSettingName.equalsIgnoreCase(name))
                 return false;
         }
 
         // Second, check if this module already has a setting
         // of the same name.
-        for (BaseSetting setting : settings) {
+        for (Setting setting : settings) {
             if (setting.getName().equalsIgnoreCase(name))
                 return false;
         }
@@ -270,8 +279,8 @@ public abstract class Module implements Named {
         }
         else {
 
-            Optional<BaseSetting> optional = getSettingOptional(args[0]);
-            BaseSetting setting;
+            Optional<Setting> optional = getSettingOptional(args[0]);
+            Setting setting;
 
             if (args.length == 2) {
 
@@ -438,7 +447,7 @@ public abstract class Module implements Named {
     // EXTRA
 
     private void listSetting(String settingName) {
-        Optional<BaseSetting> optional = getSettingOptional(settingName);
+        Optional<Setting> optional = getSettingOptional(settingName);
         if (optional.isPresent()) {
             Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
         }
@@ -458,7 +467,7 @@ public abstract class Module implements Named {
             // Limit the number of settings displayed to 50 at the most.
             int limit = Math.min(this.getSettings().size(), StringListSetting.MAX_DISPLAY_COUNT);
 
-            for (BaseSetting setting : this.getSettings()) {
+            for (Setting setting : this.getSettings()) {
 
                 // Make sure this loop doesn't exceed that limit.
                 if (counter < limit) {

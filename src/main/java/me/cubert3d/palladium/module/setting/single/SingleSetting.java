@@ -1,7 +1,10 @@
 package me.cubert3d.palladium.module.setting.single;
 
-import me.cubert3d.palladium.module.setting.BaseSetting;
+import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+
+import java.io.IOException;
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -10,7 +13,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         date = "4/7/2021"
 )
 
-public abstract class SingleSetting<T> extends BaseSetting {
+public abstract class SingleSetting<T> extends Setting {
 
     private T value;
     private final T defaultValue;
@@ -47,4 +50,17 @@ public abstract class SingleSetting<T> extends BaseSetting {
     protected void setValue(T value) {
         this.value = value;
     }
+
+    @Override
+    public final void setFromString(String string) throws IOException {
+        Optional<T> optional = parseString(string);
+        if (optional.isPresent()) {
+            setValue(optional.get());
+        }
+        else {
+            throw new IOException();
+        }
+    }
+
+    protected abstract Optional<T> parseString(String string);
 }

@@ -2,7 +2,7 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
-import me.cubert3d.palladium.util.ColorF;
+import me.cubert3d.palladium.util.render.ColorF;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -17,11 +17,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.Angerable;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -40,7 +41,7 @@ import java.util.OptionalDouble;
 @Mixin(EntityRenderDispatcher.class)
 abstract class EntityRenderDispatcherMixin {
 
-    private static final RenderLayer ESP_LINES = RenderLayer.of("esp", VertexFormats.POSITION_COLOR, 1, 256,
+    private static final RenderLayer ESP_LAYER = RenderLayer.of("esp", VertexFormats.POSITION_COLOR, 1, 256,
             RenderLayer.MultiPhaseParameters.builder().lineWidth(new RenderPhase
                     .LineWidth(OptionalDouble.empty()))
                     .depthTest(RenderPhaseAccessor.getAlwaysDepthTest())
@@ -57,46 +58,53 @@ abstract class EntityRenderDispatcherMixin {
             "Lnet/minecraft/client/render/VertexConsumerProvider;" +
             "I" +
             ")V",
-            at = @At("HEAD"))
+            at = @At("TAIL"))
     private <E extends Entity> void renderInject(E entity, double x, double y, double z, float yaw,
                                                  float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                  int light, CallbackInfo info) {
 
-        if (!ModuleManager.isModuleEnabled(ESPModule.class)) {
-            return;
-        }
+        if (ModuleManager.isModuleEnabled(ESPModule.class)) {
+            if (!isThePlayer(entity)) {
+                try {
+                    EntityRenderer entityRenderer = ((EntityRenderDispatcher)(Object)this).getRenderer(entity);
+                    Vec3d vec3d = entityRenderer.getPositionOffset(entity, tickDelta);
+                    double d = x + vec3d.getX();
+                    double e = y + vec3d.getY();
+                    double f = z + vec3d.getZ();
+                    matrices.push();
+                    matrices.translate(d, e, f);
 
-        if (!entity.equals(MinecraftClient.getInstance().player)) {
-            try {
-                EntityRenderer entityRenderer = ((EntityRenderDispatcher)(Object)this).getRenderer(entity);
-                Vec3d vec3d = entityRenderer.getPositionOffset(entity, tickDelta);
-                double d = x + vec3d.getX();
-                double e = y + vec3d.getY();
-                double f = z + vec3d.getZ();
-                matrices.push();
-                matrices.translate(d, e, f);
+                    VertexConsumer vertices = vertexConsumers.getBuffer(ESP_LAYER);
+                    Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
+                    ColorF color = getEntityColor(entity);
+                    WorldRenderer.drawBox(matrices, vertices, box, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
-                VertexConsumer vertices = vertexConsumers.getBuffer(ESP_LINES);
-                Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
-                ColorF color = getBoxColor(entity);
-                WorldRenderer.drawBox(matrices, vertices, box, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-
-                matrices.pop();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+                    matrices.pop();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    private ColorF getBoxColor(Entity entity) {
+    // Returns true if the given entity is the player (ie you, not other players), false otherwise.
+    private boolean isThePlayer(@NotNull Entity entity) {
+        return entity.equals(MinecraftClient.getInstance().player);
+    }
+
+    private ColorF getEntityColor(Entity entity) {
         /*
         GREEN = PASSIVE
         BLUE = NEUTRAL
         RED = HOSTILE
+        YELLOW = PLAYER
         WHITE = MISCELLANEOUS
          */
-        if (entity instanceof LivingEntity) {
+        if (entity instanceof PlayerEntity) {
+            return ColorF.YELLOW;
+        }
+        else if (entity instanceof LivingEntity) {
             if (entity instanceof Angerable) {
                 return ColorF.BLUE;
             }

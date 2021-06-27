@@ -1,8 +1,5 @@
 package me.cubert3d.palladium.module.modules.gui;
 
-import me.cubert3d.palladium.Common;
-import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.TextHudRenderer;
 import me.cubert3d.palladium.gui.text.provider.EffectListProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;

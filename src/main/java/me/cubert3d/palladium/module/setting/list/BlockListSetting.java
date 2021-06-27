@@ -1,10 +1,13 @@
 package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;
+import net.minecraft.util.registry.Registry;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -51,5 +54,15 @@ public final class BlockListSetting extends ListSetting<Block> {
     @Override
     public final boolean removeElement(Block element) {
         return super.removeElement(element);
+    }
+
+    @Override
+    protected String getElementAsString(Block element) {
+        return Registry.BLOCK.getId(element).toString();
+    }
+
+    @Override
+    protected Optional<Block> parseString(String string) {
+        return Optional.of(Common.getBlockFromString(string));
     }
 }
