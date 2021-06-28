@@ -39,7 +39,12 @@ public final class Configuration {
 
     public static void loadConfig() {
         System.out.println("Loading config...");
+        createFile();
+        read();
+        System.out.println("Done loading config!");
+    }
 
+    public static void read() {
         try {
 
             Scanner scanner = new Scanner(new File(fullFileName));
@@ -105,10 +110,6 @@ public final class Configuration {
         readCounter = 0;
     }
 
-    public static void printReadError() {
-        System.out.println("Error parsing config file at line " + readCounter);
-    }
-
     public static void saveConfig() {
         try {
             FileWriter writer = new FileWriter(fullFileName);
@@ -144,6 +145,10 @@ public final class Configuration {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void printReadError() {
+        System.out.println("Error parsing config file at line " + readCounter);
     }
 
     private static @NotNull Module parseModuleName(String name) throws IOException {

@@ -50,7 +50,6 @@ public final class Palladium implements ModInitializer {
 		CommandListener.loadBinding();
 		ClickGUI.loadBinding();
 
-		Configuration.createFile();
 		Configuration.loadConfig();
 	}
 
