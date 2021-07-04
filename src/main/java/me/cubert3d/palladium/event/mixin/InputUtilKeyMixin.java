@@ -8,10 +8,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InputUtil.Key.class)
-public final class InputUtilKeyMixin {
+abstract class InputUtilKeyMixin {
     @Inject(method = "<init>(Ljava/lang/String;Lnet/minecraft/client/util/InputUtil$Type;I)V",
             at = @At("TAIL"))
-    private void onConstruct(String translationKey, InputUtil.Type type, int code, CallbackInfo info) {
-        Keys.mapKey((InputUtil.Key) (Object) this);
+    private void constructorInject(String translationKey, InputUtil.Type type, int code, CallbackInfo info) {
+        Keys.mapKey(( InputUtil.Key) (Object) this);
     }
 }

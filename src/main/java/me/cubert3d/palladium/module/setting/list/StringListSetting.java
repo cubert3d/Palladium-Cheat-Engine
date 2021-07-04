@@ -58,7 +58,7 @@ public final class StringListSetting extends ListSetting<String> {
     }
 
     @Override
-    protected final Optional<String> parseString(String string) {
+    public final Optional<String> convertStringToElement(String string) {
         return Optional.of(string);
     }
 }

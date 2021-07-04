@@ -35,6 +35,10 @@ public abstract class Setting implements Named {
         return name;
     }
 
+    public boolean isSet() {
+        return true;
+    }
+
     public abstract SettingType getType();
 
     public abstract boolean isListSetting();
@@ -59,6 +63,14 @@ public abstract class Setting implements Named {
     public abstract void setFromString(String string) throws IOException;
 
     // CONVERSION
+
+    @InternalOnly
+    public final SingleSetting<?> asSingleSetting() {
+        if (!this.isListSetting())
+            return (SingleSetting<?>) this;
+        else
+            throw new ClassCastException();
+    }
 
     @InternalOnly
     public final BooleanSetting asBooleanSetting() {

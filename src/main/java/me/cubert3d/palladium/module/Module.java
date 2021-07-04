@@ -3,8 +3,6 @@ package me.cubert3d.palladium.module;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.cmd.CommandError;
-import me.cubert3d.palladium.input.Bindings;
-import me.cubert3d.palladium.input.PlKeyBinding;
 import me.cubert3d.palladium.module.setting.*;
 import me.cubert3d.palladium.module.setting.list.*;
 import me.cubert3d.palladium.module.setting.single.*;
@@ -38,9 +36,8 @@ public abstract class Module implements Named {
     private final String description;
 
     private final ModuleType moduleType;
-    private boolean enabled;
-    private final PlKeyBinding binding;
     private final Set<Setting> settings = new HashSet<>();
+    private final KeyBindingSetting bindingSetting;
 
     private final ModuleDevStatus status;
 
@@ -48,15 +45,9 @@ public abstract class Module implements Named {
         this.name = name;
         this.description = description;
         this.moduleType = moduleType;
-        this.enabled = false;
         this.status = status;
-        this.binding = new PlKeyBinding("key.palladium.module." + name.toLowerCase(), PlKeyBinding.Type.PRESS_ONCE) {
-            @Override
-            protected void onPressed() {
-                onKeyPressed();
-            }
-        };
-        Bindings.addBinding(binding);
+        this.bindingSetting = new KeyBindingSetting("Binding", null);
+        this.addSetting(bindingSetting);
         this.onConstruct();
     }
 
@@ -99,52 +90,18 @@ public abstract class Module implements Named {
 
     // ENABLE
 
-    public final boolean isEnabled() {
-        if (moduleType.equals(ModuleType.TOGGLE))
-            return enabled;
-        else
-            return false;
-    }
+    public abstract boolean isEnabled();
 
-    public final void enable() {
-        if (status.equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled()) {
-            if (moduleType.equals(ModuleType.TOGGLE)) {
-                enabled = true;
-                onEnable();
-                Common.sendMessage(this.getName() + " is now enabled");
-            }
-        }
-    }
+    public abstract void enable();
 
-    public final void disable() {
-        if (status.equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled()) {
-            if (moduleType.equals(ModuleType.TOGGLE)) {
-                enabled = false;
-                onDisable();
-                Common.sendMessage(this.getName() + " is now disabled");
-            }
-        }
-    }
+    public abstract void disable();
 
-    public final boolean toggle() {
-        if (moduleType.equals(ModuleType.TOGGLE)) {
-            if (isEnabled())
-                disable();
-            else
-                enable();
-            return isEnabled();
-        }
-        return false;
-    }
+    public abstract boolean toggle();
 
     // This method is to be used in the config reading, and not anywhere else; it skips
     // over the onEnable and onDisable methods so that no unwanted effects occur when
     // loading the modules.
-    public final void setEnabled(boolean enabled) {
-        if (moduleType.equals(ModuleType.TOGGLE)) {
-            this.enabled = enabled;
-        }
-    }
+    public abstract void setEnabled(boolean enabled);
 
 
 
@@ -208,6 +165,10 @@ public abstract class Module implements Named {
 
     }
 
+    public final KeyBindingSetting getBinding() {
+        return bindingSetting;
+    }
+
 
 
     // ON-UPDATE METHODS
@@ -218,245 +179,36 @@ public abstract class Module implements Named {
     // Called when this module is loaded by the module manager.
     protected void onLoad() {}
 
-    // Called when this module is enabled.
-    protected void onEnable() {}
+    public abstract void onKeyPressed(int mode);
 
-    // Called when this module is disabled.
-    protected void onDisable() {}
-
-    protected void onKeyPressed() {
-        if (moduleType.equals(ModuleType.TOGGLE)) {
-            this.toggle();
-        }
-        else if (moduleType.equals(ModuleType.EXECUTE_ONCE)) {
-            this.execute();
-        }
-    }
-
-    public void parseArgs(String @NotNull [] args) {
-        if (args.length == 0) {
-            if (moduleType.equals(ModuleType.TOGGLE)) {
-                if (this.isEnabled()) {
-                    Common.sendMessage(name + " is currently enabled");
-                }
-                else {
-                    Common.sendMessage(name + " is currently disabled");
-                }
-            }
-        }
-        else if (args.length == 1) {
-            if (moduleType.equals(ModuleType.TOGGLE)) {
-                /*
-                If this module is a toggle-able module, then check if the first
-                argument is enable/disable/toggle before looking for a setting.
-                 */
-                switch (args[0].toLowerCase()) {
-                    case "enable":
-                        this.enable();
-                        break;
-                    case "disable":
-                        this.disable();
-                        break;
-                    case "toggle":
-                        this.toggle();
-                        break;
-                    case "settings":
-                        listSettings();
-                        break;
-                    default:
-                        listSetting(args[0]);
-                        break;
-                }
-            }
-            else {
-                if (args[0].equalsIgnoreCase("settings")) {
-                    listSettings();
-                }
-                else {
-                    listSetting(args[0]);
-                }
-            }
-        }
-        else {
-
-            Optional<Setting> optional = getSettingOptional(args[0]);
-            Setting setting;
-
-            if (args.length == 2) {
-
-                if (args[0].equalsIgnoreCase("bind")) {
-                    boolean successful = binding.setBoundKey(args[1].toLowerCase());
-                    if (binding.isBound())
-                        if (successful)
-                            Common.sendMessage(name + " has been bound to " + binding.getBoundKey().getTranslationKey());
-                        else
-                            Common.sendMessage("No such key found");
-                    else
-                        Common.sendMessage(name + " has been unbound");
-                    return;
-                }
-
-                if (!optional.isPresent()) {
-                    Common.sendMessage("Setting not found!");
-                    return;
-                }
-                else {
-                    setting = optional.get();
-                }
-
-                // "<command> <setting> reset": reset the value of the setting to the default
-                if (args[1].equalsIgnoreCase("reset")) {
-                    setting.reset();
-                    this.onChangeSetting();
-                    Common.sendMessage(setting.getName() + " reset to default");
-                }
-
-                // "<command> <single-setting> [value]": change the value of the setting
-                else if (setting instanceof SingleSetting) {
-                    SingleSetting<?> singleSetting = (SingleSetting<?>) setting;
-
-                    switch (singleSetting.getType()) {
-                        case BOOLEAN:
-                            Optional<Boolean> optionalBoolean = Conversion.parseBoolean(args[1]);
-                            if (optionalBoolean.isPresent()) {
-                                ((BooleanSetting) singleSetting).setValue(optionalBoolean.get());
-                            }
-                            else {
-                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                                return;
-                            }
-                            break;
-                        case INTEGER:
-                            Optional<Integer> optionalInteger = Conversion.parseInteger(args[1]);
-                            if (optionalInteger.isPresent()) {
-                                ((IntegerSetting) singleSetting).setValue(optionalInteger.get());
-                            }
-                            else {
-                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                                return;
-                            }
-                            break;
-                        case DOUBLE:
-                            Optional<Double> optionalDouble = Conversion.parseDouble(args[1]);
-                            if (optionalDouble.isPresent()) {
-                                ((DoubleSetting) singleSetting).setValue(optionalDouble.get());
-                            }
-                            else {
-                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                                return;
-                            }
-                            break;
-                        case STRING:
-                            ((StringSetting) singleSetting).setValue(args[1]);
-                            break;
-                    }
-
-                    this.onChangeSetting();
-                    Common.sendMessage(setting.getName() + " is now set to " + ((SingleSetting<?>) setting).getValue().toString());
-                }
-            }
-            else if (args.length == 3) {
-
-                if (!optional.isPresent()) {
-                    Common.sendMessage("Setting not found!");
-                    return;
-                }
-                else {
-                    setting = optional.get();
-                }
-
-                if (setting.isListSetting()) {
-
-                    // "<command> <list-setting> add/remove [value]":
-                    if (args[1].equalsIgnoreCase("add")) {
-                        switch (setting.getType()) {
-                            case LIST_STRING:
-                                ((StringListSetting) setting).addElement(args[2]);
-                                Common.sendMessage("Added \"" + args[2] + "\" to " + setting.getName());
-                                break;
-                            case LIST_BLOCK:
-                                Block block = Common.getBlockFromString(args[2]);
-                                ((BlockListSetting) setting).addElement(block);
-                                Common.sendMessage("Added " + block.getName().getString() + " to " + setting.getName());
-                                break;
-                            case LIST_ENTITY:
-                                EntityType<? extends Entity> entityType = Common.getEntityTypeFromString(args[2]);
-                                ((EntityListSetting) setting).addElement(entityType);
-                                Common.sendMessage("Added " + entityType.getName().getString() + " to " + setting.getName());
-                                break;
-                            case LIST_ITEM:
-                                Item item = Common.getItemFromString(args[2]);
-                                ((ItemListSetting) setting).addElement(item);
-                                Common.sendMessage("Added " + item.getName().getString() + " to " + setting.getName());
-                                break;
-                        }
-                        this.onChangeSetting();
-                    }
-                    else if (args[1].equalsIgnoreCase("remove")) {
-                        switch (setting.getType()) {
-                            case LIST_STRING:
-                                ((StringListSetting) setting).removeElement(args[2]);
-                                Common.sendMessage("Removed \"" + args[2] + "\" from " + setting.getName());
-                                break;
-                            case LIST_BLOCK:
-                                Block block = Common.getBlockFromString(args[2]);
-                                ((BlockListSetting) setting).removeElement(block);
-                                Common.sendMessage("Removed " + block.getName().getString() + " from " + setting.getName());
-                                break;
-                            case LIST_ENTITY:
-                                EntityType<? extends Entity> entityType = Common.getEntityTypeFromString(args[2]);
-                                Common.sendMessage("Removed " + entityType.getName().getString() + " from " + setting.getName());
-                                ((EntityListSetting) setting).removeElement(entityType);
-                                break;
-                            case LIST_ITEM:
-                                Item item = Common.getItemFromString(args[2]);
-                                ((ItemListSetting) setting).removeElement(item);
-                                Common.sendMessage("Removed " + item.getName().getString() + " from " + setting.getName());
-                                break;
-                        }
-                        this.onChangeSetting();
-                    }
-                    else {
-                        CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                    }
-                }
-                else {
-                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                }
-            }
-            else {
-                CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
-            }
-        }
-
-
-        /*
-        Check the number of arguments:
-
-        1: toggle, or check the value(s) of a setting (DONE)
-        2: change the value of a single-type-setting
-            or reset any kind of setting (DONE)
-        3: add or remove from a list-type-setting
-         */
-    }
-
-    protected void execute() {}
+    public abstract void parseArgs(String @NotNull [] args);
 
 
 
     // EXTRA
 
-    private void listSetting(String settingName) {
+    // Used to display a setting by passing the name of the setting.
+    protected void displaySettingFromString(String settingName) {
         Optional<Setting> optional = getSettingOptional(settingName);
         if (optional.isPresent()) {
-            Common.sendMessage(optional.get().getName() + ": " + optional.get().toString());
+            this.displaySetting(optional.get());
         }
         else {
-            Common.sendMessage("Setting not found!");
+            Common.sendMessage("Setting not found");
         }
     }
 
-    private void listSettings() {
+    // Used to a display a setting that has already been gotten.
+    protected void displaySetting(@NotNull Setting setting) {
+        if (setting.isSet()) {
+            Common.sendMessage(this.getName() + ", " + setting.getName() + ": " + setting.getAsString());
+        }
+        else {
+            Common.sendMessage(this.getName() + ", " + setting.getName() + " is not set");
+        }
+    }
+
+    protected void displayAllSettings() {
         String listOfSettings;
         if (this.getSettings().size() > 0) {
 
@@ -472,13 +224,15 @@ public abstract class Module implements Named {
                 // Make sure this loop doesn't exceed that limit.
                 if (counter < limit) {
                     listOfSettings = listOfSettings.concat(setting.getName());
-                    if (!setting.isListSetting())
-                        listOfSettings = listOfSettings.concat(" (" + setting.toString() + ")");
+                    if (!setting.isListSetting() && setting.isSet()) {
+                        listOfSettings = listOfSettings.concat(" (" + setting.getAsString() + ")");
+                    }
                 }
 
                 // Append a comma and space if this is not the last iteration in the list.
-                if (counter < (limit - 1))
+                if (counter < (limit - 1)) {
                     listOfSettings = listOfSettings.concat(", ");
+                }
                 counter++;
             }
         }

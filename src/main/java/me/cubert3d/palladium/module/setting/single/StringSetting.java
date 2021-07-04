@@ -3,6 +3,7 @@ package me.cubert3d.palladium.module.setting.single;
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @ClassDescription(
@@ -21,19 +22,32 @@ public final class StringSetting extends SingleSetting<String> {
     }
 
     @Override
+    public boolean isSet() {
+        return getValue().length() > 0;
+    }
+
+    @Override
     public final SettingType getType() {
         return SettingType.STRING;
     }
 
     @Override
     public final void setValue(String value) {
-        value = value.trim().substring(0, MAX_STRING_LENGTH);
+        value = value.trim();
+        if (value.length() > MAX_STRING_LENGTH) {
+            value = value.substring(0, MAX_STRING_LENGTH);
+        }
         super.setValue(value);
     }
 
     @Override
     public String getAsString() {
         return getValue();
+    }
+
+    @Override
+    public void setFromString(String string) {
+        this.setValue(string);
     }
 
     @Override

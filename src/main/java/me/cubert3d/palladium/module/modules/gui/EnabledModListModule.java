@@ -2,9 +2,9 @@ package me.cubert3d.palladium.module.modules.gui;
 
 import me.cubert3d.palladium.gui.text.provider.EnabledModulesProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 @ClassDescription(
@@ -15,7 +15,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         status = "in-progress"
 )
 
-public final class EnabledModListModule extends Module {
+public final class EnabledModListModule extends ToggleModule {
 
     public static final TextProvider modList = new EnabledModulesProvider();
 

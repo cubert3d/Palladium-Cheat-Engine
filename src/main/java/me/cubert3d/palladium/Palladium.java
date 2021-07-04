@@ -23,7 +23,7 @@ Handles initialization.
 public final class Palladium implements ModInitializer {
 
 	public static final String NAME = "Palladium Cheat Engine";
-	public static final String VERSION = "0.1";
+	public static final String VERSION = "0.1.1";
 
 	/*
 	In debug mode, modules and other features that are
@@ -45,12 +45,6 @@ public final class Palladium implements ModInitializer {
 		// Listeners
 		PacketListener.registerListener();
 		CommandListener.registerListener();
-
-		// Testing
-		CommandListener.loadBinding();
-		ClickGUI.loadBinding();
-
-		Configuration.loadConfig();
 	}
 
 	public static boolean isDebugModeEnabled() {

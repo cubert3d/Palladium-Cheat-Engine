@@ -62,7 +62,7 @@ public final class ItemListSetting extends ListSetting<Item> {
     }
 
     @Override
-    protected final Optional<Item> parseString(String string) {
+    public final Optional<Item> convertStringToElement(String string) {
         return Optional.of(Common.getItemFromString(string));
     }
 }

@@ -1,10 +1,10 @@
 package me.cubert3d.palladium.gui;
 
+import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.gui.widget.*;
-import me.cubert3d.palladium.input.Bindings;
-import me.cubert3d.palladium.input.PlKeyBinding;
 import me.cubert3d.palladium.module.ModuleGroup;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -19,13 +19,6 @@ import net.minecraft.client.MinecraftClient;
 )
 
 public final class ClickGUI {
-
-    private static final PlKeyBinding binding = new PlKeyBinding("key.palladium.clickgui", 344, PlKeyBinding.Type.PRESS_ONCE) {
-        @Override
-        protected void onPressed() {
-            toggleClickGUI();
-        }
-    };
 
     // Whether or not the ClickGUI is open.
     private static boolean open = false;
@@ -47,10 +40,6 @@ public final class ClickGUI {
     private static final ModuleGroupWindow playerModulesWindow = new ModuleGroupWindow("player_modules", ModuleGroup.MODULES_PLAYER);
 
     private ClickGUI() {}
-
-    public static void loadBinding() {
-        Bindings.addBinding(binding);
-    }
 
     public static boolean isOpen() {
         return open;

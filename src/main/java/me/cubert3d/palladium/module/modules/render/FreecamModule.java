@@ -1,12 +1,12 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
-public final class FreecamModule extends Module {
+public final class FreecamModule extends ToggleModule {
 
     double lastX, lastY, lastZ;
 

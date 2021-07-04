@@ -7,6 +7,7 @@ import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
+import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -29,6 +30,7 @@ import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -36,8 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
         authors = {
                 "cubert3d"
         },
-        date = "3/10/2021",
-        status = "in-progress"
+        date = "3/10/2021"
 )
 
 @Mixin(ClientPlayerEntity.class)

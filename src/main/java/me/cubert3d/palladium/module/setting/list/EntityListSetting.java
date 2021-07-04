@@ -62,7 +62,7 @@ public final class EntityListSetting extends ListSetting<EntityType<? extends En
     }
 
     @Override
-    protected final Optional<EntityType<? extends Entity>> parseString(String string) {
+    public final Optional<EntityType<? extends Entity>> convertStringToElement(String string) {
         return Optional.of(Common.getEntityTypeFromString(string));
     }
 }

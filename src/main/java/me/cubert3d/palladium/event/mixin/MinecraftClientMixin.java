@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
-public abstract class MinecraftClientMixin {
-
+abstract class MinecraftClientMixin {
     @Inject(method = "close()V", at = @At("HEAD"))
     private void closeInject(CallbackInfo info) {
         Configuration.saveConfig();

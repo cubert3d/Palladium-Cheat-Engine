@@ -21,7 +21,9 @@ public final class Configuration {
     public static final String EMPTY_LIST_PLACEHOLDER = "empty";
     public static final String KEY_VALUE_DELIMITER = ": ";
     public static final String LIST_DELIMITER = ", ";
-    private static int readCounter = 0;
+
+    private static int readCounter = 1;
+    private static int writeCounter = 1;
 
     public static void createFile() {
         File path = new File(fileDirectory);
@@ -44,6 +46,13 @@ public final class Configuration {
         System.out.println("Done loading config!");
     }
 
+    public static void saveConfig() {
+        System.out.println("Saving config...");
+        createFile();
+        write();
+        System.out.println("Done saving config!");
+    }
+
     public static void read() {
         try {
 
@@ -54,6 +63,7 @@ public final class Configuration {
 
                 String data = scanner.nextLine();
 
+                // If this line is not indented, then it is a module name + enabled status
                 if (!data.startsWith("\t")) {
 
                     String[] strings = data.split(KEY_VALUE_DELIMITER);
@@ -96,21 +106,21 @@ public final class Configuration {
                     }
                     catch (Exception e) {
                         printReadError();
+                        e.printStackTrace();
                     }
                 }
 
                 readCounter++;
             }
         }
-        catch (FileNotFoundException e) {
+        catch (Exception e) {
+            printReadError();
             e.printStackTrace();
         }
-
-        System.out.println("Done loading config!");
-        readCounter = 0;
+        readCounter = 1;
     }
 
-    public static void saveConfig() {
+    public static void write() {
         try {
             FileWriter writer = new FileWriter(fullFileName);
 
@@ -122,33 +132,29 @@ public final class Configuration {
 
                 // Write the module name, then the key-value delimiter, then whether the module is enabled or disabled.
                 writer.write(module.getName().toLowerCase() + KEY_VALUE_DELIMITER + enabledStatus + "\n");
+                writeCounter++;
 
                 for (Setting setting : module.getSettings()) {
-
-                    // Check if the setting is a list setting that is empty; if it is, then a placeholder string needs
-                    // to be substituted for the regular getAsString method, because that would produce an empty string,
-                    // which does not parse properly.
-                    String value;
-                    if (setting.isListSetting() && setting.asListSetting().getList().isEmpty()) {
-                        value = EMPTY_LIST_PLACEHOLDER;
-                    }
-                    else {
-                        value = setting.getAsString();
-                    }
-
                     writer.write("\t" + setting.getName().toLowerCase() + KEY_VALUE_DELIMITER + setting.getAsString() + "\n");
+                    writeCounter++;
                 }
             }
 
             writer.close();
+            writeCounter = 1;
         }
-        catch (IOException e) {
+        catch (Exception e) {
+            printWriteError();
             e.printStackTrace();
         }
     }
 
     public static void printReadError() {
-        System.out.println("Error parsing config file at line " + readCounter);
+        System.out.println("Error reading from config file at line " + readCounter);
+    }
+
+    public static void printWriteError() {
+        System.out.println("Error writing to config file at line " + writeCounter);
     }
 
     private static @NotNull Module parseModuleName(String name) throws IOException {

@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules.render;
 
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.Setting;
@@ -18,7 +18,7 @@ import java.util.Optional;
         date = "3/9/2021"
 )
 
-public final class FullBrightModule extends Module {
+public final class FullBrightModule extends ToggleModule {
 
     private static final double fullGamma = 10.0;
     private double prevGamma = 0.0;

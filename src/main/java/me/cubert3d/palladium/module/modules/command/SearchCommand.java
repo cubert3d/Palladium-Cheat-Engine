@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module.modules.command;
 
+import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
         status = "complete"
 )
 
-public final class SearchCommand extends Module {
+public final class SearchCommand extends CommandModule {
 
     public SearchCommand() {
         super("Search", "Searches for modules and commands by name.",
@@ -26,8 +27,7 @@ public final class SearchCommand extends Module {
     }
 
     @Override
-    public void parseArgs(String @NotNull [] args) {
-
+    protected void execute(String[] args) {
         String searchPhrase = "";
         boolean search = false;
 

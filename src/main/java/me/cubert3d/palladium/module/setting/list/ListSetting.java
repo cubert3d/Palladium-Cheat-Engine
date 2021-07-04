@@ -59,11 +59,11 @@ public abstract class ListSetting<E> extends Setting {
             list.addAll(defaultList);
     }
 
-    protected boolean addElement(E element) {
+    public boolean addElement(E element) {
         return list.add(element);
     }
 
-    protected boolean removeElement(E element) {
+    public boolean removeElement(E element) {
         return list.remove(element);
     }
 
@@ -98,12 +98,18 @@ public abstract class ListSetting<E> extends Setting {
     @Override
     public final void setFromString(@NotNull String string) throws IOException {
 
+        /*
+        For list-type settings, this method is specifically used for the config file reading.
+        It is much easier get the string and send it as a whole to this method to be split up
+        and parsed, than it is to check if the setting is a list and then split up the string.
+         */
+
         List<E> list = new ArrayList<>();
         String[] strings = string.split(Configuration.LIST_DELIMITER);
 
         // Iterate through the split strings, and parse each of them.
         for (String splitString : strings) {
-            Optional<E> optional = parseString(splitString);
+            Optional<E> optional = convertStringToElement(splitString);
             if (optional.isPresent()) {
                 list.add(optional.get());
             }
@@ -116,5 +122,5 @@ public abstract class ListSetting<E> extends Setting {
         setList(list);
     }
 
-    protected abstract Optional<E> parseString(String string);
+    public abstract Optional<E> convertStringToElement(String string);
 }

@@ -1,9 +1,9 @@
 package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.event.callback.OverlayCallback;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
 import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -16,7 +16,7 @@ import net.minecraft.util.ActionResult;
         date = "3/10/2021"
 )
 
-public final class AntiOverlayModule extends Module {
+public final class AntiOverlayModule extends ToggleModule {
 
     public enum Overlay implements Named {
         PUMPKIN("Pumpkin"),

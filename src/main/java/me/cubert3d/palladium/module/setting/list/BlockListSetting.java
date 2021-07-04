@@ -62,7 +62,7 @@ public final class BlockListSetting extends ListSetting<Block> {
     }
 
     @Override
-    protected Optional<Block> parseString(String string) {
+    public Optional<Block> convertStringToElement(String string) {
         return Optional.of(Common.getBlockFromString(string));
     }
 }

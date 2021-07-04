@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules.render;
 
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.ModuleType;
@@ -26,7 +26,7 @@ import java.util.List;
         date = "3/10/2021"
 )
 
-public final class XRayModule extends Module {
+public final class XRayModule extends ToggleModule {
 
     private static final Block[] ores = new Block[]{
             Blocks.COAL_ORE,

@@ -22,23 +22,23 @@ public final class Keys {
     private static final char TRANSLATION_KEY_DELIMITER = '.';
     private static final char NEW_DELIMITER = '_';
 
-    private static final Map<String, InputUtil.Key> keys = new HashMap<>();
+    private static final Map<String, InputUtil.Key> stringsToKeys = new HashMap<>();
+    private static final Map<Integer, InputUtil.Key> intsToKeys = new HashMap<>();
 
     private Keys() {}
 
     public static void mapKey(InputUtil.@NotNull Key key) {
         if (key.getCategory().equals(InputUtil.Type.KEYSYM) && key.getCode() >= 0) {
-            String abbreviatedTranslationKey = key.getTranslationKey();
-            if (abbreviatedTranslationKey.startsWith(TRANSLATION_KEY_PREFIX)) {
-                abbreviatedTranslationKey = abbreviatedTranslationKey.substring(TRANSLATION_KEY_PREFIX.length());
-                abbreviatedTranslationKey = abbreviatedTranslationKey.replace(TRANSLATION_KEY_DELIMITER, NEW_DELIMITER);
-                keys.put(abbreviatedTranslationKey, key);
-            }
+            stringsToKeys.put(key.getTranslationKey(), key);
+            intsToKeys.put(key.getCode(), key);
         }
     }
 
-    static Optional<InputUtil.Key> getKey(String translationKey) {
-        return Optional.ofNullable(keys.get(translationKey));
+    public static Optional<InputUtil.Key> getKeyFromString(@NotNull String string) {
+        if (!string.startsWith(TRANSLATION_KEY_PREFIX)) {
+            string = TRANSLATION_KEY_PREFIX.concat(string);
+        }
+        return Optional.ofNullable(stringsToKeys.get(string));
     }
     
     /*

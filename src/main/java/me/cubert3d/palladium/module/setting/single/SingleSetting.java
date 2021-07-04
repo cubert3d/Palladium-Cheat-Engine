@@ -52,7 +52,7 @@ public abstract class SingleSetting<T> extends Setting {
     }
 
     @Override
-    public final void setFromString(String string) throws IOException {
+    public void setFromString(String string) throws IOException {
         Optional<T> optional = parseString(string);
         if (optional.isPresent()) {
             setValue(optional.get());

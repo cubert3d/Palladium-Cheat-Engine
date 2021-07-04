@@ -3,9 +3,9 @@ package me.cubert3d.palladium.module.modules.gui;
 import me.cubert3d.palladium.gui.TextHudRenderer;
 import me.cubert3d.palladium.gui.text.provider.SuppliesProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.ItemListSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -16,7 +16,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         date = "4/10/2021"
 )
 
-public final class SuppliesModule extends Module {
+public final class SuppliesModule extends ToggleModule {
 
     public static final TextProvider suppliesList = new SuppliesProvider();
 

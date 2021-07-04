@@ -1,8 +1,8 @@
 package me.cubert3d.palladium.module.modules.movement;
 
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.ModuleDevStatus;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 @ClassDescription(
@@ -13,8 +13,8 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
         status = "complete"
 )
 
-public final class SneakModule extends Module {
+public final class SneakModule extends ToggleModule {
     public SneakModule() {
-        super("Sneak", "Makes the player sneak.", ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+        super("Sneak", "Makes the player sneak.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
     }
 }

@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules.movement;
 
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
         status = "in-progress"
 )
 
-public final class ClickTPModule extends Module {
+public final class ClickTPModule extends ToggleModule {
 
     // Maximum distance, in blocks, that the player is allowed to teleport.
     private static final double maxDistance = 10.0;
