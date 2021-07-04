@@ -33,6 +33,6 @@ public enum CommandError {
 
     // Send an error message to the player's chat-HUD.
     public static void sendErrorMessage(@NotNull CommandError error) {
-        Common.sendMessage(error.getErrorMessage());
+        Common.sendMessage("§c" + error.getErrorMessage());
     }
 }

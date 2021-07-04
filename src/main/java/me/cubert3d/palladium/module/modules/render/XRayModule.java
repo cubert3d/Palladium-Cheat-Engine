@@ -104,7 +104,7 @@ public final class XRayModule extends ToggleModule {
     private static final List<Block> defaultWhiteList = new ArrayList<>();
 
     public XRayModule() {
-        super("XRay", "Lets you see ores in the ground", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("XRay", "Lets you see ores in the ground.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
         this.addSetting(new BlockListSetting("Whitelist", defaultWhiteList));
     }
 

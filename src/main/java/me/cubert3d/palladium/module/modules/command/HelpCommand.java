@@ -53,13 +53,18 @@ public final class HelpCommand extends CommandModule {
         Collection<Module> page = getPage(pageNumber);
 
         if (page != null && page.size() > 0) {
-            Common.sendMessage(String.format("Displaying page %d of modules: ", pageNumber));
+            Common.sendMessage(String.format("§6Displaying page §e%d§6 of modules: ", pageNumber));
             boolean debug = Palladium.isDebugModeEnabled();
             for (Module module : page) {
 
                 String message;
                 if (debug) {
-                    message = String.format("%s: %s (%s)", module.getName(), module.getDescription(), module.getDevStatus().toString());
+                    if (module.getDevStatus().equals(ModuleDevStatus.DEBUG_ONLY)) {
+                        message = module.getName() + ": " + module.getDescription() + " §c(" + module.getDevStatus().toString() + ")";
+                    }
+                    else {
+                        message = module.getName() + ": " + module.getDescription() + " (" + module.getDevStatus().toString() + ")";
+                    }
                 }
                 else {
                     message = String.format("%s: %s", module.getName(), module.getDescription());
