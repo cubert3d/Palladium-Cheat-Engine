@@ -13,13 +13,12 @@ import org.jetbrains.annotations.NotNull;
 )
 
 public enum CommandError {
-    COMMAND_NOT_FOUND("Command not found!"),
     MODULE_NOT_FOUND("Module not found!"),
     SETTING_NOT_FOUND("Setting not found!"),
     TOO_FEW_ARGUMENTS("Too few arguments!"),
     TOO_MANY_ARGUMENTS("Too many arguments!"),
     INVALID_ARGUMENTS("Invalid arguments!"),
-    OUT_OF_BOUND_ARGUMENTS("Value out of bounds!");
+    NUMBER_OUT_OF_BOUNDS("Number out of bounds!");
 
     private final String errorMessage;
 

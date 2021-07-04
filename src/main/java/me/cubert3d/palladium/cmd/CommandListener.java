@@ -1,9 +1,12 @@
 package me.cubert3d.palladium.cmd;
 
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
+import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
+
+import java.util.Optional;
 
 @ClassDescription(
         authors = {
@@ -22,23 +25,31 @@ public final class CommandListener {
     public static void registerListener() {
         PlayerChatCallback.EVENT.register((player, message) -> {
 
-            if (!message.startsWith(commandPrefix))
+            if (!message.startsWith(commandPrefix)) {
                 return ActionResult.PASS;
+            }
 
-            // Everything in the message except for the command prefix
+            // Everything in the message except for the command prefix.
             String content = message.substring(commandPrefix.length());
 
-            // Split the content into words
+            // Split the content into words.
             String[] words = content.split(" ");
 
-            // The first word--used to get a module
+            // The first word--used to get a module.
             String label = words[0];
 
-            // The arguments to be passed to the command
+            // The arguments to be passed to the command.
             String[] args = new String[words.length - 1];
             System.arraycopy(words, 1, args, 0, args.length);
 
-            ModuleManager.getModule(label.toLowerCase()).ifPresent(module -> module.parseArgs(args));
+            Optional<Module> optional = ModuleManager.getModule(label.toLowerCase());
+
+            if (optional.isPresent()) {
+                optional.get().parseArgs(args);
+            }
+            else {
+                CommandError.sendErrorMessage(CommandError.MODULE_NOT_FOUND);
+            }
 
             return ActionResult.FAIL;
         });

@@ -115,7 +115,7 @@ public abstract class ToggleModule extends Module {
             Setting setting;
 
             if (!optional.isPresent()) {
-                Common.sendMessage("Setting not found!");
+                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
                 return;
             }
             else {
