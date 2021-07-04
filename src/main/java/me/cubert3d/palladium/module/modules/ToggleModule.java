@@ -101,7 +101,13 @@ public abstract class ToggleModule extends Module {
                     this.displayAllSettings();
                     break;
                 default:
-                    this.displaySettingFromString(args[0]);
+                    Optional<Setting> optional = getSettingOptional(args[0]);
+                    if (optional.isPresent()) {
+                        this.displaySetting(optional.get());
+                    }
+                    else {
+                        CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
+                    }
                     break;
             }
         }
@@ -114,12 +120,13 @@ public abstract class ToggleModule extends Module {
             Optional<Setting> optional = getSettingOptional(args[0]);
             Setting setting;
 
-            if (!optional.isPresent()) {
-                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
-                return;
+            if (optional.isPresent()) {
+                setting = optional.get();
+
             }
             else {
-                setting = optional.get();
+                CommandError.sendErrorMessage(CommandError.SETTING_NOT_FOUND);
+                return;
             }
 
             if (args.length == 2) {
@@ -130,9 +137,8 @@ public abstract class ToggleModule extends Module {
                     this.onChangeSetting();
                     Common.sendMessage(setting.getName() + " reset to default");
                 }
-
                 // "<command> <single-setting> [value]": change the value of the setting
-                else if (setting instanceof SingleSetting) {
+                else if (!setting.isListSetting()) {
                     SingleSetting singleSetting = setting.asSingleSetting();
                     String input = args[1];
 
@@ -145,6 +151,10 @@ public abstract class ToggleModule extends Module {
 
                     this.onChangeSetting();
                     Common.sendMessage(setting.getName() + " is now set to " + setting.getAsString());
+                }
+                // Two arguments are not enough for list-type settings.
+                else {
+                    CommandError.sendErrorMessage(CommandError.TOO_FEW_ARGUMENTS);
                 }
             }
             else if (args.length == 3) {
@@ -178,10 +188,12 @@ public abstract class ToggleModule extends Module {
                         CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
                     }
                 }
+                // Three arguments are too many for single-type settings.
                 else {
-                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                    CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
                 }
             }
+            // The number of arguments should never exceed three (for toggle modules).
             else {
                 CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
             }

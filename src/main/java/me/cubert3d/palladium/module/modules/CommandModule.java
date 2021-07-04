@@ -72,9 +72,11 @@ public abstract class CommandModule extends Module {
                 if (optionalSetting.isPresent()) {
                     Setting setting = optionalSetting.get();
                     switch (args.length) {
+
                         case 1:
                             this.displaySetting(setting);
                             break;
+
                         case 2:
 
                             /*
@@ -154,8 +156,9 @@ public abstract class CommandModule extends Module {
                                     CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
                                 }
                             }
+                            // Three arguments are too many for single-type settings.
                             else {
-                                CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
                             }
                             break;
 
