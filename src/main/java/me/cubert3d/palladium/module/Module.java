@@ -2,21 +2,15 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.cmd.CommandError;
 import me.cubert3d.palladium.module.setting.*;
 import me.cubert3d.palladium.module.setting.list.*;
 import me.cubert3d.palladium.module.setting.single.*;
-import me.cubert3d.palladium.util.Conversion;
 import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,11 +28,11 @@ public abstract class Module implements Named {
     private final String name;
     // Should be brief and concise.
     private final String description;
-
+    // Toggle or Command (execute once)
     private final ModuleType moduleType;
-    private final Set<Setting> settings = new HashSet<>();
+    private final Set<Setting> settings = new LinkedHashSet<>();
     private final KeyBindingSetting bindingSetting;
-
+    // Available or still in development
     private final ModuleDevStatus status;
 
     protected Module(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
@@ -187,18 +181,6 @@ public abstract class Module implements Named {
 
     // EXTRA
 
-    // Used to display a setting by passing the name of the setting.
-    protected void displaySettingFromString(String settingName) {
-        Optional<Setting> optional = getSettingOptional(settingName);
-        if (optional.isPresent()) {
-            this.displaySetting(optional.get());
-        }
-        else {
-            Common.sendMessage("Setting not found");
-        }
-    }
-
-    // Used to a display a setting that has already been gotten.
     protected void displaySetting(@NotNull Setting setting) {
         if (setting.isSet()) {
             Common.sendMessage(this.getName() + ", " + setting.getName() + ": " + setting.getAsString());

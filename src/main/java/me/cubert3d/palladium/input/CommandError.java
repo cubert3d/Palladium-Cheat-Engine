@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.cmd;
+package me.cubert3d.palladium.input;
 
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;

@@ -1,7 +1,6 @@
 package me.cubert3d.palladium;
 
-import me.cubert3d.palladium.cmd.CommandListener;
-import me.cubert3d.palladium.gui.ClickGUI;
+import me.cubert3d.palladium.input.CommandListener;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -25,7 +24,7 @@ Handles initialization.
 public final class Palladium implements ModInitializer {
 
 	public static final String NAME = "Palladium Cheat Engine";
-	public static final String VERSION = "0.1.1.4";
+	public static final String VERSION = "0.1.1.5";
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	/*

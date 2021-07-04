@@ -1,6 +1,7 @@
-package me.cubert3d.palladium.cmd;
+package me.cubert3d.palladium.input;
 
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
+import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;

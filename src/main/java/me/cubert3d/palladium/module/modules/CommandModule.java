@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules;
 
-import me.cubert3d.palladium.cmd.CommandError;
+import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;

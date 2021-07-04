@@ -3,14 +3,13 @@ package me.cubert3d.palladium.module.modules.command;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.cmd.CommandError;
+import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
