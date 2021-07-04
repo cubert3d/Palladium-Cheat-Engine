@@ -14,13 +14,12 @@ import java.util.Scanner;
 
 public final class Configuration {
 
+    public static final String KEY_VALUE_DELIMITER = ": ";
+    public static final String LIST_DELIMITER = ", ";
+
     private final static String fileDirectory = "palladium";
     private final static String fileName = "config.txt";
     private final static String fullFileName = fileDirectory + "/" + fileName;
-
-    public static final String EMPTY_LIST_PLACEHOLDER = "empty";
-    public static final String KEY_VALUE_DELIMITER = ": ";
-    public static final String LIST_DELIMITER = ", ";
 
     private static int readCounter = 1;
     private static int writeCounter = 1;
@@ -32,6 +31,7 @@ public final class Configuration {
             try {
                 path.mkdir();
                 file.createNewFile();
+                Palladium.getLogger().info("Created config file");
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -40,17 +40,17 @@ public final class Configuration {
     }
 
     public static void loadConfig() {
-        System.out.println("Loading config...");
+        Palladium.getLogger().info("Loading config...");
         createFile();
         read();
-        System.out.println("Done loading config!");
+        Palladium.getLogger().info("Done loading config!");
     }
 
     public static void saveConfig() {
-        System.out.println("Saving config...");
+        Palladium.getLogger().info("Saving config...");
         createFile();
         write();
-        System.out.println("Done saving config!");
+        Palladium.getLogger().info("Done saving config!");
     }
 
     public static void read() {
@@ -150,11 +150,11 @@ public final class Configuration {
     }
 
     public static void printReadError() {
-        System.out.println("Error reading from config file at line " + readCounter);
+        Palladium.getLogger().error("Error reading from config file at line " + readCounter);
     }
 
     public static void printWriteError() {
-        System.out.println("Error writing to config file at line " + writeCounter);
+        Palladium.getLogger().error("Error writing to config file at line " + writeCounter);
     }
 
     private static @NotNull Module parseModuleName(String name) throws IOException {

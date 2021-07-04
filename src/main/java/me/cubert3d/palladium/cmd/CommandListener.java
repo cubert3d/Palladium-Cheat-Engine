@@ -22,8 +22,6 @@ public final class CommandListener {
     public static void registerListener() {
         PlayerChatCallback.EVENT.register((player, message) -> {
 
-            System.out.println("chat: " + message);
-
             if (!message.startsWith(commandPrefix))
                 return ActionResult.PASS;
 

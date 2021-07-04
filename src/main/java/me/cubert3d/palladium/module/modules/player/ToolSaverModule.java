@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module.modules.player;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
@@ -42,7 +43,7 @@ public final class ToolSaverModule extends ToggleModule {
             if (!this.isEnabled())
                 return ActionResult.PASS;
 
-            System.out.println("Mined Block!");
+            Palladium.getLogger().debug("Mined Block!");
 
             int damage = stack.getDamage();
             int maxDamage = stack.getMaxDamage();
@@ -62,7 +63,7 @@ public final class ToolSaverModule extends ToggleModule {
 
             int newDamage = stack.getDamage();
             Common.sendMessage(String.format("Damage: %d/%d", newDamage, stack.getMaxDamage()));
-            System.out.println(String.format("Damage: %d/%d", newDamage, stack.getMaxDamage()));
+            Palladium.getLogger().debug(String.format("Damage: %d/%d", newDamage, stack.getMaxDamage()));
 
             return ActionResult.PASS;
         });
@@ -79,7 +80,7 @@ public final class ToolSaverModule extends ToggleModule {
 
         if (!player.world.isClient()) {
 
-            System.out.println("Case 1");
+            Palladium.getLogger().debug("Case 1");
 
             /*
                 ClickSlotC2SPacket fields:
@@ -112,10 +113,10 @@ public final class ToolSaverModule extends ToggleModule {
             inventory.updateItems();
 
             Common.sendMessage("Tool Saved!");
-            System.out.println("Tool Saved!");
+            Palladium.getLogger().debug("Tool Saved!");
         }
         else {
-            System.out.println("Case 2");
+            Palladium.getLogger().debug("Case 2");
 
             inventory.setStack(indexTo, stack);
             inventory.setStack(indexFrom, swapWith);

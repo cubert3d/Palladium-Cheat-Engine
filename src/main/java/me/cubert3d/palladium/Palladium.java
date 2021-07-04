@@ -6,6 +6,8 @@ import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.fabricmc.api.ModInitializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /*
 Main class of Palladium Cheat Engine.
@@ -23,7 +25,8 @@ Handles initialization.
 public final class Palladium implements ModInitializer {
 
 	public static final String NAME = "Palladium Cheat Engine";
-	public static final String VERSION = "0.1.1";
+	public static final String VERSION = "0.1.1.1";
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	/*
 	In debug mode, modules and other features that are
@@ -39,7 +42,7 @@ public final class Palladium implements ModInitializer {
 
 		// Various initialization tasks
 		ModuleManager.fillModuleSet();
-		System.out.println(String.format("Loaded %d modules (%d available, %d debug-only)",
+		Palladium.getLogger().info(String.format("Loaded %d modules (%d available, %d debug-only)",
 				ModuleManager.getNumModules(), ModuleManager.getNumAvailableModules(), ModuleManager.getNumModules() - ModuleManager.getNumAvailableModules()));
 
 		// Listeners
@@ -49,5 +52,9 @@ public final class Palladium implements ModInitializer {
 
 	public static boolean isDebugModeEnabled() {
 		return debug;
+	}
+
+	public static Logger getLogger() {
+		return LOGGER;
 	}
 }
