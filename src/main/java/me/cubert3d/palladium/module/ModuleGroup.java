@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module;
 
+import com.google.common.collect.Lists;
 import me.cubert3d.palladium.module.modules.gui.*;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
@@ -35,15 +36,8 @@ public final class ModuleGroup implements Named {
     private String name;
     private final ArrayList<Module> modules = new ArrayList<>();
 
-    public ModuleGroup(String name) {
-        this.name = name;
-    }
+    private ModuleGroup(String name, ArrayList<Module> modules) {
 
-    public ModuleGroup(String name, Class<? extends Module> @NotNull ... modules) {
-        this.name = name;
-        for (Class<? extends Module> moduleClass : modules) {
-            this.modules.add(ModuleManager.getModuleByClass(moduleClass));
-        }
     }
 
     @Override
@@ -68,9 +62,19 @@ public final class ModuleGroup implements Named {
         }
     }
 
+    public static ModuleGroup of(String name, Class<? extends Module> @NotNull ... moduleClasses) {
+        ArrayList<Module> modules = new ArrayList<>();
+        for (Class<? extends Module> moduleClass : moduleClasses) {
+            modules.add(ModuleManager.getModuleByClass(moduleClass));
+        }
+        return new ModuleGroup(name.trim(), modules);
+    }
 
+    public static ModuleGroup empty(@NotNull String name) {
+        return new ModuleGroup(name.trim(), new ArrayList<>());
+    }
 
-    public static final ModuleGroup MODULES_GUI = new ModuleGroup("GUI",
+    public static final ModuleGroup MODULES_GUI = of("GUI",
             PalladiumHudModule.class,
             ClickGUIModule.class,
             PlayerInfoModule.class,
@@ -78,7 +82,7 @@ public final class ModuleGroup implements Named {
             EffectListModule.class,
             SuppliesModule.class);
 
-    public static final ModuleGroup MODULES_RENDER = new ModuleGroup("Render",
+    public static final ModuleGroup MODULES_RENDER = of("Render",
             AntiOverlayModule.class,
             TooltipsModule.class,
             FullBrightModule.class,
@@ -87,12 +91,12 @@ public final class ModuleGroup implements Named {
             ESPModule.class,
             FreecamModule.class);
 
-    public static final ModuleGroup MODULES_MOVEMENT = new ModuleGroup("Movement",
+    public static final ModuleGroup MODULES_MOVEMENT = of("Movement",
             SneakModule.class,
             SprintModule.class,
             ClickTPModule.class);
 
-    public static final ModuleGroup MODULES_PLAYER = new ModuleGroup("Player",
+    public static final ModuleGroup MODULES_PLAYER = of("Player",
             ChatFilterModule.class,
             PacketManagerModule.class,
             AutoDisconnectModule.class,

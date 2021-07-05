@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @DebugOnly
 @Mixin(MiningToolItem.class)
-public final class MiningToolItemMixin {
+abstract class MiningToolItemMixin {
 
     /*
     @Inject(at = @At(value = "TAIL"),

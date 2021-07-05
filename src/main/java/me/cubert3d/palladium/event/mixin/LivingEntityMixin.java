@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(LivingEntity.class)
-public final class LivingEntityMixin {
+abstract class LivingEntityMixin {
     @Inject(method = "hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z",
             at = @At("HEAD"), cancellable = true)
     private void onHasStatusEffect(StatusEffect effect, CallbackInfoReturnable<Boolean> info) {

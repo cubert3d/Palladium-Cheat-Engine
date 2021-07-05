@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(FluidRenderer.class)
-public final class FluidRendererMixin {
+abstract class FluidRendererMixin {
     @Inject(method = "render(" +
             "Lnet/minecraft/world/BlockRenderView;" +
             "Lnet/minecraft/util/math/BlockPos;" +

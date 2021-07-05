@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(ChunkLightProvider.class)
-public final class ChunkLightProviderMixin {
+abstract class ChunkLightProviderMixin {
     @Inject(method = "getLightLevel(" +
             "Lnet/minecraft/util/math/BlockPos;" +
             ")I",

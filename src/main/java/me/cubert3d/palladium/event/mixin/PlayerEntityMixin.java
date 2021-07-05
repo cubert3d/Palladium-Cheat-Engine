@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(PlayerEntity.class)
-public final class PlayerEntityMixin {
+abstract class PlayerEntityMixin {
 
     @Inject(at = @At(value = "TAIL"),
             method = "jump()V",

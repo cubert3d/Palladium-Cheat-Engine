@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(ClientPlayNetworkHandler.class)
-public final class InventoryUpdateMixin {
+abstract class InventoryUpdateMixin {
     @Inject(at = @At(value = "TAIL"),
             method = "onInventory(Lnet/minecraft/network/packet/s2c/play/InventoryS2CPacket;)V")
     private void onInventoryUpdate(InventoryS2CPacket packet, final CallbackInfo info) {

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(HungerManager.class)
-public final class HungerManagerMixin {
+abstract class HungerManagerMixin {
     @Inject(at = @At(value = "TAIL"),
             method = "setFoodLevel(I)V")
     private void onHungerUpdate(int foodLevel, CallbackInfo info) {

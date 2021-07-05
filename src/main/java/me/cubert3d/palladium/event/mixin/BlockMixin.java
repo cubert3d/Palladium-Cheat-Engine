@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(Block.class)
-public final class BlockMixin {
+abstract class BlockMixin {
     @Inject(method = "shouldDrawSide(" +
             "Lnet/minecraft/block/BlockState;" +    // BlockState state
             "Lnet/minecraft/world/BlockView;" +     // BlockView world

@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(InGameHud.class)
-public final class InGameHudMixin {
+abstract class InGameHudMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void onRender(MatrixStack matrices, float tickDelta, CallbackInfo info) {
