@@ -10,6 +10,7 @@ import me.cubert3d.palladium.module.modules.render.ChamsModule;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
+import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -79,6 +80,7 @@ public final class ModuleGroup implements Named {
 
     public static final ModuleGroup MODULES_RENDER = new ModuleGroup("Render",
             AntiOverlayModule.class,
+            TooltipsModule.class,
             FullBrightModule.class,
             XRayModule.class,
             ChamsModule.class,

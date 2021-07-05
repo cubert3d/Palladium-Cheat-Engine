@@ -25,7 +25,7 @@
     "RenderPhaseAccessor",
     "HungerManagerMixin",
     "MiningToolItemMixin",
-    "ItemStackDamageMixin",
+    "ItemStackMixin",
     "BlockMixin",
     "AbstractBlockStateMixin",
     "FluidRendererMixin",

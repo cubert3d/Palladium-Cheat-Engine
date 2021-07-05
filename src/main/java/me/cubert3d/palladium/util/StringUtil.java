@@ -24,8 +24,9 @@ public final class StringUtil {
             chars[0] = charToUpperCase(chars[0]);
             return String.valueOf(chars);
         }
-        else
+        else {
             return string;
+        }
     }
 
     public static char charToUpperCase(char c) {

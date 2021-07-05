@@ -24,7 +24,7 @@ Handles initialization.
 public final class Palladium implements ModInitializer {
 
 	public static final String NAME = "Palladium Cheat Engine";
-	public static final String VERSION = "0.1.1.5";
+	public static final String VERSION = "0.1.2";
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	/*

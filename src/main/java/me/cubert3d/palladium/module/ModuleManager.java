@@ -12,6 +12,7 @@ import me.cubert3d.palladium.module.modules.render.ChamsModule;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
+import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
@@ -60,6 +61,7 @@ public final class ModuleManager {
 
         // RENDER
         addModule(new AntiOverlayModule());
+        addModule(new TooltipsModule());
         addModule(new FullBrightModule());
         addModule(new XRayModule());
         addModule(new ESPModule());
