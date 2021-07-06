@@ -1,12 +1,12 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.modules.render.XRayModule;
+import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -44,8 +44,14 @@ abstract class BlockMixin extends AbstractBlock implements ItemConvertible {
          However, this mixin is not enough--see AbstractBlockStateMixin, BlockEntityRenderDispatcherMixin,
          ChunkLightProviderMixin, and FluidRendererMixin.
         */
-        if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class)) {
-            info.setReturnValue(XRayModule.modifyDrawSide(state, world, pos, facing, info.getReturnValueZ()));
+
+        ActionResult result = BlockStateRenderCallback.EVENT.invoker().interact(state, world, pos, facing, info.getReturnValueZ());
+
+        if (result.equals(ActionResult.FAIL)) {
+            info.setReturnValue(false);
+        }
+        else {
+            info.setReturnValue(true);
         }
     }
 }

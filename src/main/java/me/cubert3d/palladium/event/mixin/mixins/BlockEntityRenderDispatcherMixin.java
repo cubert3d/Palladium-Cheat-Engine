@@ -1,13 +1,13 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.modules.render.XRayModule;
+import me.cubert3d.palladium.event.callback.BlockRenderCallback;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,8 +33,11 @@ abstract class BlockEntityRenderDispatcherMixin {
                                                       final CallbackInfo info) {
         // For x-ray, prevents block entities that are not on the whitelist from rendering.
         if (blockEntity.hasWorld()) {
+
             Block block = blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock();
-            if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class) && XRayModule.isSeeThrough(block)) {
+            ActionResult result = BlockRenderCallback.EVENT.invoker().interact(block);
+
+            if (result.equals(ActionResult.FAIL)) {
                 info.cancel();
             }
         }

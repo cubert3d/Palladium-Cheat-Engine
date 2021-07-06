@@ -1,15 +1,18 @@
 package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.Common;
+import me.cubert3d.palladium.event.callback.BlockRenderCallback;
+import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShapes;
@@ -114,6 +117,28 @@ public final class XRayModule extends ToggleModule {
     }
 
     @Override
+    protected void onLoad() {
+
+        BlockRenderCallback.EVENT.register(block -> {
+            if (isEnabled() && isSeeThrough(block)) {
+                return ActionResult.FAIL;
+            }
+            else {
+                return ActionResult.PASS;
+            }
+        });
+
+        BlockStateRenderCallback.EVENT.register((state, view, pos, facing, returns) -> {
+            if (isEnabled() && modifyDrawSide(state, view, pos, facing, returns)) {
+                return ActionResult.FAIL;
+            }
+            else {
+                return ActionResult.PASS;
+            }
+        });
+    }
+
+    @Override
     protected void onEnable() {
         Common.reloadRenderer();
     }
@@ -138,7 +163,7 @@ public final class XRayModule extends ToggleModule {
     }
 
     // Whether a block should be made invisible when X-Ray is enabled.
-    public static boolean isSeeThrough(Block block) {
+    private boolean isSeeThrough(Block block) {
         List<Block> whitelist = Palladium.getInstance().getModuleManager().getModuleByClass(XRayModule.class).getSetting("Whitelist").asBlockListSetting().getList();
         for (Block other : whitelist) {
             if (block.is(other))
@@ -147,7 +172,8 @@ public final class XRayModule extends ToggleModule {
         return true;
     }
 
-    public static boolean modifyDrawSide(BlockState state, BlockView view, BlockPos pos, Direction facing, boolean returns) {
+    // Credit to Meteor client for this code.
+    private boolean modifyDrawSide(BlockState state, BlockView view, BlockPos pos, Direction facing, boolean returns) {
         if (returns) {
             if (isSeeThrough(state.getBlock()))
                 return false;
