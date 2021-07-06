@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +25,7 @@ abstract class ChunkLightProviderMixin {
             ")I",
             at = @At("INVOKE"), cancellable = true)
     private void onGetLightLevel(BlockPos pos, CallbackInfoReturnable<Integer> info) {
-        if (ModuleManager.isModuleEnabled(XRayModule.class))
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class))
             info.setReturnValue(15);
     }
 }

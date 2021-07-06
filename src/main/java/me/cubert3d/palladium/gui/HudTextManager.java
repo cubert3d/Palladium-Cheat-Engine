@@ -19,7 +19,7 @@ public final class HudTextManager {
     private TextProvider topRightList;
     private TextProvider bottomRightList;
 
-    protected HudTextManager() {
+    HudTextManager() {
 
     }
 

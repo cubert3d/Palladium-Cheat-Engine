@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;
@@ -30,14 +31,14 @@ abstract class BlockMixin {
             ")Z",                                   // returns boolean
             at = @At(value = "RETURN"),
             cancellable = true)
-    private static void onShouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction facing,
-                                         CallbackInfoReturnable<Boolean> info) {
+    private static void shouldDrawSideInject(BlockState state, BlockView world, BlockPos pos, Direction facing,
+                                             CallbackInfoReturnable<Boolean> info) {
         /*
          Basic X-Ray method. Makes whitelisted blocks visible, and non-whitelisted blocks invisible.
          However, this mixin is not enough--see AbstractBlockStateMixin, BlockEntityRenderDispatcherMixin,
          ChunkLightProviderMixin, and FluidRendererMixin.
         */
-        if (ModuleManager.isModuleEnabled(XRayModule.class)) {
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class)) {
             info.setReturnValue(XRayModule.modifyDrawSide(state, world, pos, facing, info.getReturnValueZ()));
         }
     }

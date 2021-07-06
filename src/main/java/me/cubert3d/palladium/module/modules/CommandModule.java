@@ -103,7 +103,7 @@ public abstract class CommandModule extends Module {
                                 try {
                                     singleSetting.setFromString(input);
                                 }
-                                catch (IOException e) {
+                                catch (Exception e) {
                                     CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
                                 }
 

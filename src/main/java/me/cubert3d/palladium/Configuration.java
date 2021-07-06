@@ -1,15 +1,14 @@
 package me.cubert3d.palladium;
 
 import me.cubert3d.palladium.module.Module;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.util.exception.EnabledParseException;
+import me.cubert3d.palladium.util.exception.SettingNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.Scanner;
 
 public final class Configuration {
@@ -17,14 +16,19 @@ public final class Configuration {
     public static final String KEY_VALUE_DELIMITER = ": ";
     public static final String LIST_DELIMITER = ", ";
 
-    private final static String fileDirectory = "palladium";
-    private final static String fileName = "config.txt";
-    private final static String fullFileName = fileDirectory + "/" + fileName;
+    private static String fileDirectory = "palladium";
+    private static String fileName = "config.txt";
+    private static String fullFileName = fileDirectory + "/" + fileName;
 
-    private static int readCounter = 1;
-    private static int writeCounter = 1;
+    private int readCounter;
+    private int writeCounter;
 
-    public static void createFile() {
+    Configuration() {
+        this.readCounter = 1;
+        this.writeCounter = 1;
+    }
+
+    private void createFile() {
         File path = new File(fileDirectory);
         File file = new File(fullFileName);
         if (!file.exists()) {
@@ -39,21 +43,21 @@ public final class Configuration {
         }
     }
 
-    public static void loadConfig() {
+    public void loadConfig() {
         Palladium.getLogger().info("Loading config...");
         createFile();
         read();
         Palladium.getLogger().info("Done loading config!");
     }
 
-    public static void saveConfig() {
+    public void saveConfig() {
         Palladium.getLogger().info("Saving config...");
         createFile();
         write();
         Palladium.getLogger().info("Done saving config!");
     }
 
-    public static void read() {
+    private void read() {
         try {
 
             Scanner scanner = new Scanner(new File(fullFileName));
@@ -77,9 +81,8 @@ public final class Configuration {
                         enabledStatus = strings[1];
                         module = parseModuleName(moduleName);
                         enabled = parseEnabledStatus(enabledStatus);
-                    }
-                    catch (Exception e) {
-                        printReadError();
+                    } catch (Exception e) {
+                        printReadException(e);
                     }
 
                     if (module != null) {
@@ -100,31 +103,25 @@ public final class Configuration {
                         settingValues = " ";
                     }
 
-                    try {
-                        Setting setting = parseSettingName(currentModule, settingName);
-                        setting.setFromString(settingValues);
-                    }
-                    catch (Exception e) {
-                        printReadError();
-                        e.printStackTrace();
-                    }
+                    Setting setting = parseSettingName(currentModule, settingName);
+                    setting.setFromString(settingValues);
                 }
 
                 readCounter++;
             }
         }
         catch (Exception e) {
-            printReadError();
+            printReadException(e);
             e.printStackTrace();
         }
         readCounter = 1;
     }
 
-    public static void write() {
+    private void write() {
         try {
             FileWriter writer = new FileWriter(fullFileName);
 
-            for (Module module : ModuleManager.getModules()) {
+            for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
 
                 // If the module is enabled, then add "enabled" on the right side of this line; if it is
                 // disabled, then add "disabled."
@@ -144,30 +141,24 @@ public final class Configuration {
             writeCounter = 1;
         }
         catch (Exception e) {
-            printWriteError();
-            e.printStackTrace();
+            printWriteException(e);
         }
     }
 
-    public static void printReadError() {
-        Palladium.getLogger().error("Error reading from config file at line " + readCounter);
+    private void printReadException(@NotNull Exception e) {
+        String exceptionMessage = e.getClass().getSimpleName() + ", " + e.getMessage();
+        Palladium.getLogger().error("Error reading from config file at line " + readCounter + ": " + exceptionMessage);
     }
 
-    public static void printWriteError() {
+    private void printWriteException(Exception e) {
         Palladium.getLogger().error("Error writing to config file at line " + writeCounter);
     }
 
-    private static @NotNull Module parseModuleName(String name) throws IOException {
-        Optional<Module> optional = ModuleManager.getModule(name);
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        else {
-            throw new IOException();
-        }
+    private @NotNull Module parseModuleName(String name) {
+        return Palladium.getInstance().getModuleManager().getModule(name);
     }
 
-    private static boolean parseEnabledStatus(@NotNull String string) throws IOException {
+    private boolean parseEnabledStatus(@NotNull String string) {
         if (string.equalsIgnoreCase("enabled")) {
             return true;
         }
@@ -175,17 +166,17 @@ public final class Configuration {
             return false;
         }
         else {
-            throw new IOException();
+            throw new EnabledParseException();
         }
     }
 
-    private static @NotNull Setting parseSettingName(@NotNull Module module, String name) throws IOException {
+    private @NotNull Setting parseSettingName(@NotNull Module module, String name) {
         name = name.trim();
         for (Setting setting : module.getSettings()) {
             if (setting.getName().equalsIgnoreCase(name)) {
                 return setting;
             }
         }
-        throw new IOException();
+        throw new SettingNotFoundException();
     }
 }

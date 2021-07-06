@@ -5,10 +5,8 @@ import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
-import org.jetbrains.annotations.NotNull;
 
 // Written by cubert3d on 3/8/2021
 
@@ -41,8 +39,8 @@ public final class SearchCommand extends CommandModule {
             Common.sendMessage("§eShowing all modules:");
         }
 
-        for (Module module : ModuleManager.getModules()) {
-            if (!Palladium.isDebugModeEnabled() && module.isAvailable()) {
+        for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
+            if (!Palladium.getInstance().isDebugModeEnabled() && module.isAvailable()) {
                 String name = module.getName();
                 String description = module.getDescription();
 
@@ -51,7 +49,7 @@ public final class SearchCommand extends CommandModule {
                     Common.sendMessage(name + ": " + description);
                 }
             }
-            else if (Palladium.isDebugModeEnabled()) {
+            else if (Palladium.getInstance().isDebugModeEnabled()) {
                 String name = module.getName();
                 String description = module.getDescription();
 

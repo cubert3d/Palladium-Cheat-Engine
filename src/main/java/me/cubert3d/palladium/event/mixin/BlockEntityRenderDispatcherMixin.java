@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.Block;
@@ -34,7 +35,7 @@ abstract class BlockEntityRenderDispatcherMixin {
         // For x-ray, prevents block entities that are not on the whitelist from rendering.
         if (blockEntity.hasWorld()) {
             Block block = blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock();
-            if (ModuleManager.isModuleEnabled(XRayModule.class) && XRayModule.isSeeThrough(block))
+            if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class) && XRayModule.isSeeThrough(block))
                 info.cancel();
         }
     }

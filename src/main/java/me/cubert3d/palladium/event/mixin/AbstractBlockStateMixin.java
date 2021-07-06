@@ -1,13 +1,13 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.state.State;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,7 +38,7 @@ public abstract class AbstractBlockStateMixin {
          would make all whitelisted blocks really dark, even with their
          light level set to max, if smooth lighting is enabled.
         */
-        if (ModuleManager.isModuleEnabled(XRayModule.class))
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class))
             info.setReturnValue(1F);
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractBlockStateMixin {
          which are not full blocks, such as stairs, or flowers.
         */
         Block thisBlock = ((BlockState) (Object) this).getBlock();
-        if (ModuleManager.isModuleEnabled(XRayModule.class)
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class)
                 && XRayModule.isSeeThrough(thisBlock)) {
             info.setReturnValue(BlockRenderType.INVISIBLE);
         }

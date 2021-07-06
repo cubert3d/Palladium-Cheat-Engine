@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.setting.single;
 
-import me.cubert3d.palladium.Configuration;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -47,7 +47,6 @@ public final class DoubleSetting extends NumberSetting<Double> {
             return Optional.of(d);
         }
         catch (NumberFormatException e) {
-            Configuration.printReadError();
             return Optional.empty();
         }
     }

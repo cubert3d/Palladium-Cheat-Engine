@@ -1,12 +1,11 @@
 package me.cubert3d.palladium.module.modules.command;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
@@ -53,7 +52,7 @@ public final class HelpCommand extends CommandModule {
 
         if (page != null && page.size() > 0) {
             Common.sendMessage(String.format("§6Displaying page §e%d§6 of modules: ", pageNumber));
-            boolean debug = Palladium.isDebugModeEnabled();
+            boolean debug = Palladium.getInstance().isDebugModeEnabled();
             for (Module module : page) {
 
                 String message;
@@ -94,7 +93,7 @@ public final class HelpCommand extends CommandModule {
         int lastIndex = pageNumber * PAGE_SIZE;
 
         // Iterate through the full set of modules to build the page.
-        for (Module module : ModuleManager.getModules()) {
+        for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
 
             // Add the module if it is in the page range.
             if (counter >= firstIndex && counter < lastIndex)

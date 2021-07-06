@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.player.BlinkModule;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -29,11 +30,11 @@ abstract class ClientPlayNetworkHandlerMixin {
             cancellable = true)
     private void onSendPacket(Packet<?> packet, final CallbackInfo info) {
 
-        if (ModuleManager.isModuleEnabled(BlinkModule.class)) {
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(BlinkModule.class)) {
             info.cancel();
         }
 
-        if (ModuleManager.isModuleEnabled(FreecamModule.class) && packet instanceof PlayerMoveC2SPacket) {
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(FreecamModule.class) && packet instanceof PlayerMoveC2SPacket) {
             info.cancel();
         }
     }

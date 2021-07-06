@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.gui.widget;
 
-import me.cubert3d.palladium.gui.ClickGUI;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -28,9 +28,9 @@ public abstract class Widget {
     // Special color of this widget.
     private int color;
 
-    protected Widget(String id) {
+    protected Widget(String id, WidgetManager widgetManager) {
         this.id = id;
-        WidgetManager.addWidget(this);
+        widgetManager.addWidget(this);
     }
 
     @Override
@@ -112,7 +112,7 @@ public abstract class Widget {
     but other kinds of widgets might have special conditions...
      */
     public boolean shouldRender() {
-        return ClickGUI.shouldRender();
+        return Palladium.getInstance().getGuiRenderer().getClickGUI().shouldRender();
     }
 
     /*

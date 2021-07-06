@@ -1,11 +1,12 @@
 package me.cubert3d.palladium.gui;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,24 +24,26 @@ import java.util.ArrayList;
 
 public final class TextHudRenderer {
 
-    private static final TextRenderer textRenderer = Common.getMC().textRenderer;
-    private static final HudTextManager textManager = new HudTextManager();
+    private final TextRenderer textRenderer;
+    private final HudTextManager textManager;
 
-    private TextHudRenderer() {}
+    TextHudRenderer() {
+        this.textRenderer = MinecraftClient.getInstance().textRenderer;
+        this.textManager = new HudTextManager();
+    }
 
-    public static HudTextManager getTextManager() {
+    public final HudTextManager getTextManager() {
         return textManager;
     }
 
-    public static boolean shouldRender() {
-
+    public final boolean shouldRender() {
         // Only render the text-HUD if the HUD module is enabled and the f3 menu is not enabled.
-        return ModuleManager.isModuleEnabled(PalladiumHudModule.class)
-                && !Common.getOptions().debugEnabled
-                && !ClickGUI.isOpen();
+        return Palladium.getInstance().getModuleManager().isModuleEnabled(PalladiumHudModule.class)
+                && !MinecraftClient.getInstance().options.debugEnabled
+                && !Palladium.getInstance().getGuiRenderer().getClickGUI().isOpen();
     }
 
-    private static void drawText(MatrixStack matrices, @NotNull ColorText text, int x, int y) {
+    private void drawText(MatrixStack matrices, @NotNull ColorText text, int x, int y) {
         int x1 = x - 1;
         int y1 = y - 1;
         int x2 = x1 + textRenderer.getWidth(text.getString()) + 2;
@@ -50,7 +53,7 @@ public final class TextHudRenderer {
         textRenderer.draw(matrices, text.getString(), x, y, text.getTextColor());
     }
 
-    public static void drawTopLeftList(MatrixStack matrices) {
+    private void drawTopLeftList(MatrixStack matrices) {
 
         if (textManager.getTopLeftList().isPresent()) {
             ArrayList<ColorText> list = textManager.getTopLeftList().get().getAll();
@@ -117,7 +120,7 @@ public final class TextHudRenderer {
         }
     }
 
-    private static void drawTopRightList(MatrixStack matrices) {
+    private void drawTopRightList(MatrixStack matrices) {
         if (textManager.getTopRightList().isPresent()) {
             ArrayList<ColorText> list = textManager.getTopRightList().get().getAll();
 
@@ -156,7 +159,7 @@ public final class TextHudRenderer {
         }
     }
 
-    private static void drawBottomRightList(MatrixStack matrices) {
+    private void drawBottomRightList(MatrixStack matrices) {
         if (textManager.getBottomRightList().isPresent()) {
             ArrayList<ColorText> list = textManager.getBottomRightList().get().getBody();
 
@@ -198,7 +201,7 @@ public final class TextHudRenderer {
     }
 
     // Master render method that uses all the other methods to draw everything.
-    public static void render(MatrixStack matrices) {
+    public void render(MatrixStack matrices) {
         drawTopLeftList(matrices);
         drawTopRightList(matrices);
         drawBottomRightList(matrices);

@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.cubert3d.palladium.Palladium"
+      "me.cubert3d.palladium.Main"
     ]
   },
   "mixins": [

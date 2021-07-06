@@ -33,8 +33,8 @@ public class Window extends Widget {
     protected int cursorDistanceX = 0;
     protected int cursorDistanceY = 0;
 
-    public Window(String id, String label) {
-        super(id);
+    public Window(String id, String label, WidgetManager widgetManager) {
+        super(id, widgetManager);
         this.label = label;
     }
 

@@ -2,6 +2,7 @@ package me.cubert3d.palladium.module.setting.single;
 
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.exception.SettingParseException;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -52,13 +53,13 @@ public abstract class SingleSetting<T> extends Setting {
     }
 
     @Override
-    public void setFromString(String string) throws IOException {
+    public void setFromString(String string) {
         Optional<T> optional = parseString(string);
         if (optional.isPresent()) {
             setValue(optional.get());
         }
         else {
-            throw new IOException();
+            throw new SettingParseException();
         }
     }
 

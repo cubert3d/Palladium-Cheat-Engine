@@ -1,10 +1,8 @@
 package me.cubert3d.palladium.event.mixin;
 
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
-import me.cubert3d.palladium.gui.ClickGUI;
-import me.cubert3d.palladium.gui.TextHudRenderer;
-import me.cubert3d.palladium.gui.widget.Widget;
-import me.cubert3d.palladium.gui.widget.WidgetManager;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -27,13 +25,7 @@ abstract class InGameHudMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void onRender(MatrixStack matrices, float tickDelta, CallbackInfo info) {
-        if (TextHudRenderer.shouldRender()) {
-            TextHudRenderer.render(matrices);
-        }
-        for (Widget widget : WidgetManager.getWidgets()) {
-            if (widget.shouldRender())
-                widget.render(matrices);
-        }
+        Palladium.getInstance().getGuiRenderer().render(matrices);
     }
 
     @Inject(method = "renderPumpkinOverlay()V",

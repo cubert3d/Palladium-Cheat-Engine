@@ -2,14 +2,11 @@ package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
-import me.cubert3d.palladium.util.StringUtil;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -80,7 +77,9 @@ abstract class ItemStackMixin {
     @Inject(method = "getTooltip(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/client/item/TooltipContext;)Ljava/util/List;",
             at = @At("TAIL"), cancellable = true)
     private void getTooltipInject(PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> info) {
-        if (ModuleManager.isModuleEnabled(TooltipsModule.class)) {
+
+        /*
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(TooltipsModule.class)) {
 
             ItemStack stack = (ItemStack) (Object) this;
             List<Text> newTooltip = info.getReturnValue();
@@ -94,12 +93,18 @@ abstract class ItemStackMixin {
             
             info.setReturnValue(newTooltip);
         }
+
+         */
     }
 
     @Inject(method = "appendEnchantments(Ljava/util/List;Lnet/minecraft/nbt/ListTag;)V",
             at = @At("HEAD"), cancellable = true)
     private static void appendEnchantmentsInject(List<Text> tooltip, ListTag enchantments, CallbackInfo info) {
-        if (ModuleManager.isModuleEnabled(TooltipsModule.class)) {
+
+        //
+
+        /*
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(TooltipsModule.class)) {
             for (int i = 0; i < enchantments.size(); i++) {
                 CompoundTag tag = enchantments.getCompound(i);
                 Identifier id = Identifier.tryParse(tag.getString("id"));
@@ -112,6 +117,8 @@ abstract class ItemStackMixin {
 
             info.cancel();
         }
+
+         */
     }
 
     private static String getEnchantmentEntry(Enchantment enchantment, int level) {

@@ -3,6 +3,7 @@ package me.cubert3d.palladium.module.setting.list;
 import me.cubert3d.palladium.Configuration;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.exception.SettingParseException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -96,7 +97,7 @@ public abstract class ListSetting<E> extends Setting {
     protected abstract String getElementAsString(E element);
 
     @Override
-    public final void setFromString(@NotNull String string) throws IOException {
+    public final void setFromString(@NotNull String string) {
 
         /*
         For list-type settings, this method is specifically used for the config file reading.
@@ -115,7 +116,7 @@ public abstract class ListSetting<E> extends Setting {
             }
             // If the string does not successfully parse, then throw an exception, and skip it.
             else {
-                throw new IOException();
+                throw new SettingParseException();
             }
         }
 

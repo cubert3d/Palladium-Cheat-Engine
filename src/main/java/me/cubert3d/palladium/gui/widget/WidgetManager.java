@@ -18,43 +18,47 @@ import java.util.Set;
 
 public final class WidgetManager {
 
-    private static final Set<Widget> widgets = new HashSet<>();
+    private final Set<Widget> widgets;
+    private final ClickGUI clickGUI;
 
     /*
      This holds the widget that is currently being clicked, so that the onDrag()
      method does not have to iterate through the set of widgets every single time
      the mouse is moved.
     */
-    private static Widget clickedWidget;
+    private Widget clickedWidget;
 
-    private WidgetManager() {}
+    public WidgetManager(ClickGUI clickGUI) {
+        this.widgets = new HashSet<>();
+        this.clickGUI = clickGUI;
+    }
 
-    public static Set<Widget> getWidgets() {
+    public Set<Widget> getWidgets() {
         return widgets;
     }
 
-    static void addWidget(Widget widget) {
+    void addWidget(Widget widget) {
         widgets.add(widget);
     }
 
-    public static int getScaledWidth() {
+    public int getScaledWidth() {
         return Common.getMC().getWindow().getScaledWidth();
     }
 
-    public static int getScaledHeight() {
+    public int getScaledHeight() {
         return Common.getMC().getWindow().getScaledHeight();
     }
 
-    public static void render(MatrixStack matrices) {
+    public void render(MatrixStack matrices) {
         for (Widget widget : widgets) {
             widget.render(matrices);
         }
     }
 
-    public static void onClick(int mousePosX, int mousePosY, boolean isRelease) {
+    public void onClick(int mousePosX, int mousePosY, boolean isRelease) {
 
         // Nothing should be clicked if there isn't anything to be clicked.
-        if (!ClickGUI.shouldRender()) {
+        if (!clickGUI.shouldRender()) {
             return;
         }
 
@@ -73,14 +77,14 @@ public final class WidgetManager {
         }
     }
 
-    public static void onMouseMove(int mousePosX, int mousePosY) {
+    public void onMouseMove(int mousePosX, int mousePosY) {
         if (clickedWidget != null) {
             clickedWidget.onDrag(mousePosX, mousePosY);
         }
     }
 
     // This is called when the ClickGUI is closed.
-    public static void resetClickedWidget() {
+    public void resetClickedWidget() {
         clickedWidget = null;
     }
 }

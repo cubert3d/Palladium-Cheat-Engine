@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
 import me.cubert3d.palladium.util.render.ColorF;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -63,7 +64,7 @@ abstract class EntityRenderDispatcherMixin {
                                                  float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                  int light, CallbackInfo info) {
 
-        if (ModuleManager.isModuleEnabled(ESPModule.class)) {
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(ESPModule.class)) {
             if (!isThePlayer(entity)) {
                 try {
                     EntityRenderer entityRenderer = ((EntityRenderDispatcher)(Object)this).getRenderer(entity);

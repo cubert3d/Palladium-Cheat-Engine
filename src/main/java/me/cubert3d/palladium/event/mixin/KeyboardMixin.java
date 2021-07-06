@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.Module;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
@@ -25,7 +25,7 @@ abstract class KeyboardMixin {
 
         // Make sure there is no 'screen' open--aka menu, chat console, etc
         if (MinecraftClient.getInstance().currentScreen == null) {
-            for (Module module : ModuleManager.getModules()) {
+            for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
                 KeyBindingSetting binding = module.getBinding();
                 if (binding.isSet() && binding.getValue().getCode() == key) {
                     module.onKeyPressed(i);

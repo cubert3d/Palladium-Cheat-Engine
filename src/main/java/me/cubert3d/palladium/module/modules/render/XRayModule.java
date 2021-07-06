@@ -1,9 +1,9 @@
 package me.cubert3d.palladium.module.modules.render;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -139,7 +139,7 @@ public final class XRayModule extends ToggleModule {
 
     // Whether a block should be made invisible when X-Ray is enabled.
     public static boolean isSeeThrough(Block block) {
-        List<Block> whitelist = ModuleManager.getModuleByClass(XRayModule.class).getSetting("Whitelist").asBlockListSetting().getList();
+        List<Block> whitelist = Palladium.getInstance().getModuleManager().getModuleByClass(XRayModule.class).getSetting("Whitelist").asBlockListSetting().getList();
         for (Block other : whitelist) {
             if (block.is(other))
                 return false;

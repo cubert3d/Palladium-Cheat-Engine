@@ -1,15 +1,14 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.FluidRenderer;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
-import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,7 +34,7 @@ abstract class FluidRendererMixin {
     private void onRender(BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, FluidState state,
                           CallbackInfoReturnable<Boolean> info) {
         // Helps the X-Ray module handle fluid blocks in addition to solid blocks.
-        if (ModuleManager.isModuleEnabled(XRayModule.class)
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class)
                 && XRayModule.isSeeThrough(state.getBlockState().getBlock())) {
             info.setReturnValue(false);
         }

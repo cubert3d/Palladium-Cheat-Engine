@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.setting.*;
@@ -77,7 +78,7 @@ public abstract class Module implements Named {
     }
 
     public final boolean isAvailable() {
-        return status.equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled();
+        return status.equals(ModuleDevStatus.AVAILABLE) || Palladium.getInstance().isDebugModeEnabled();
     }
 
 

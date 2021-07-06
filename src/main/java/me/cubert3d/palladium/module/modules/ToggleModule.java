@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.module.modules;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
@@ -9,6 +10,7 @@ import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.ListSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.util.Common;
+import me.cubert3d.palladium.util.exception.SettingParseException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -30,7 +32,7 @@ public abstract class ToggleModule extends Module {
 
     @Override
     public final void enable() {
-        if (getDevStatus().equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled()) {
+        if (getDevStatus().equals(ModuleDevStatus.AVAILABLE) || Palladium.getInstance().isDebugModeEnabled()) {
             enabled = true;
             onEnable();
             Common.sendMessage(this.getName() + " is now enabled");
@@ -39,7 +41,7 @@ public abstract class ToggleModule extends Module {
 
     @Override
     public final void disable() {
-        if (getDevStatus().equals(ModuleDevStatus.AVAILABLE) || Palladium.isDebugModeEnabled()) {
+        if (getDevStatus().equals(ModuleDevStatus.AVAILABLE) || Palladium.getInstance().isDebugModeEnabled()) {
             enabled = false;
             onDisable();
             Common.sendMessage(this.getName() + " is now disabled");
@@ -145,7 +147,7 @@ public abstract class ToggleModule extends Module {
                     try {
                         singleSetting.setFromString(input);
                     }
-                    catch (IOException e) {
+                    catch (Exception e) {
                         CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
                     }
 

@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.event.mixin;
 
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
@@ -16,7 +16,7 @@ abstract class KeyBindingMixin implements Comparable<KeyBinding> {
     private void isPressedInject(CallbackInfoReturnable<Boolean> info) {
         KeyBinding binding = (KeyBinding) (Object) this;
         if (binding.equals(MinecraftClient.getInstance().options.keySprint)
-                && ModuleManager.isModuleEnabled(SprintModule.class)) {
+                && Palladium.getInstance().getModuleManager().isModuleEnabled(SprintModule.class)) {
             info.setReturnValue(true);
         }
     }

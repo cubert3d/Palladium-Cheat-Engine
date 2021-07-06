@@ -14,7 +14,6 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 public final class PalladiumHudModule extends ToggleModule {
     public PalladiumHudModule() {
-        super("HUD", "Toggles the HUD for Palladium Cheat Engine.",
-                ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("HUD", "Toggles the HUD for Palladium Cheat Engine.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
     }
 }

@@ -1,59 +1,92 @@
 package me.cubert3d.palladium;
 
+import me.cubert3d.palladium.gui.GUIRenderer;
 import me.cubert3d.palladium.input.CommandListener;
+import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
-import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/*
-Main class of Palladium Cheat Engine.
-Handles initialization.
- */
-
 @ClassDescription(
-		authors = {
-				"cubert3d"
-		},
-		date = "3/1/2021",
-		status = "in-progress"
+        authors = {
+                "cubert3d"
+        },
+        date = "7/5/2021"
 )
 
-public final class Palladium implements ModInitializer {
+public final class Palladium {
 
-	public static final String NAME = "Palladium Cheat Engine";
-	public static final String VERSION = "0.1.2.1";
-	private static final Logger LOGGER = LogManager.getLogger();
+    public static final String NAME = "Palladium Cheat Engine";
+    public static final String VERSION = "0.1.3";
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static Palladium INSTANCE;
 
-	/*
-	In debug mode, modules and other features that are
-	still in development can be used, and more statistics
-	are reported to the console.
-	 */
-	private static boolean debug;
+    private ModuleManager moduleManager;
+    private ModuleGroupManager moduleGroupManager;
+    private Configuration configuration;
+    private GUIRenderer guiRenderer;
+    /*
+    In debug mode, modules and other features that are
+    still in development can be used, and more statistics
+    are reported to the console.
+     */
+    private boolean debug;
 
-	@Override
-	public void onInitialize() {
+    public Palladium() {
+        INSTANCE = this;
+    }
 
-		debug = true;
+    public void initialize() {
 
-		// Various initialization tasks
-		ModuleManager.fillModuleSet();
-		Palladium.getLogger().info(String.format("Loaded %d modules (%d available, %d debug-only)",
-				ModuleManager.getNumModules(), ModuleManager.getNumAvailableModules(), ModuleManager.getNumModules() - ModuleManager.getNumAvailableModules()));
+        this.moduleManager = new ModuleManager();
+        this.moduleGroupManager = new ModuleGroupManager(moduleManager);
+        this.configuration = new Configuration();
+        this.guiRenderer = new GUIRenderer();
+        this.debug = true;
 
-		// Listeners
-		PacketListener.registerListener();
-		CommandListener.registerListener();
-	}
+        // Various initialization tasks
+        getModuleManager().initialize();
+        getModuleGroupManager().initialize();
+        getGuiRenderer().initialize();
 
-	public static boolean isDebugModeEnabled() {
-		return debug;
-	}
+        // Listeners
+        PacketListener.registerListener();
+        CommandListener.registerListener();
+    }
 
-	public static Logger getLogger() {
-		return LOGGER;
-	}
+    public void close() {
+        getLogger().info("Closing Palladium Cheat Engine...");
+        getConfiguration().saveConfig();
+        getLogger().info("Done!");
+    }
+
+    public static Palladium getInstance() {
+        return INSTANCE;
+    }
+
+    public static Logger getLogger() {
+        return LOGGER;
+    }
+
+    public final ModuleManager getModuleManager() {
+        return moduleManager;
+    }
+
+    public final ModuleGroupManager getModuleGroupManager() {
+        return moduleGroupManager;
+    }
+
+    public final Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public final GUIRenderer getGuiRenderer() {
+        return guiRenderer;
+    }
+
+    public final boolean isDebugModeEnabled() {
+        return debug;
+    }
 }

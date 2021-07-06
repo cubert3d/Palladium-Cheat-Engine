@@ -2,7 +2,9 @@ package me.cubert3d.palladium.module.setting.single;
 
 import me.cubert3d.palladium.input.Keys;
 import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.util.exception.SettingParseException;
 import net.minecraft.client.util.InputUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -39,7 +41,7 @@ public final class KeyBindingSetting extends SingleSetting<InputUtil.Key> {
     }
 
     @Override
-    public final void setFromString(String string) throws IOException {
+    public final void setFromString(@NotNull String string) {
         if (string.trim().equals("")) {
             setValue(null);
         }
@@ -49,7 +51,7 @@ public final class KeyBindingSetting extends SingleSetting<InputUtil.Key> {
                 setValue(optional.get());
             }
             else {
-                throw new IOException();
+                throw new SettingParseException();
             }
         }
     }

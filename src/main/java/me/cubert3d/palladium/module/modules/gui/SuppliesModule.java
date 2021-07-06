@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules.gui;
 
-import me.cubert3d.palladium.gui.TextHudRenderer;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.provider.SuppliesProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.module.ModuleDevStatus;
@@ -21,18 +21,17 @@ public final class SuppliesModule extends ToggleModule {
     public static final TextProvider suppliesList = new SuppliesProvider();
 
     public SuppliesModule() {
-        super("Supplies", "Displays important supplies and their quantities you have on-screen.",
-                ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("Supplies", "Displays important supplies and their quantities you have on-screen.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
         this.addSetting(new ItemListSetting("Items"));
     }
 
     @Override
     protected void onEnable() {
-        TextHudRenderer.getTextManager().setBottomRightList(suppliesList);
+        Palladium.getInstance().getGuiRenderer().getTextHudRenderer().getTextManager().setBottomRightList(suppliesList);
     }
 
     @Override
     protected void onDisable() {
-        TextHudRenderer.getTextManager().clearBottomRightList();
+        Palladium.getInstance().getGuiRenderer().getTextHudRenderer().getTextManager().clearBottomRightList();
     }
 }

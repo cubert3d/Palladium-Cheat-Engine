@@ -1,8 +1,8 @@
 package me.cubert3d.palladium.gui.text.provider;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.text.ColorText;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ public final class SuppliesProvider extends TextProvider {
     public ArrayList<ColorText> getBody() {
         ArrayList<ColorText> text = new ArrayList<>();
 
-        for (Item item : ModuleManager.getModuleByClass(SuppliesModule.class).getSetting("Items").asItemListSetting().getList()) {
+        for (Item item : Palladium.getInstance().getModuleManager().getModuleByClass(SuppliesModule.class).getSetting("Items").asItemListSetting().getList()) {
             int itemCount = 0;
             for (ItemStack stack : Common.getPlayer().inventory.main) {
                 if (stack.getItem().equals(item))

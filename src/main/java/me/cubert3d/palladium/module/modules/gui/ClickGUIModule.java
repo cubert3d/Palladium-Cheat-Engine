@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules.gui;
 
-import me.cubert3d.palladium.gui.ClickGUI;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.modules.ToggleModule;
@@ -22,11 +22,11 @@ public final class ClickGUIModule extends ToggleModule {
 
     @Override
     protected void onEnable() {
-        ClickGUI.openClickGUI();
+        Palladium.getInstance().getGuiRenderer().getClickGUI().open();
     }
 
     @Override
     protected void onDisable() {
-        ClickGUI.closeClickGUI();
+        Palladium.getInstance().getGuiRenderer().getClickGUI().close();
     }
 }

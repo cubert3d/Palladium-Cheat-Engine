@@ -11,12 +11,12 @@ public class ModuleGroupWindow extends Window {
 
     private ModuleGroup moduleGroup;
 
-    public ModuleGroupWindow(String id) {
-        super(id, "Window");
+    public ModuleGroupWindow(String id, WidgetManager widgetManager) {
+        super(id, "Window", widgetManager);
     }
 
-    public ModuleGroupWindow(String id, ModuleGroup moduleGroup) {
-        this(id);
+    public ModuleGroupWindow(String id, ModuleGroup moduleGroup, WidgetManager widgetManager) {
+        this(id, widgetManager);
         this.setModuleGroup(moduleGroup);
     }
 

@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
 import me.cubert3d.palladium.Configuration;
+import me.cubert3d.palladium.Palladium;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class MinecraftClientMixin {
     @Inject(method = "close()V", at = @At("HEAD"))
     private void closeInject(CallbackInfo info) {
-        Configuration.saveConfig();
+        Palladium.getInstance().close();
     }
 }

@@ -1,36 +1,21 @@
 package me.cubert3d.palladium.event.mixin;
 
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleManager;
-import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
-import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
-import net.minecraft.client.Keyboard;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.input.Input;
-import net.minecraft.client.input.KeyboardInput;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.recipebook.ClientRecipeBook;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.stat.StatHandler;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -62,18 +47,17 @@ abstract class ClientPlayerEntityMixin {
             method = "swingHand(Lnet/minecraft/util/Hand;)V",
             cancellable = true)
     private void swingHandInject(Hand hand, final CallbackInfo info) {
-
-        ClickTPModule module = (ClickTPModule) ModuleManager.getModule("ClickTP").get();
-
-        if (module.isEnabled() && hand.equals(ClickTPModule.HAND))
-            module.teleport();
+        ClickTPModule clickTPModule = (ClickTPModule) Palladium.getInstance().getModuleManager().getModuleByClass(ClickTPModule.class);
+        if (clickTPModule.isEnabled() && hand.equals(ClickTPModule.HAND)) {
+            clickTPModule.teleport();
+        }
     }
 
     @Inject(at = @At(value = "HEAD"),
             method = "isSneaking()Z",
             cancellable = true)
     private void isSneakingInject(final CallbackInfoReturnable<Boolean> info) {
-        if (ModuleManager.isModuleEnabled(SneakModule.class))
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(SneakModule.class))
             info.setReturnValue(true);
     }
 

@@ -60,7 +60,7 @@ public abstract class Setting implements Named {
 
     public abstract String getAsString();
 
-    public abstract void setFromString(String string) throws IOException;
+    public abstract void setFromString(String string);
 
     // CONVERSION
 

@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.module.modules.player;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;

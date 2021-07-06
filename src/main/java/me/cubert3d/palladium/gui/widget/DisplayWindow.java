@@ -30,13 +30,13 @@ public final class DisplayWindow extends Window {
 
     private TextProvider textProvider;
 
-    public DisplayWindow(String id) {
-        super(id, "Window");
+    public DisplayWindow(String id, WidgetManager widgetManager) {
+        super(id, "Window", widgetManager);
         this.textSupplier = emptySupplier;
     }
 
-    public DisplayWindow(String id, String label, TextProvider textProvider) {
-        super(id, label);
+    public DisplayWindow(String id, String label, TextProvider textProvider, WidgetManager widgetManager) {
+        super(id, label, widgetManager);
         this.textProvider = textProvider;
     }
 

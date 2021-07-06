@@ -1,5 +1,7 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.command.HelpCommand;
 import me.cubert3d.palladium.module.modules.command.SearchCommand;
 import me.cubert3d.palladium.module.modules.gui.*;
@@ -17,6 +19,7 @@ import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
 import me.cubert3d.palladium.util.annotation.UtilityClass;
+import me.cubert3d.palladium.util.exception.ModuleNotFoundException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,18 +37,27 @@ import java.util.function.Consumer;
 @UtilityClass
 public final class ModuleManager {
 
-    private static final LinkedHashSet<Module> moduleSet = new LinkedHashSet<>();
+    private final LinkedHashSet<Module> moduleSet;
 
     // Store the number of modules separately, so that the modules can be counted as they are loaded.
-    private static int numModules;
-    private static int numAvailableModules;
+    private int numModules;
+    private int numAvailableModules;
 
-    private ModuleManager() {}
+    public ModuleManager() {
+        this.moduleSet = new LinkedHashSet<>();
+        this.numModules = 0;
+        this.numAvailableModules = 0;
+    }
 
-    public static void fillModuleSet() {
+    public void initialize() {
+        Palladium.getLogger().info("Initializing Module Manager...");
+        fillModuleSet();
+        Palladium.getLogger().info("Done initializing Module Manager!");
+    }
 
-        numModules = 0;
-        numAvailableModules = 0;
+    private void fillModuleSet() {
+
+        Palladium.getLogger().info("Filling module set...");
 
         // COMMANDS
         addModule(new HelpCommand());
@@ -80,9 +92,11 @@ public final class ModuleManager {
         addModule(new SprintModule());
         addModule(new SneakModule());
         addModule(new ClickTPModule());
+
+        Palladium.getLogger().info(String.format("Done! Loaded %d modules (%d available, %d debug-only)", numModules, numAvailableModules, numModules - numAvailableModules));
     }
 
-    private static void addModule(Module module) {
+    private void addModule(Module module) {
         moduleSet.add(module);
         module.onLoad();
         // Update the module counters.
@@ -96,11 +110,21 @@ public final class ModuleManager {
     // GETTERS
 
     @Contract(pure = true)
-    public static @NotNull LinkedHashSet<Module> getModules() {
+    public final  @NotNull LinkedHashSet<Module> getModules() {
         return moduleSet;
     }
 
-    public static Optional<Module> getModule(@NotNull String name) {
+    public final Module getModule(String name) {
+        name = name.trim();
+        for (Module module : moduleSet) {
+            if (module.getName().equalsIgnoreCase(name)) {
+                return module;
+            }
+        }
+        throw new ModuleNotFoundException("Could not find module of name \"" + name + "\"");
+    }
+
+    public final Optional<Module> getModuleOptional(@NotNull String name) {
 
         Optional<Module> optional = Optional.empty();
         name = name.trim();
@@ -114,21 +138,18 @@ public final class ModuleManager {
         return optional;
     }
 
-
-
-    // CLASS GETTERS
-
     @InternalOnly
-    public static @NotNull Module getModuleByClass(Class<? extends Module> clazz) {
+    public final @NotNull Module getModuleByClass(Class<? extends Module> clazz) throws ModuleNotFoundException {
         for (Module module : moduleSet) {
-            if (module.getClass().equals(clazz))
+            if (module.getClass().equals(clazz)) {
                 return module;
+            }
         }
-        throw new IllegalArgumentException();
+        throw new ModuleNotFoundException("Could not find module of class " + clazz.getSimpleName());
     }
 
     @InternalOnly
-    public static boolean isModuleEnabled(Class<? extends Module> clazz) {
+    public final boolean isModuleEnabled(Class<? extends Module> clazz) {
         for (Module module : moduleSet) {
             if (module.getClass().equals(clazz))
                 return module.isEnabled();
@@ -136,20 +157,20 @@ public final class ModuleManager {
         return false;
     }
 
-    public static void ifModuleEnabled(Class<? extends Module> clazz, Consumer<Module> action) {
+    public final void ifModuleEnabled(Class<? extends Module> clazz, Consumer<Module> action) {
         for (Module module : moduleSet) {
-            if (module.getClass().equals(clazz)) {
+            if (module.getClass().equals(clazz) && module.isEnabled()) {
                 action.accept(module);
                 break;
             }
         }
     }
 
-    public static int getNumModules() {
+    public final int getNumModules() {
         return numModules;
     }
 
-    public static int getNumAvailableModules() {
+    public final int getNumAvailableModules() {
         return numAvailableModules;
     }
 }

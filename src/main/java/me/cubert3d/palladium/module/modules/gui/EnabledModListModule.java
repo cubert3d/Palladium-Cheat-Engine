@@ -20,8 +20,7 @@ public final class EnabledModListModule extends ToggleModule {
     public static final TextProvider modList = new EnabledModulesProvider();
 
     public EnabledModListModule() {
-        super("ModList", "Displays a list of enabled modules on your screen.",
-                ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("ModList", "Displays a list of enabled modules on your screen.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
     }
 
     @Override

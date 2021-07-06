@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.event.mixin;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.PlayerJumpCallback;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +35,7 @@ abstract class PlayerEntityMixin {
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSpectator()Z"))
     private boolean isSpectatorRedirect(PlayerEntity player) {
-        if (ModuleManager.isModuleEnabled(FreecamModule.class)) {
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(FreecamModule.class)) {
             return true;
         }
         else return player.isSpectator();

@@ -1,9 +1,8 @@
 package me.cubert3d.palladium.input;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
-import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.Module;
-import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
 
@@ -43,7 +42,7 @@ public final class CommandListener {
             String[] args = new String[words.length - 1];
             System.arraycopy(words, 1, args, 0, args.length);
 
-            Optional<Module> optional = ModuleManager.getModule(label.toLowerCase());
+            Optional<Module> optional = Palladium.getInstance().getModuleManager().getModuleOptional(label.toLowerCase());
 
             if (optional.isPresent()) {
                 optional.get().parseArgs(args);
