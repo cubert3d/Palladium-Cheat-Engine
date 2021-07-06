@@ -1,28 +1,23 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.cubert3d.palladium.event.mixin",
+  "package": "me.cubert3d.palladium.event.mixin.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
     "MinecraftClientMixin",
-    "MinecraftClientAccessor",
     "ClientPlayNetworkHandlerMixin",
-    "PlayerListEntryMixin",
     "PlayerEntityMixin",
     "ClientPlayerEntityMixin",
     "KeyboardMixin",
     "KeyBindingMixin",
-    "KeyBindingAccessor",
     "InputUtilKeyMixin",
     "InputUtilTypeMixin",
     "MouseMixin",
     "InGameHudMixin",
     "ChatHudMixin",
     "LivingEntityMixin",
-    "InventoryUpdateMixin",
-    "RenderPhaseAccessor",
     "HungerManagerMixin",
     "MiningToolItemMixin",
     "ItemStackMixin",
@@ -31,9 +26,7 @@
     "FluidRendererMixin",
     "ChunkLightProviderMixin",
     "BlockEntityRenderDispatcherMixin",
-    "EntityRenderDispatcherMixin",
-    "EntityTypeAccessor",
-    "CameraMixin"
+    "EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

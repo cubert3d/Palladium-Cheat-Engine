@@ -1,11 +1,12 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -22,7 +23,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(Block.class)
-abstract class BlockMixin {
+abstract class BlockMixin extends AbstractBlock implements ItemConvertible {
+
+    private BlockMixin(Settings settings) {
+        super(settings);
+    }
+
     @Inject(method = "shouldDrawSide(" +
             "Lnet/minecraft/block/BlockState;" +    // BlockState state
             "Lnet/minecraft/world/BlockView;" +     // BlockView world
@@ -32,7 +38,7 @@ abstract class BlockMixin {
             at = @At(value = "RETURN"),
             cancellable = true)
     private static void shouldDrawSideInject(BlockState state, BlockView world, BlockPos pos, Direction facing,
-                                             CallbackInfoReturnable<Boolean> info) {
+                                             final CallbackInfoReturnable<Boolean> info) {
         /*
          Basic X-Ray method. Makes whitelisted blocks visible, and non-whitelisted blocks invisible.
          However, this mixin is not enough--see AbstractBlockStateMixin, BlockEntityRenderDispatcherMixin,

@@ -1,7 +1,8 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.event.callback.ChatFilterCallback;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -18,11 +19,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(ChatHud.class)
-abstract class ChatHudMixin {
+abstract class ChatHudMixin extends DrawableHelper {
+
     @Inject(at = @At(value = "HEAD"),
             method = "addMessage(Lnet/minecraft/text/Text;IIZ)V",
             cancellable = true)
-    private void onAddMessage(Text message, int messageId, int timestamp, boolean refresh, final CallbackInfo info) {
+    private void addMessageInject(Text message, int messageId, int timestamp, boolean refresh, final CallbackInfo info) {
 
         ActionResult result = ChatFilterCallback.EVENT.invoker().interact(message.getString());
 

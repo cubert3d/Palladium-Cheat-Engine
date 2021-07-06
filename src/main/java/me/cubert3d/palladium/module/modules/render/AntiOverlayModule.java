@@ -5,8 +5,8 @@ import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
-import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.Named;
 import net.minecraft.util.ActionResult;
 
 @ClassDescription(
@@ -47,8 +47,7 @@ public final class AntiOverlayModule extends ToggleModule {
     @Override
     protected void onLoad() {
         OverlayCallback.EVENT.register(overlay -> {
-            if (this.isEnabled()
-                    && this.getSetting(overlay.getName()).asBooleanSetting().getValue()) {
+            if (this.isEnabled() && this.getSetting(overlay.getName()).asBooleanSetting().getValue()) {
                 return ActionResult.FAIL;
             }
             return ActionResult.PASS;

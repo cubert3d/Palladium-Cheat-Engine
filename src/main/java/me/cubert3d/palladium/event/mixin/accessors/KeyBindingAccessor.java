@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.accessors;
 
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;

@@ -23,7 +23,8 @@
     ]
   },
   "mixins": [
-    "palladium.mixins.json"
+    "palladium.mixin.mixins.json",
+    "palladium.mixin.accessors.json"
   ],
 
   "depends": {

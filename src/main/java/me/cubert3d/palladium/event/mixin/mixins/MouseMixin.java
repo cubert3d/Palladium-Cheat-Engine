@@ -1,6 +1,7 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.input.Keys;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -19,23 +20,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(Mouse.class)
-abstract class MouseMixin {
+abstract class MouseMixin implements MixinCaster<Mouse> {
 
     @Inject(at = @At(value = "HEAD"),
             method = "onMouseButton(JIII)V",
             cancellable = true)
-    private void onMouseButtonInject(long window, int button, int action, int mods, CallbackInfo info) {
+    private void onMouseButtonInject(long window, int button, int action, int mods, final CallbackInfo info) {
         /*
         Detects when the mouse is clicked, scales down the coordinates
         of the mouse to the current GUI scale, and sends them to the
         Widget Manager to determine if a widget was clicked.
          */
-
         ClickGUI clickGUI = Palladium.getInstance().getGuiRenderer().getClickGUI();
 
         // Only do anything if the mouse button is the left one.
         if (button == Keys.LEFT_MOUSE_BUTTON && clickGUI.shouldRender()) {
-            clickGUI.onMouseButton((Mouse) (Object) this);
+            clickGUI.onMouseButton(self());
             info.cancel();
         }
     }

@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.accessors;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderTickCounter;

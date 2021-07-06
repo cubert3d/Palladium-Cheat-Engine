@@ -1,16 +1,17 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.Palladium;
+import com.mojang.authlib.GameProfile;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
-import me.cubert3d.palladium.module.Module;
-import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,15 +28,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(ClientPlayerEntity.class)
-abstract class ClientPlayerEntityMixin {
+abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements MixinCaster<ClientPlayerEntity> {
+
+    private ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
+        super(world, profile);
+    }
 
     @Inject(at = @At(value = "HEAD"),
             method = "sendChatMessage(Ljava/lang/String;)V",
             cancellable = true)
     private void sendChatMessageInject(String message, final CallbackInfo info) {
 
-        @SuppressWarnings("ConstantConditions")
-        ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
+        ClientPlayerEntity player = self();
 
         ActionResult result = PlayerChatCallback.EVENT.invoker().interact(player, message);
 
@@ -57,16 +61,16 @@ abstract class ClientPlayerEntityMixin {
             method = "isSneaking()Z",
             cancellable = true)
     private void isSneakingInject(final CallbackInfoReturnable<Boolean> info) {
-        if (Palladium.getInstance().getModuleManager().isModuleEnabled(SneakModule.class))
+        if (Palladium.getInstance().getModuleManager().isModuleEnabled(SneakModule.class)) {
             info.setReturnValue(true);
+        }
     }
 
     @Inject(method = "updateNausea()V",
             at = @At("INVOKE"),
             cancellable = true)
-    private void updateNauseaInject(CallbackInfo info) {
-        @SuppressWarnings("ConstantConditions")
-        ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
+    private void updateNauseaInject(final CallbackInfo info) {
+        ClientPlayerEntity player = self();
         ActionResult result = OverlayCallback.EVENT.invoker().interact(AntiOverlayModule.Overlay.NAUSEA);
 
         if (result.equals(ActionResult.FAIL)) {

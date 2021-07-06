@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.accessors;
 
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.render.RenderPhase;

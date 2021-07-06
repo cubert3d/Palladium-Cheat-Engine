@@ -1,7 +1,8 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
+import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.item.TooltipContext;
@@ -37,7 +38,7 @@ import java.util.Random;
 )
 
 @Mixin(ItemStack.class)
-abstract class ItemStackMixin {
+abstract class ItemStackMixin implements MixinCaster<ItemStack> {
 
     /*
     @Inject(at = @At(value = "TAIL"),
@@ -70,18 +71,16 @@ abstract class ItemStackMixin {
     @Inject(method = "damage(ILjava/util/Random;Lnet/minecraft/server/network/ServerPlayerEntity;)Z",
             at = @At(value = "TAIL"))
     private void damageInject(int amount, Random random, @Nullable ServerPlayerEntity player,
-                              CallbackInfoReturnable<Boolean> info) {
-        ActionResult result = ItemStackDamageCallback.EVENT.invoker().interact(player, (ItemStack) (Object) this);
+                              final CallbackInfoReturnable<Boolean> info) {
+        ActionResult result = ItemStackDamageCallback.EVENT.invoker().interact(player, self());
     }
 
     @Inject(method = "getTooltip(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/client/item/TooltipContext;)Ljava/util/List;",
             at = @At("TAIL"), cancellable = true)
-    private void getTooltipInject(PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> info) {
-
-        /*
+    private void getTooltipInject(PlayerEntity player, TooltipContext context, final CallbackInfoReturnable<List<Text>> info) {
         if (Palladium.getInstance().getModuleManager().isModuleEnabled(TooltipsModule.class)) {
 
-            ItemStack stack = (ItemStack) (Object) this;
+            ItemStack stack = self();
             List<Text> newTooltip = info.getReturnValue();
 
             if (stack.isDamageable()) {
@@ -93,17 +92,11 @@ abstract class ItemStackMixin {
             
             info.setReturnValue(newTooltip);
         }
-
-         */
     }
 
     @Inject(method = "appendEnchantments(Ljava/util/List;Lnet/minecraft/nbt/ListTag;)V",
             at = @At("HEAD"), cancellable = true)
-    private static void appendEnchantmentsInject(List<Text> tooltip, ListTag enchantments, CallbackInfo info) {
-
-        //
-
-        /*
+    private static void appendEnchantmentsInject(List<Text> tooltip, ListTag enchantments, final CallbackInfo info) {
         if (Palladium.getInstance().getModuleManager().isModuleEnabled(TooltipsModule.class)) {
             for (int i = 0; i < enchantments.size(); i++) {
                 CompoundTag tag = enchantments.getCompound(i);
@@ -114,11 +107,8 @@ abstract class ItemStackMixin {
                     tooltip.add(new LiteralText(entry));
                 }
             }
-
             info.cancel();
         }
-
-         */
     }
 
     private static String getEnchantmentEntry(Enchantment enchantment, int level) {

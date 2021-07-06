@@ -1,6 +1,5 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -29,14 +28,15 @@ abstract class BlockEntityRenderDispatcherMixin {
             "Lnet/minecraft/client/util/math/MatrixStack;" +
             "Lnet/minecraft/client/render/VertexConsumerProvider;" +
             ")V", at = @At("HEAD"), cancellable = true)
-    private <E extends BlockEntity> void onRender(E blockEntity, float tickDelta, MatrixStack matrix,
-                                                  VertexConsumerProvider vertexConsumerProvider,
-                                                  CallbackInfo info) {
+    private <E extends BlockEntity> void renderInject(E blockEntity, float tickDelta, MatrixStack matrix,
+                                                      VertexConsumerProvider vertexConsumerProvider,
+                                                      final CallbackInfo info) {
         // For x-ray, prevents block entities that are not on the whitelist from rendering.
         if (blockEntity.hasWorld()) {
             Block block = blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock();
-            if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class) && XRayModule.isSeeThrough(block))
+            if (Palladium.getInstance().getModuleManager().isModuleEnabled(XRayModule.class) && XRayModule.isSeeThrough(block)) {
                 info.cancel();
+            }
         }
     }
 }

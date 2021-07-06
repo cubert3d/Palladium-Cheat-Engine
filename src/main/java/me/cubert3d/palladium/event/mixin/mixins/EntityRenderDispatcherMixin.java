@@ -1,10 +1,11 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.mixin.MixinCaster;
+import me.cubert3d.palladium.event.mixin.accessors.RenderPhaseAccessor;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
-import me.cubert3d.palladium.util.render.ColorF;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.render.ColorF;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
@@ -40,7 +41,7 @@ import java.util.OptionalDouble;
 )
 
 @Mixin(EntityRenderDispatcher.class)
-abstract class EntityRenderDispatcherMixin {
+abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityRenderDispatcher> {
 
     private static final RenderLayer ESP_LAYER = RenderLayer.of("esp", VertexFormats.POSITION_COLOR, 1, 256,
             RenderLayer.MultiPhaseParameters.builder().lineWidth(new RenderPhase
@@ -62,12 +63,12 @@ abstract class EntityRenderDispatcherMixin {
             at = @At("TAIL"))
     private <E extends Entity> void renderInject(E entity, double x, double y, double z, float yaw,
                                                  float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-                                                 int light, CallbackInfo info) {
+                                                 int light, final CallbackInfo info) {
 
         if (Palladium.getInstance().getModuleManager().isModuleEnabled(ESPModule.class)) {
             if (!isThePlayer(entity)) {
                 try {
-                    EntityRenderer entityRenderer = ((EntityRenderDispatcher)(Object)this).getRenderer(entity);
+                    EntityRenderer entityRenderer = self().getRenderer(entity);
                     Vec3d vec3d = entityRenderer.getPositionOffset(entity, tickDelta);
                     double d = x + vec3d.getX();
                     double e = y + vec3d.getY();

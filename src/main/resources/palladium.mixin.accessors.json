@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.cubert3d.palladium.event.mixin.accessors",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MinecraftClientAccessor",
+    "KeyBindingAccessor",
+    "RenderPhaseAccessor",
+    "EntityTypeAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

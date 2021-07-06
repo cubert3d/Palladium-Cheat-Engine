@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.event.mixin;
+package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.Module;
@@ -14,15 +14,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class KeyboardMixin {
 
     @Inject(method = "onKey(JIIII)V", at = @At("TAIL"))
-    private void onOnKey(long window, int key, int scancode, int i, int j, CallbackInfo info) {
-
+    private void onOnKey(long window, int key, int scancode, int i, int j, final CallbackInfo info) {
         /*
         The variable "i" represents whether the key is being pressed, held, or released:
         1 = pressed
         2 = held
         0 = released
          */
-
         // Make sure there is no 'screen' open--aka menu, chat console, etc
         if (MinecraftClient.getInstance().currentScreen == null) {
             for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
