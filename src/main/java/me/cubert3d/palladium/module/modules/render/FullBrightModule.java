@@ -1,12 +1,9 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
-import me.cubert3d.palladium.module.setting.Setting;
-import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.DoubleSetting;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 import java.util.Optional;
@@ -22,21 +19,24 @@ public final class FullBrightModule extends ToggleModule {
 
     private static final double fullGamma = 10.0;
     private double prevGamma = 0.0;
+    private final DoubleSetting gamma;
 
     public FullBrightModule() {
-        super("FullBright", "Fully illuminates all blocks.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
-        this.addSetting(new DoubleSetting("Brightness", 10.0, 10.0));
+        super("FullBright", "Fully illuminates all blocks.", ModuleDevStatus.AVAILABLE);
+        this.gamma = new DoubleSetting("Gamma", 10.0, 10.0);
+        this.addSetting(gamma);
     }
 
     @Override
     public Optional<String> getPrimaryInfo() {
-        return Optional.ofNullable(getSetting("Brightness").asDoubleSetting().getValue().toString());
+        return Optional.ofNullable(gamma.getAsString());
     }
 
     @Override
     protected void onChangeSetting() {
-        if (isEnabled())
+        if (isEnabled()) {
             updateGamma();
+        }
     }
 
     @Override
@@ -51,13 +51,6 @@ public final class FullBrightModule extends ToggleModule {
     }
 
     private void updateGamma() {
-        double newGamma = fullGamma;
-        Optional<Setting> optionalSetting = this.getSettingOptional("Brightness");
-
-        if (optionalSetting.isPresent() && optionalSetting.get().getType().equals(SettingType.DOUBLE)) {
-            newGamma = ((DoubleSetting) optionalSetting.get()).getValue();
-        }
-
-        Common.getMC().options.gamma = newGamma;
+        Common.getMC().options.gamma = gamma.getValue();
     }
 }

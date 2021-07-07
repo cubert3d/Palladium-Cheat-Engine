@@ -1,9 +1,8 @@
 package me.cubert3d.palladium.module.modules.player;
 
+import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.BlockState;
@@ -27,12 +26,11 @@ public final class AutoToolModule extends ToggleModule {
     // TODO: add setting for whether to pick a tool based on its effectiveness, or its durability.
 
     public AutoToolModule() {
-        super("AutoTool", "Switches to the best tool in your hotbar when you try to mine a block.",
-                ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("AutoTool", "Switches to the best tool in your hotbar when you try to mine a block.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override
-    protected void onLoad() {
+    public void onLoad() {
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 
             // The player must not be in creative or spectator mode.

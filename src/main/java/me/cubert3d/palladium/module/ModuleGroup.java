@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.module;
 
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.Named;
 import org.jetbrains.annotations.NotNull;

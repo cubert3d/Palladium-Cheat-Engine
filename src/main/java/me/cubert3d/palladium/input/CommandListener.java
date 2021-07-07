@@ -2,7 +2,7 @@ package me.cubert3d.palladium.input;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
-import me.cubert3d.palladium.module.Module;
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
 

@@ -2,7 +2,7 @@ package me.cubert3d.palladium.gui.text.provider;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.ColorText;
-import me.cubert3d.palladium.module.Module;
+import me.cubert3d.palladium.module.modules.Module;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules;
 
 import me.cubert3d.palladium.input.CommandError;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.Setting;
@@ -11,15 +10,19 @@ import me.cubert3d.palladium.module.setting.single.StringSetting;
 import me.cubert3d.palladium.util.Common;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public abstract class CommandModule extends Module {
 
-    protected CommandModule(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
-        super(name, description, moduleType, status);
+    protected CommandModule(String name, String description, ModuleDevStatus status) {
+        super(name, description, status);
         // Let the player set args that are automatically passed to the execute() method when the bound key is pressed.
         this.addSetting(new StringSetting("Arguments", ""));
+    }
+
+    @Override
+    public ModuleType getType() {
+        return ModuleType.COMMAND;
     }
 
     @Override

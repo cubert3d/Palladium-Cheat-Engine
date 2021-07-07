@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
 import me.cubert3d.palladium.module.modules.gui.EffectListModule;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;

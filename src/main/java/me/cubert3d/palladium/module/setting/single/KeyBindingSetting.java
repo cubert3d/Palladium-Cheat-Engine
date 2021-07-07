@@ -6,7 +6,6 @@ import me.cubert3d.palladium.util.exception.SettingParseException;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public final class KeyBindingSetting extends SingleSetting<InputUtil.Key> {

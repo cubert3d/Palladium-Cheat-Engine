@@ -2,7 +2,6 @@ package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -37,7 +36,7 @@ public final class AntiOverlayModule extends ToggleModule {
     }
 
     public AntiOverlayModule() {
-        super("AntiOverlay", "Removes obtrusive overlays.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("AntiOverlay", "Removes obtrusive overlays.", ModuleDevStatus.AVAILABLE);
         this.addSetting(new BooleanSetting("Pumpkin", true));
         this.addSetting(new BooleanSetting("Portal", true));
         this.addSetting(new BooleanSetting("Nausea", true));
@@ -45,12 +44,14 @@ public final class AntiOverlayModule extends ToggleModule {
     }
 
     @Override
-    protected void onLoad() {
+    public void onLoad() {
         OverlayCallback.EVENT.register(overlay -> {
             if (this.isEnabled() && this.getSetting(overlay.getName()).asBooleanSetting().getValue()) {
                 return ActionResult.FAIL;
             }
-            return ActionResult.PASS;
+            else {
+                return ActionResult.PASS;
+            }
         });
     }
 }

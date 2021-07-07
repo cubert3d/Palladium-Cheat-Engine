@@ -5,7 +5,6 @@ import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 
 @ClassDescription(

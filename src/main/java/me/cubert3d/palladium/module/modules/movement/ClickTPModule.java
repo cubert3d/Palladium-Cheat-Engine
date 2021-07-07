@@ -1,9 +1,8 @@
 package me.cubert3d.palladium.module.modules.movement;
 
+import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.Vector3f;
@@ -39,8 +38,7 @@ public final class ClickTPModule extends ToggleModule {
     public static final Hand HAND = Hand.MAIN_HAND;
 
     public ClickTPModule() {
-        super("ClickTP", "Allows the player to teleport to where they click",
-                ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+        super("ClickTP", "Allows the player to teleport to where they click", ModuleDevStatus.DEBUG_ONLY);
     }
 
     public final void teleport() {

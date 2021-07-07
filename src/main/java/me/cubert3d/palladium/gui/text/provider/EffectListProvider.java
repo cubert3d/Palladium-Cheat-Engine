@@ -1,8 +1,8 @@
 package me.cubert3d.palladium.gui.text.provider;
 
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
+import me.cubert3d.palladium.util.Common;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectType;

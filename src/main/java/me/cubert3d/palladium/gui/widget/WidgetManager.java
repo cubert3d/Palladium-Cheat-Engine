@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.gui.widget;
 
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.ClickGUI;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.util.math.MatrixStack;
 

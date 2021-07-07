@@ -1,6 +1,6 @@
 package me.cubert3d.palladium;
 
-import me.cubert3d.palladium.module.Module;
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.exception.EnabledParseException;
 import me.cubert3d.palladium.util.exception.SettingNotFoundException;

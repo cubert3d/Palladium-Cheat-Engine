@@ -4,7 +4,6 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.provider.PlayerInfoProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -21,7 +20,7 @@ public final class PlayerInfoModule extends ToggleModule {
     private static final TextProvider infoList = new PlayerInfoProvider();
 
     public PlayerInfoModule() {
-        super("Info", "Displays information about the player and the game on-screen.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
+        super("Info", "Displays information about the player and the game on-screen.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override

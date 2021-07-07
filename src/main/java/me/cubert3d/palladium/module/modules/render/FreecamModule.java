@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -11,7 +10,7 @@ public final class FreecamModule extends ToggleModule {
     double lastX, lastY, lastZ;
 
     public FreecamModule() {
-        super("Freecam", "Allows you to move your camera freely, as if in spectator mode.", ModuleType.TOGGLE, ModuleDevStatus.DEBUG_ONLY);
+        super("Freecam", "Allows you to move your camera freely, as if in spectator mode.", ModuleDevStatus.DEBUG_ONLY);
     }
 
     @Override

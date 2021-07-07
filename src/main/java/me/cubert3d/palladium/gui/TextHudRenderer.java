@@ -1,10 +1,10 @@
 package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

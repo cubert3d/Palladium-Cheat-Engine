@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.Module;
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;

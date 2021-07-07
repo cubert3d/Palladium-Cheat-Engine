@@ -6,7 +6,6 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.exception.SettingParseException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

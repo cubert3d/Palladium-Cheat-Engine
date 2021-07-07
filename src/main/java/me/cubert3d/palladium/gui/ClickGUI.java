@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.gui.widget.DisplayWindow;
 import me.cubert3d.palladium.gui.widget.ModuleGroupWindow;

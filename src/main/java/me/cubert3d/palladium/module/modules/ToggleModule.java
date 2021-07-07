@@ -1,28 +1,29 @@
 package me.cubert3d.palladium.module.modules;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.input.CommandError;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.ListSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.exception.SettingParseException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public abstract class ToggleModule extends Module {
 
     private boolean enabled;
 
-    protected ToggleModule(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
-        super(name, description, moduleType, status);
+    protected ToggleModule(String name, String description, ModuleDevStatus status) {
+        super(name, description, status);
         this.enabled = false;
+    }
+
+    @Override
+    public ModuleType getType() {
+        return ModuleType.TOGGLE;
     }
 
     @Override

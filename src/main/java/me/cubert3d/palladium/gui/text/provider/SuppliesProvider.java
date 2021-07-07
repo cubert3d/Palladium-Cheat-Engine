@@ -1,9 +1,9 @@
 package me.cubert3d.palladium.gui.text.provider;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
+import me.cubert3d.palladium.util.Common;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;

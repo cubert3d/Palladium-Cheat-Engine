@@ -3,7 +3,6 @@ package me.cubert3d.palladium.module.setting.single;
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @ClassDescription(

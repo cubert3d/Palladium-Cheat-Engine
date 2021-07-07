@@ -4,7 +4,6 @@ import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.exception.SettingParseException;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @ClassDescription(

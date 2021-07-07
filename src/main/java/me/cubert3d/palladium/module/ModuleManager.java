@@ -1,14 +1,24 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.modules.command.HelpCommand;
 import me.cubert3d.palladium.module.modules.command.SearchCommand;
-import me.cubert3d.palladium.module.modules.gui.*;
+import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
+import me.cubert3d.palladium.module.modules.gui.EffectListModule;
+import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
+import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
+import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
+import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
-import me.cubert3d.palladium.module.modules.player.*;
+import me.cubert3d.palladium.module.modules.player.AutoDisconnectModule;
+import me.cubert3d.palladium.module.modules.player.AutoToolModule;
+import me.cubert3d.palladium.module.modules.player.BlinkModule;
+import me.cubert3d.palladium.module.modules.player.ChatFilterModule;
+import me.cubert3d.palladium.module.modules.player.PacketManagerModule;
+import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.ChamsModule;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
@@ -101,8 +111,9 @@ public final class ModuleManager {
         module.onLoad();
         // Update the module counters.
         numModules++;
-        if (module.getDevStatus().equals(ModuleDevStatus.AVAILABLE))
+        if (module.getDevStatus().equals(ModuleDevStatus.AVAILABLE)) {
             numAvailableModules++;
+        }
     }
 
 

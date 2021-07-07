@@ -1,10 +1,8 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.BlockRenderCallback;
 import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.Common;
@@ -105,10 +103,12 @@ public final class XRayModule extends ToggleModule {
     };
 
     private static final List<Block> defaultWhiteList = new ArrayList<>();
+    private final BlockListSetting whitelist;
 
     public XRayModule() {
-        super("XRay", "Lets you see ores in the ground.", ModuleType.TOGGLE, ModuleDevStatus.AVAILABLE);
-        this.addSetting(new BlockListSetting("Whitelist", defaultWhiteList));
+        super("XRay", "Lets you see ores in the ground.", ModuleDevStatus.AVAILABLE);
+        this.whitelist = new BlockListSetting("Whitelist", defaultWhiteList);
+        this.addSetting(whitelist);
     }
 
     @Override
@@ -117,7 +117,7 @@ public final class XRayModule extends ToggleModule {
     }
 
     @Override
-    protected void onLoad() {
+    public void onLoad() {
 
         BlockRenderCallback.EVENT.register(block -> {
             if (isEnabled() && isSeeThrough(block)) {
@@ -164,8 +164,8 @@ public final class XRayModule extends ToggleModule {
 
     // Whether a block should be made invisible when X-Ray is enabled.
     private boolean isSeeThrough(Block block) {
-        List<Block> whitelist = Palladium.getInstance().getModuleManager().getModuleByClass(XRayModule.class).getSetting("Whitelist").asBlockListSetting().getList();
-        for (Block other : whitelist) {
+        List<Block> blocks = whitelist.getList();
+        for (Block other : blocks) {
             if (block.is(other))
                 return false;
         }

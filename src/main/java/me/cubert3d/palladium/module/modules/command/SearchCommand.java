@@ -1,11 +1,10 @@
 package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.modules.CommandModule;
-import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.CommandModule;
+import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 // Written by cubert3d on 3/8/2021
@@ -21,8 +20,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 public final class SearchCommand extends CommandModule {
 
     public SearchCommand() {
-        super("Search", "Searches for modules and commands by name.",
-                ModuleType.EXECUTE_ONCE, ModuleDevStatus.AVAILABLE);
+        super("Search", "Searches for modules and commands by name.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override

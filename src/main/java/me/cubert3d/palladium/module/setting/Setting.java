@@ -1,12 +1,18 @@
 package me.cubert3d.palladium.module.setting;
 
-import me.cubert3d.palladium.module.setting.single.*;
-import me.cubert3d.palladium.module.setting.list.*;
-import me.cubert3d.palladium.util.annotation.Named;
+import me.cubert3d.palladium.module.setting.list.BlockListSetting;
+import me.cubert3d.palladium.module.setting.list.EntityListSetting;
+import me.cubert3d.palladium.module.setting.list.ItemListSetting;
+import me.cubert3d.palladium.module.setting.list.ListSetting;
+import me.cubert3d.palladium.module.setting.list.StringListSetting;
+import me.cubert3d.palladium.module.setting.single.BooleanSetting;
+import me.cubert3d.palladium.module.setting.single.DoubleSetting;
+import me.cubert3d.palladium.module.setting.single.IntegerSetting;
+import me.cubert3d.palladium.module.setting.single.SingleSetting;
+import me.cubert3d.palladium.module.setting.single.StringSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
-
-import java.io.IOException;
+import me.cubert3d.palladium.util.annotation.Named;
 
 @ClassDescription(
         authors = {

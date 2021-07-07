@@ -1,14 +1,15 @@
-package me.cubert3d.palladium.module;
+package me.cubert3d.palladium.module.modules;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.module.ModuleDevStatus;
+import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.module.setting.list.StringListSetting;
+import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.setting.*;
-import me.cubert3d.palladium.module.setting.list.*;
-import me.cubert3d.palladium.module.setting.single.*;
-import me.cubert3d.palladium.util.annotation.Named;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
+import me.cubert3d.palladium.util.annotation.Named;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
@@ -29,17 +30,14 @@ public abstract class Module implements Named {
     private final String name;
     // Should be brief and concise.
     private final String description;
-    // Toggle or Command (execute once)
-    private final ModuleType moduleType;
     private final Set<Setting> settings = new LinkedHashSet<>();
     private final KeyBindingSetting bindingSetting;
     // Available or still in development
     private final ModuleDevStatus status;
 
-    protected Module(String name, String description, ModuleType moduleType, ModuleDevStatus status) {
+    protected Module(String name, String description, ModuleDevStatus status) {
         this.name = name;
         this.description = description;
-        this.moduleType = moduleType;
         this.status = status;
         this.bindingSetting = new KeyBindingSetting("Binding", null);
         this.addSetting(bindingSetting);
@@ -69,9 +67,7 @@ public abstract class Module implements Named {
         return Optional.empty();
     }
 
-    public final ModuleType getType() {
-        return moduleType;
-    }
+    public abstract ModuleType getType();
 
     public final ModuleDevStatus getDevStatus() {
         return status;
@@ -172,7 +168,7 @@ public abstract class Module implements Named {
     protected void onConstruct() {}
 
     // Called when this module is loaded by the module manager.
-    protected void onLoad() {}
+    public void onLoad() {}
 
     public abstract void onKeyPressed(int mode);
 

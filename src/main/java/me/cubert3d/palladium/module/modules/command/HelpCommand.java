@@ -1,12 +1,11 @@
 package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.modules.CommandModule;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.input.CommandError;
-import me.cubert3d.palladium.module.Module;
 import me.cubert3d.palladium.module.ModuleDevStatus;
-import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.modules.CommandModule;
+import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +26,7 @@ public final class HelpCommand extends CommandModule {
     private static final int PAGE_SIZE = 10;
 
     public HelpCommand() {
-        super("Help", "Lists the modules and commands, and their descriptions.", ModuleType.EXECUTE_ONCE, ModuleDevStatus.AVAILABLE);
+        super("Help", "Lists the modules and commands, and their descriptions.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override
