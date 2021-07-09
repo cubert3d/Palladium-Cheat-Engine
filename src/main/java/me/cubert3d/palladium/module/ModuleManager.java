@@ -11,6 +11,7 @@ import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
 import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
 import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
+import me.cubert3d.palladium.module.modules.movement.EntityControlModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.AutoDisconnectModule;
@@ -102,6 +103,7 @@ public final class ModuleManager {
         addModule(new SprintModule());
         addModule(new SneakModule());
         addModule(new ClickTPModule());
+        addModule(new EntityControlModule());
 
         Palladium.getLogger().info(String.format("Done! Loaded %d modules (%d available, %d debug-only)", numModules, numAvailableModules, numModules - numAvailableModules));
     }
@@ -175,13 +177,5 @@ public final class ModuleManager {
                 break;
             }
         }
-    }
-
-    public final int getNumModules() {
-        return numModules;
-    }
-
-    public final int getNumAvailableModules() {
-        return numAvailableModules;
     }
 }

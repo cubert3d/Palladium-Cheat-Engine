@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockEntityRenderDispatcher.class)
 abstract class BlockEntityRenderDispatcherMixin {
+
     @Inject(method = "render(" +
             "Lnet/minecraft/block/entity/BlockEntity;" +
             "F" +
@@ -35,9 +36,9 @@ abstract class BlockEntityRenderDispatcherMixin {
         if (blockEntity.hasWorld()) {
 
             Block block = blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock();
-            ActionResult result = BlockRenderCallback.EVENT.invoker().interact(block);
+            ActionResult xRayResult = BlockRenderCallback.EVENT.invoker().interact(block);
 
-            if (result.equals(ActionResult.FAIL)) {
+            if (xRayResult.equals(ActionResult.FAIL)) {
                 info.cancel();
             }
         }

@@ -18,6 +18,7 @@
     "InGameHudMixin",
     "ChatHudMixin",
     "LivingEntityMixin",
+    "HorseBaseEntityMixin",
     "HungerManagerMixin",
     "MiningToolItemMixin",
     "ItemStackMixin",

@@ -6,7 +6,6 @@ import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.event.mixin.accessors.RenderPhaseAccessor;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import me.cubert3d.palladium.util.render.ColorF;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexConsumer;
@@ -25,7 +24,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -89,11 +87,6 @@ abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityRenderDi
                 Palladium.getLogger().error("Error rendering ESP");
             }
         }
-    }
-
-    // Returns true if the given entity is the player (ie you, not other players), false otherwise.
-    private boolean isThePlayer(@NotNull Entity entity) {
-        return entity.equals(MinecraftClient.getInstance().player);
     }
 
     private ColorF getEntityColor(Entity entity) {
