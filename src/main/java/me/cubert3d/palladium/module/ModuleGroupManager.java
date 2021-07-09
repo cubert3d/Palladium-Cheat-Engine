@@ -9,6 +9,7 @@ import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
 import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
 import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
+import me.cubert3d.palladium.module.modules.movement.EntityControlModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
 import me.cubert3d.palladium.module.modules.player.AutoDisconnectModule;
@@ -69,7 +70,8 @@ public final class ModuleGroupManager {
             ModuleGroup movementModules = newModuleGroup("Movement",
                     SneakModule.class,
                     SprintModule.class,
-                    ClickTPModule.class);
+                    ClickTPModule.class,
+                    EntityControlModule.class);
 
             ModuleGroup playerModules = newModuleGroup("Player",
                     ChatFilterModule.class,
