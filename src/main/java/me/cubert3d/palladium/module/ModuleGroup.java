@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.module.modules.Module;
-import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
         type = ClassType.MISC
 )
 
-public final class ModuleGroup implements Named {
+public final class ModuleGroup {
 
     private String name;
     private String id;
@@ -34,7 +33,6 @@ public final class ModuleGroup implements Named {
         return false;
     }
 
-    @Override
     public final String getName() {
         return name;
     }

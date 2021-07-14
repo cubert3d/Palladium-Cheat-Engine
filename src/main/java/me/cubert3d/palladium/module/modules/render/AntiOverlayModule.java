@@ -3,7 +3,6 @@ package me.cubert3d.palladium.module.modules.render;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
-import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.util.ActionResult;
@@ -16,7 +15,7 @@ import net.minecraft.util.ActionResult;
 
 public final class AntiOverlayModule extends ToggleModule {
 
-    public enum Overlay implements Named {
+    public enum Overlay {
         PUMPKIN("Pumpkin"),
         PORTAL("Portal"),
         NAUSEA("Nausea"),
@@ -28,7 +27,6 @@ public final class AntiOverlayModule extends ToggleModule {
             this.name = name;
         }
 
-        @Override
         public final String getName() {
             return name;
         }

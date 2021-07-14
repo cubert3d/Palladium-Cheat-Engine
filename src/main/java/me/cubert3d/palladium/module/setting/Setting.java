@@ -10,7 +10,6 @@ import me.cubert3d.palladium.module.setting.single.DoubleSetting;
 import me.cubert3d.palladium.module.setting.single.IntegerSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
-import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 
@@ -21,7 +20,7 @@ import me.cubert3d.palladium.util.annotation.ClassType;
         type = ClassType.SETTING
 )
 
-public abstract class Setting implements Named {
+public abstract class Setting {
 
     public static final String[] FORBIDDEN_SETTING_NAMES = new String[]{
             "enable",
@@ -36,7 +35,6 @@ public abstract class Setting implements Named {
         this.name = name;
     }
 
-    @Override
     public final String getName() {
         return name;
     }

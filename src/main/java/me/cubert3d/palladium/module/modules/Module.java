@@ -5,7 +5,6 @@ import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +20,7 @@ import java.util.Set;
         type = ClassType.MODULE
 )
 
-public abstract class Module implements Named {
+public abstract class Module {
 
     // The name of this module must be unique.
     private final String name;
@@ -48,7 +47,6 @@ public abstract class Module implements Named {
         return false;
     }
 
-    @Override
     public final String getName() {
         return name;
     }
