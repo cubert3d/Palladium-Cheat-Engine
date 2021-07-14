@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
-import me.cubert3d.palladium.util.Common;
+import me.cubert3d.palladium.util.IdentifierUtil;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.entity.Entity;
@@ -63,6 +63,6 @@ public final class EntityListSetting extends ListSetting<EntityType<? extends En
 
     @Override
     public final Optional<EntityType<? extends Entity>> convertStringToElement(String string) {
-        return Optional.of(Common.getEntityTypeFromString(string));
+        return Optional.of(IdentifierUtil.getEntityTypeFromString(string));
     }
 }

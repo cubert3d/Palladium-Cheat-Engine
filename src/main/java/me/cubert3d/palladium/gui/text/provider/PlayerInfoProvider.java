@@ -3,7 +3,6 @@ package me.cubert3d.palladium.gui.text.provider;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
 import me.cubert3d.palladium.gui.text.ColorText;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -51,18 +50,18 @@ public final class PlayerInfoProvider extends TextProvider {
     }
 
     private @NotNull ColorText getScore() {
-        return new ColorText("Score: " + Common.getPlayer().getScore());
+        return new ColorText("Score: " + MinecraftClient.getInstance().player.getScore());
     }
 
     private @NotNull ColorText getCoordinatesString() {
-        double x = Common.getPlayer().getX();
-        double y = Common.getPlayer().getY();
-        double z = Common.getPlayer().getZ();
+        double x = MinecraftClient.getInstance().player.getX();
+        double y = MinecraftClient.getInstance().player.getY();
+        double z = MinecraftClient.getInstance().player.getZ();
         return new ColorText(String.format("Position: %.1f, %.1f, %.1f", x, y, z));
     }
 
     private @NotNull ColorText getDirectionFacing() {
-        Direction direction = Common.getPlayer().getHorizontalFacing();
+        Direction direction = MinecraftClient.getInstance().player.getHorizontalFacing();
         String axis;
         switch (direction) {
             case NORTH:

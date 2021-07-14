@@ -4,9 +4,9 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -22,7 +22,8 @@ import java.util.Objects;
 @ClassInfo(
         authors = "cubert3d",
         date = "3/7/2021",
-        type = ClassType.MODULE
+        type = ClassType.MODULE,
+        complete = false
 )
 
 public final class ToolSaverModule extends ToggleModule {
@@ -58,7 +59,6 @@ public final class ToolSaverModule extends ToggleModule {
                 return ActionResult.PASS;
 
             int newDamage = stack.getDamage();
-            Common.sendMessage(String.format("Damage: %d/%d", newDamage, stack.getMaxDamage()));
             Palladium.getLogger().debug(String.format("Damage: %d/%d", newDamage, stack.getMaxDamage()));
 
             return ActionResult.PASS;
@@ -104,11 +104,10 @@ public final class ToolSaverModule extends ToggleModule {
 
             ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, slot, clickData, SlotActionType.SWAP, ItemStack.EMPTY, (short) 0);
 
-            Objects.requireNonNull(Common.getMC().getNetworkHandler()).sendPacket(packet);
+            Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendPacket(packet);
 
             inventory.updateItems();
 
-            Common.sendMessage("Tool Saved!");
             Palladium.getLogger().debug("Tool Saved!");
         }
         else {

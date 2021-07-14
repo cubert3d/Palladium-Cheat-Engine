@@ -8,7 +8,6 @@ import me.cubert3d.palladium.gui.widget.Widget;
 import me.cubert3d.palladium.gui.widget.WidgetManager;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -92,7 +91,7 @@ public final class ClickGUI {
     }
 
     public final void open() {
-        Common.getMC().mouse.unlockCursor();
+        MinecraftClient.getInstance().mouse.unlockCursor();
         //KeyBinding.unpressAll();
         open = true;
     }
@@ -133,8 +132,8 @@ public final class ClickGUI {
         double height = MinecraftClient.getInstance().getWindow().getHeight();
 
         // The scaled-down dimensions of the window, as per the current GUI scale.
-        double scaledWidth = Common.getMC().getWindow().getScaledWidth();
-        double scaledHeight = Common.getMC().getWindow().getScaledHeight();
+        double scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        double scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
 
         // Position of the mouse; it needs to be scaled down.
         double x = mouse.getX();
@@ -152,10 +151,10 @@ public final class ClickGUI {
 
     public final void onMouseCursorMove(double x, double y) {
         if (shouldRender()) {
-            double width = Common.getMC().getWindow().getWidth();
-            double height = Common.getMC().getWindow().getHeight();
-            double scaledWidth = Common.getMC().getWindow().getScaledWidth();
-            double scaledHeight = Common.getMC().getWindow().getScaledHeight();
+            double width = MinecraftClient.getInstance().getWindow().getWidth();
+            double height = MinecraftClient.getInstance().getWindow().getHeight();
+            double scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+            double scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
             int scaledX = (int) (x / (width / scaledWidth));
             int scaledY = (int) (y / (height / scaledHeight));
             widgetManager.onMouseMove(scaledX, scaledY);

@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
-import me.cubert3d.palladium.util.Common;
+import me.cubert3d.palladium.util.IdentifierUtil;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.item.Item;
@@ -63,6 +63,6 @@ public final class ItemListSetting extends ListSetting<Item> {
 
     @Override
     public final Optional<Item> convertStringToElement(String string) {
-        return Optional.of(Common.getItemFromString(string));
+        return Optional.of(IdentifierUtil.getItemFromString(string));
     }
 }

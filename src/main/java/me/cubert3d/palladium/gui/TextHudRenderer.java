@@ -4,7 +4,6 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -132,7 +131,7 @@ public final class TextHudRenderer {
             for (int i = 0; i < listSize; i++) {
                 ColorText text = list.get(i);
 
-                int x = Common.getMC().getWindow().getScaledWidth() - textRenderer.getWidth(text.getString()) - 1;
+                int x = MinecraftClient.getInstance().getWindow().getScaledWidth() - textRenderer.getWidth(text.getString()) - 1;
                 int y = 1 + (textRenderer.fontHeight * i);
                 int width = textRenderer.getWidth(text.getString());
 
@@ -172,8 +171,8 @@ public final class TextHudRenderer {
                 ColorText text = list.get(i);
 
                 int width = textRenderer.getWidth(text.getString());
-                int x = Common.getMC().getWindow().getScaledWidth() - textRenderer.getWidth(text.getString()) - 1;
-                int y = (Common.getMC().getWindow().getScaledHeight() - textRenderer.fontHeight) - (textRenderer.fontHeight * i);
+                int x = MinecraftClient.getInstance().getWindow().getScaledWidth() - textRenderer.getWidth(text.getString()) - 1;
+                int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - textRenderer.fontHeight) - (textRenderer.fontHeight * i);
 
                 drawText(matrices, text, x, y);
                 DrawHelper.drawVerticalLine(matrices, x - 2, y - 1, y + textRenderer.fontHeight - 1, Colors.LAVENDER);

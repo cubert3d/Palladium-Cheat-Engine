@@ -1,17 +1,20 @@
 package me.cubert3d.palladium.module.modules.player;
 
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.GameMode;
+
+import java.util.Objects;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -37,7 +40,7 @@ public final class AutoToolModule extends ToggleModule {
                     || player.isSpectator())
                 return ActionResult.PASS;
 
-            boolean inAdventureMode = Common.getGameMode() == GameMode.ADVENTURE;
+            boolean inAdventureMode = getGameMode() == GameMode.ADVENTURE;
 
             int bestToolIndex = getBestToolIndex(player, world.getBlockState(pos), inAdventureMode);
 
@@ -102,5 +105,14 @@ public final class AutoToolModule extends ToggleModule {
             }
         }
         return indexThereof;
+    }
+
+    private GameMode getGameMode() {
+        PlayerListEntry playerListEntry = Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).getPlayerListEntry(MinecraftClient.getInstance().player.getUuid());
+
+        if (playerListEntry != null)
+            return playerListEntry.getGameMode();
+        else
+            return null;
     }
 }

@@ -1,8 +1,8 @@
 package me.cubert3d.palladium.gui;
 
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -18,11 +18,11 @@ public final class DrawHelper {
     private DrawHelper() {}
 
     public static int getTextHeight() {
-        return Common.getMC().textRenderer.fontHeight;
+        return MinecraftClient.getInstance().textRenderer.fontHeight;
     }
 
     private static int getEllipsesWidth() {
-        return Common.getMC().textRenderer.getWidth("...");
+        return MinecraftClient.getInstance().textRenderer.getWidth("...");
     }
 
 
@@ -61,7 +61,7 @@ public final class DrawHelper {
 
     public static void drawText(MatrixStack matrices, String text, int x, int y, int width, int height, int color) {
 
-        int textWidth = Common.getMC().textRenderer.getWidth(text);
+        int textWidth = MinecraftClient.getInstance().textRenderer.getWidth(text);
 
         if (textWidth > width) {
             String trimmedText = text;
@@ -69,16 +69,16 @@ public final class DrawHelper {
 
             for (int i = text.length(); i > 0; i--) {
                 trimmedText = trimmedText.substring(0, i);
-                trimmedTextWidth = Common.getMC().textRenderer.getWidth(trimmedText) + getEllipsesWidth();
+                trimmedTextWidth = MinecraftClient.getInstance().textRenderer.getWidth(trimmedText) + getEllipsesWidth();
                 if (trimmedTextWidth <= width)
                     break;
             }
 
             trimmedText = trimmedText.concat("...");
-            Common.getMC().textRenderer.draw(matrices, trimmedText, x, y, color);
+            MinecraftClient.getInstance().textRenderer.draw(matrices, trimmedText, x, y, color);
         }
         else {
-            Common.getMC().textRenderer.draw(matrices, text, x, y, color);
+            MinecraftClient.getInstance().textRenderer.draw(matrices, text, x, y, color);
         }
     }
 }

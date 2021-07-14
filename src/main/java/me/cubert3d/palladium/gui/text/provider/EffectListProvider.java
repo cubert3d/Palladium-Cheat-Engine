@@ -2,9 +2,9 @@ package me.cubert3d.palladium.gui.text.provider;
 
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectType;
@@ -40,7 +40,7 @@ public final class EffectListProvider extends TextProvider {
         ArrayList<ColorText> text = new ArrayList<>();
 
         int counter = 0;
-        for (Map.Entry<StatusEffect, StatusEffectInstance> entry : Common.getPlayer().getActiveStatusEffects().entrySet()) {
+        for (Map.Entry<StatusEffect, StatusEffectInstance> entry : MinecraftClient.getInstance().player.getActiveStatusEffects().entrySet()) {
 
             String effectName = entry.getKey().getName().getString();
             String timeLeft = getTimeLeft(entry.getValue().getDuration() / 20);

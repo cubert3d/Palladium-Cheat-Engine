@@ -4,9 +4,11 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.modules.Module;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,14 +50,14 @@ public final class HelpCommand extends CommandModule {
         Collection<Module> page = getPage(pageNumber);
 
         if (page != null && page.size() > 0) {
-            Common.sendMessage(String.format("§6Displaying page §e%d§6 of modules: ", pageNumber));
+            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(String.format("§6Displaying page §e%d§6 of modules: ", pageNumber)));
             for (Module module : page) {
-                String message = String.format("%s: %s", module.getName(), module.getDescription());
-                Common.sendMessage(message);
+                Text message = new LiteralText(String.format("%s: %s", module.getName(), module.getDescription()));
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(message);
             }
         }
         else {
-            Common.sendMessage("No modules found");
+            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("No modules found"));
         }
     }
 

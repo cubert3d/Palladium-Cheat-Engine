@@ -4,12 +4,12 @@ import me.cubert3d.palladium.event.callback.BlockRenderCallback;
 import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -139,19 +139,20 @@ public final class XRayModule extends ToggleModule {
 
     @Override
     protected void onEnable() {
-        Common.reloadRenderer();
+        MinecraftClient.getInstance().worldRenderer.reload();
     }
 
     @Override
     protected void onDisable() {
-        Common.reloadRenderer();
+        MinecraftClient.getInstance().worldRenderer.reload();
     }
 
     @Override
     protected void onChangeSetting() {
         // The renderer doesn't need any reloading if X-Ray isn't even enabled.
-        if (isEnabled())
-            Common.reloadRenderer();
+        if (isEnabled()) {
+            MinecraftClient.getInstance().worldRenderer.reload();
+        }
     }
 
     private void fillDefaultWhitelist() {

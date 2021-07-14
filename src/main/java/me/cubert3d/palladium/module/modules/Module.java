@@ -4,9 +4,10 @@ import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
@@ -167,10 +168,10 @@ public abstract class Module {
 
     protected void displaySetting(@NotNull Setting setting) {
         if (setting.isSet()) {
-            Common.sendMessage(this.getName() + ", " + setting.getName() + ": " + setting.getAsString());
+            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + ", " + setting.getName() + ": " + setting.getAsString()));
         }
         else {
-            Common.sendMessage(this.getName() + ", " + setting.getName() + " is not set");
+            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + ", " + setting.getName() + " is not set"));
         }
     }
 
@@ -205,6 +206,6 @@ public abstract class Module {
         else {
             listOfSettings = this.getName() + " has no settings";
         }
-        Common.sendMessage(listOfSettings);
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(listOfSettings));
     }
 }

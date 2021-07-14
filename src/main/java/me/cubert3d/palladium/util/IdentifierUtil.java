@@ -3,76 +3,24 @@ package me.cubert3d.palladium.util;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 @ClassInfo(
-        description = "A collection of common, useful fields and methods, to be used anywhere.",
+        description = "Used to create and translate identifiers. (Formally the Common class)",
         authors = "cubert3d",
         date = "3/4/2021",
         type = ClassType.UTILITY
 )
 
-public final class Common {
+public final class IdentifierUtil {
 
-    private Common() {}
-
-    // COMMON GETTERS
-
-    public static MinecraftClient getMC() {
-        return MinecraftClient.getInstance();
-    }
-
-    public static ClientPlayerEntity getPlayer() {
-        return getMC().player;
-    }
-
-
-
-    // PLAYER
-
-    public static @Nullable GameMode getGameMode() {
-
-        PlayerListEntry playerListEntry = Objects.requireNonNull(getMC().getNetworkHandler()).getPlayerListEntry(getPlayer().getUuid());
-
-        if (playerListEntry != null)
-            return playerListEntry.getGameMode();
-        else
-            return null;
-    }
-
-
-
-    // COMMON METHODS
-
-    public static void sendMessage(String message) {
-        Text textMessage = new LiteralText(message);
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(textMessage);
-    }
-
-
-
-    // RENDERING
-
-    public static void reloadRenderer() {
-        getMC().worldRenderer.reload();
-    }
-
-
+    private IdentifierUtil() {}
 
     // IDENTIFIER AND REGISTRY
 

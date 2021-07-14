@@ -2,9 +2,9 @@ package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.DoubleSetting;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Optional;
 
@@ -40,16 +40,16 @@ public final class FullBrightModule extends ToggleModule {
 
     @Override
     protected void onEnable() {
-        prevGamma = Common.getMC().options.gamma;
+        prevGamma = MinecraftClient.getInstance().options.gamma;
         updateGamma();
     }
 
     @Override
     protected void onDisable() {
-        Common.getMC().options.gamma = prevGamma;
+        MinecraftClient.getInstance().options.gamma = prevGamma;
     }
 
     private void updateGamma() {
-        Common.getMC().options.gamma = gamma.getValue();
+        MinecraftClient.getInstance().options.gamma = gamma.getValue();
     }
 }

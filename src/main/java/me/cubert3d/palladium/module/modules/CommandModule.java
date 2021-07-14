@@ -6,9 +6,10 @@ import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.ListSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -104,7 +105,7 @@ public abstract class CommandModule extends Module {
                             if (args[1].equalsIgnoreCase("reset")) {
                                 setting.reset();
                                 this.onChangeSetting();
-                                Common.sendMessage(setting.getName() + " reset to default");
+                                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(setting.getName() + " reset to default"));
                             }
                             // "<command> <single-setting> [value]": change the value of the setting
                             else if (!setting.isListSetting()) {
@@ -119,7 +120,7 @@ public abstract class CommandModule extends Module {
                                 }
 
                                 this.onChangeSetting();
-                                Common.sendMessage(setting.getName() + " is now set to " + setting.getAsString());
+                                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(setting.getName() + " is now set to " + setting.getAsString()));
                             }
                             // Two arguments are not enough for list-type settings.
                             else {
@@ -155,12 +156,12 @@ public abstract class CommandModule extends Module {
                                 // "<command> <list-setting> add/remove [value]":
                                 if (args[1].equalsIgnoreCase("add")) {
                                     listSetting.addElement(element);
-                                    Common.sendMessage("Added \"" + args[2] + "\" to " + setting.getName());
+                                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Added \"" + args[2] + "\" to " + setting.getName()));
                                     this.onChangeSetting();
                                 }
                                 else if (args[1].equalsIgnoreCase("remove")) {
                                     listSetting.removeElement(element);
-                                    Common.sendMessage("Removed \"" + args[2] + "\" from " + setting.getName());
+                                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Removed \"" + args[2] + "\" from " + setting.getName()));
                                     this.onChangeSetting();
                                 }
                                 else {

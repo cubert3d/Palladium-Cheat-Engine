@@ -1,8 +1,10 @@
 package me.cubert3d.palladium.input;
 
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 @ClassInfo(
@@ -32,6 +34,7 @@ public enum CommandError {
 
     // Send an error message to the player's chat-HUD.
     public static void sendErrorMessage(@NotNull CommandError error) {
-        Common.sendMessage("§c" + error.getErrorMessage());
+        Text message = new LiteralText("§c" + error.getErrorMessage());
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(message);
     }
 }

@@ -1,9 +1,9 @@
 package me.cubert3d.palladium.gui.widget;
 
 import me.cubert3d.palladium.gui.ClickGUI;
-import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.HashSet;
@@ -41,11 +41,11 @@ public final class WidgetManager {
     }
 
     public int getScaledWidth() {
-        return Common.getMC().getWindow().getScaledWidth();
+        return MinecraftClient.getInstance().getWindow().getScaledWidth();
     }
 
     public int getScaledHeight() {
-        return Common.getMC().getWindow().getScaledHeight();
+        return MinecraftClient.getInstance().getWindow().getScaledHeight();
     }
 
     public void render(MatrixStack matrices) {
