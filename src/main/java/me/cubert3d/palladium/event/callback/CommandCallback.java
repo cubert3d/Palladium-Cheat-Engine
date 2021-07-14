@@ -13,11 +13,13 @@ import net.minecraft.util.ActionResult;
         date = "3/2/2021"
 )
 
-public interface PlayerChatCallback {
-
-    Event<PlayerChatCallback> EVENT = EventFactory.createArrayBacked(PlayerChatCallback.class,
+public interface CommandCallback {
+    /*
+    Used in the command listener.
+     */
+    Event<CommandCallback> EVENT = EventFactory.createArrayBacked(CommandCallback.class,
             (listeners) -> (player, message) -> {
-                for (PlayerChatCallback listener : listeners) {
+                for (CommandCallback listener : listeners) {
                     ActionResult result = listener.interact(player, message);
 
                     if (result != ActionResult.PASS)

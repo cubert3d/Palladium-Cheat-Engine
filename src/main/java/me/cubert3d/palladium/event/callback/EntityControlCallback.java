@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.util.ActionResult;
 
 public interface EntityControlCallback {
-
+    /*
+    Used by the entity control module.
+     */
     Event<EntityControlCallback> EVENT = EventFactory.createArrayBacked(EntityControlCallback.class,
             listeners -> () -> {
                 for (EntityControlCallback listener : listeners) {

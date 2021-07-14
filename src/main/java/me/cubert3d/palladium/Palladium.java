@@ -4,7 +4,6 @@ import me.cubert3d.palladium.gui.GUIRenderer;
 import me.cubert3d.palladium.input.CommandListener;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
-import me.cubert3d.palladium.network.PacketListener;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.6";
+    public static final String VERSION = "0.1.6.1";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 
@@ -52,7 +51,6 @@ public final class Palladium {
         getGuiRenderer().initialize();
 
         // Listeners
-        PacketListener.registerListener();
         CommandListener.registerListener();
     }
 

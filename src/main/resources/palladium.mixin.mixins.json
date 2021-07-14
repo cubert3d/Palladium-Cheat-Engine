@@ -19,7 +19,6 @@
     "ChatHudMixin",
     "LivingEntityMixin",
     "HorseBaseEntityMixin",
-    "HungerManagerMixin",
     "MiningToolItemMixin",
     "ItemStackMixin",
     "BlockMixin",

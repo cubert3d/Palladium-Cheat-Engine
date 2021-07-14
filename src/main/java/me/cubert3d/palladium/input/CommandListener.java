@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.input;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.event.callback.PlayerChatCallback;
+import me.cubert3d.palladium.event.callback.CommandCallback;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.util.ActionResult;
@@ -23,7 +23,7 @@ public final class CommandListener {
     private CommandListener() {}
 
     public static void registerListener() {
-        PlayerChatCallback.EVENT.register((player, message) -> {
+        CommandCallback.EVENT.register((player, message) -> {
 
             if (!message.startsWith(commandPrefix)) {
                 return ActionResult.PASS;

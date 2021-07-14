@@ -3,8 +3,8 @@ package me.cubert3d.palladium.event.mixin.mixins;
 import com.mojang.authlib.GameProfile;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.ClickTPRaycastCallback;
+import me.cubert3d.palladium.event.callback.CommandCallback;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
-import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
@@ -41,7 +41,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implem
 
         ClientPlayerEntity player = self();
 
-        ActionResult result = PlayerChatCallback.EVENT.invoker().interact(player, message);
+        ActionResult result = CommandCallback.EVENT.invoker().interact(player, message);
 
         if (result.equals(ActionResult.FAIL))
             info.cancel();

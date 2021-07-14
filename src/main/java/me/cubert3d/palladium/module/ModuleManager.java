@@ -18,7 +18,6 @@ import me.cubert3d.palladium.module.modules.player.AutoDisconnectModule;
 import me.cubert3d.palladium.module.modules.player.AutoToolModule;
 import me.cubert3d.palladium.module.modules.player.BlinkModule;
 import me.cubert3d.palladium.module.modules.player.ChatFilterModule;
-import me.cubert3d.palladium.module.modules.player.PacketManagerModule;
 import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.module.modules.render.ChamsModule;
@@ -97,7 +96,6 @@ public final class ModuleManager {
         addModule(new BlinkModule());
         addModule(new ChatFilterModule());
         addModule(new AutoDisconnectModule());
-        addModule(new PacketManagerModule());
 
         // MOVEMENT
         addModule(new SprintModule());
