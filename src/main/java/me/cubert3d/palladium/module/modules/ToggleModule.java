@@ -22,7 +22,7 @@ public abstract class ToggleModule extends Module {
     }
 
     @Override
-    public ModuleType getType() {
+    public final ModuleType getType() {
         return ModuleType.TOGGLE;
     }
 

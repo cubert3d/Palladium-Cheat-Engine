@@ -14,11 +14,9 @@ import net.minecraft.util.ActionResult;
 )
 
 public interface BlockRenderCallback {
-
     /*
     Used for the X-Ray, where only the Block object is needed.
      */
-
     Event<BlockRenderCallback> EVENT = EventFactory.createArrayBacked(BlockRenderCallback.class,
             listeners -> block -> {
                 for (BlockRenderCallback listener : listeners) {

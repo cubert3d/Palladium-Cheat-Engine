@@ -2,10 +2,10 @@ package me.cubert3d.palladium.event.mixin.mixins;
 
 import com.mojang.authlib.GameProfile;
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.callback.ClickTPRaycastCallback;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.event.callback.PlayerChatCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
-import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -51,10 +51,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implem
             method = "swingHand(Lnet/minecraft/util/Hand;)V",
             cancellable = true)
     private void swingHandInject(Hand hand, final CallbackInfo info) {
-        ClickTPModule clickTPModule = (ClickTPModule) Palladium.getInstance().getModuleManager().getModuleByClass(ClickTPModule.class);
-        if (clickTPModule.isEnabled() && hand.equals(ClickTPModule.HAND)) {
-            clickTPModule.teleport();
-        }
+        ClickTPRaycastCallback.EVENT.invoker().interact(hand);
     }
 
     @Inject(at = @At(value = "HEAD"),

@@ -21,7 +21,7 @@ public abstract class CommandModule extends Module {
     }
 
     @Override
-    public ModuleType getType() {
+    public final ModuleType getType() {
         return ModuleType.COMMAND;
     }
 
