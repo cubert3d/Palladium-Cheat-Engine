@@ -1,12 +1,12 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.callback.FreecamCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
-import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +28,8 @@ abstract class PlayerEntityMixin extends LivingEntity implements MixinCaster<Pla
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSpectator()Z"))
     private boolean isSpectatorRedirect(PlayerEntity player) {
-        if (Palladium.getInstance().getModuleManager().isModuleEnabled(FreecamModule.class)) {
+        ActionResult result = FreecamCallback.EVENT.invoker().interact();
+        if (result.equals(ActionResult.FAIL)) {
             return true;
         }
         else return player.isSpectator();

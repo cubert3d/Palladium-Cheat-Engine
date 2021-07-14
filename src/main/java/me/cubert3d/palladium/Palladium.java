@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.6.1";
+    public static final String VERSION = "0.1.6.2";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 
