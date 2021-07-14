@@ -10,6 +10,7 @@ import net.minecraft.util.ActionResult;
 import java.util.Optional;
 
 @ClassInfo(
+        description = "Listens for commands in the player's chat HUD.",
         authors = "cubert3d",
         date = "3/6/2021",
         type = ClassType.LISTENER

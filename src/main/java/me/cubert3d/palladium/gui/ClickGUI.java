@@ -17,6 +17,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.NotNull;
 
 @ClassInfo(
+        description = "Manages and renders a GUI that allows control over modules.",
         authors = "cubert3d",
         date = "4/10/2021",
         type = ClassType.RENDERER

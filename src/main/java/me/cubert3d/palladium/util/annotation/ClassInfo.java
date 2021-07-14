@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.util.annotation;
 
 @ClassInfo(
+        description = "Contains information about a class.",
         authors = {
                 "cubert3d"
         },
@@ -9,6 +10,7 @@ package me.cubert3d.palladium.util.annotation;
 )
 
 public @interface ClassInfo {
+    String description() default "No description.";
     String[] authors();                 // List of authors
     String date();                      // MM/DD/YYYY (i am murican)
     ClassType type();

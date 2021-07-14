@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 @ClassInfo(
+        description = "Loads and saves the config, which holds all modules and their settings.",
         authors = "cubert3d",
         date = "6/27/2021",
         type = ClassType.MAIN

@@ -8,12 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-/*
-    Like a module category, but the user will be able to define their own.
-    Inspired by Nodus.
- */
-
 @ClassInfo(
+        description = "Contains a list of modules grouped together; unlike pre-defined categories, players can create their own groups. Inspired by Nodus.",
         authors = "cubert3d",
         date = "3/6/2021",
         type = ClassType.MISC

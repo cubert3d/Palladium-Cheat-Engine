@@ -34,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @ClassInfo(
+        description = "Manages all module groups, whether the default groups, or groups created by the player.",
         authors = "cubert3d",
         date = "7/5/2021",
         type = ClassType.MANAGER

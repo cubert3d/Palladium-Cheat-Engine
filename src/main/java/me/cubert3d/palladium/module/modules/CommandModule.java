@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 @ClassInfo(
+        description = "A module that is executed once, like a command.",
         authors = "cubert3d",
         date = "6/29/2021",
         type = ClassType.MODULE

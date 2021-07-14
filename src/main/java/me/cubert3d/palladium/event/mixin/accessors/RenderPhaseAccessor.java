@@ -7,13 +7,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @ClassInfo(
+        description = "Provides accessors to the builder methods for render layers, for building custom render layers.",
         authors = "cubert3d",
         date = "6/23/2021",
         type = ClassType.MIXIN
 )
-/*
-Provides accessors to the builder methods for render layers, for building custom render layers.
- */
 
 @Mixin(RenderPhase.class)
 public interface RenderPhaseAccessor {

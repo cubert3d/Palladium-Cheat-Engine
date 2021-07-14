@@ -4,9 +4,8 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 
 @ClassInfo(
-        authors = {
-                "cubert3d"
-        },
+        description = "Determines whether a module is toggleable, or is a command.",
+        authors = "cubert3d",
         date = "3/5/2021",
         type = ClassType.MISC
 )

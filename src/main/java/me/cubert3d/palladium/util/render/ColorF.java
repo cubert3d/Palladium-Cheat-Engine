@@ -4,13 +4,13 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 
 @ClassInfo(
+        description = "Contains the information of a color, in the form of float variables.",
         authors = "cubert3d",
         date = "6/23/2021",
         type = ClassType.MISC
 )
 
 /*
-Contains the information of a color, in the form of float variables.
 Used with rendering methods where floats, instead of ints, are required
 for the color.
  */

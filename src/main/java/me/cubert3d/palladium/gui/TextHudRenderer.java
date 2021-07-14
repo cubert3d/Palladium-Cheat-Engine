@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 @ClassInfo(
+        description = "Renders the text HUD.",
         authors = "cubert3d",
         date = "4/9/2021",
         type = ClassType.RENDERER

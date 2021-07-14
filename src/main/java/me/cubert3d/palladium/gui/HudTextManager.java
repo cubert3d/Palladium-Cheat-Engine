@@ -7,6 +7,7 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import java.util.Optional;
 
 @ClassInfo(
+        description = "Manages the text-providers assigned to certain screen orientations.",
         authors = "cubert3d",
         date = "4/9/2021",
         type = ClassType.MANAGER

@@ -5,6 +5,7 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
 
 @ClassInfo(
+        description = "Entrypoint for all GUI and HUD rendering in Palladium Cheat Engine.",
         authors = "cubert3d",
         date = "7/4/2021",
         type = ClassType.RENDERER

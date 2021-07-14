@@ -6,6 +6,7 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
 @ClassInfo(
+        description = "Various types of errors possible when parsing commands.",
         authors = "cubert3d",
         date = "3/4/2021",
         type = ClassType.MISC

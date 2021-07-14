@@ -20,11 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-/*
-A collection of common, useful fields and methods, to be used anywhere
- */
-
 @ClassInfo(
+        description = "A collection of common, useful fields and methods, to be used anywhere.",
         authors = "cubert3d",
         date = "3/4/2021",
         type = ClassType.UTILITY

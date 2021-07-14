@@ -37,6 +37,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 @ClassInfo(
+        description = "Contains instances of all modules.",
         authors = "cubert3d",
         date = "3/4/2021",
         type = ClassType.MANAGER

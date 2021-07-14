@@ -7,6 +7,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
 @ClassInfo(
+        description = "Various methods for drawing GUI elements.",
         authors = "cubert3d",
         date = "4/20/2021",
         type = ClassType.UTILITY

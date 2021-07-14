@@ -5,6 +5,7 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
 @ClassInfo(
+        description = "Useful methods for manipulating strings.",
         authors = "cubert3d",
         date = "3/14/2021",
         type = ClassType.UTILITY

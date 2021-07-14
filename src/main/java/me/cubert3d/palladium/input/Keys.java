@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @ClassInfo(
+        description = "Contains all the input keys available.",
         authors = "cubert3d",
         date = "6/22/2021",
         type = ClassType.UTILITY

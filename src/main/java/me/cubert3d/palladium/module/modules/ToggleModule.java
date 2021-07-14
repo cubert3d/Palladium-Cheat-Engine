@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 @ClassInfo(
+        description = "A module that can be turned on and off.",
         authors = "cubert3d",
         date = "6/29/2021",
         type = ClassType.MODULE

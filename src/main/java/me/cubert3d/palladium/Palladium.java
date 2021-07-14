@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @ClassInfo(
+        description = "Primary class of Palladium Cheat Engine; holds client info, managers, etc.",
         authors = "cubert3d",
         date = "7/5/2021",
         type = ClassType.MAIN
@@ -18,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.7.1";
+    public static final String VERSION = "0.1.7.2";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 

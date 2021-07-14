@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @ClassInfo(
+        description = "Base module class.",
         authors = "cubert3d",
         date = "3/3/2021",
         type = ClassType.MODULE
