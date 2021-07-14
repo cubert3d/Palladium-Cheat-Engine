@@ -1,5 +1,8 @@
 package me.cubert3d.palladium.util.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
 @ClassInfo(
         description = "Contains information about a class.",
         authors = {
@@ -9,6 +12,7 @@ package me.cubert3d.palladium.util.annotation;
         type = ClassType.ANNOTATION
 )
 
+@Target(ElementType.TYPE)
 public @interface ClassInfo {
     String description() default "No description.";
     String[] authors();                 // List of authors
