@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
-abstract class AbstractBlockStateMixin extends State<Block, BlockState> implements MixinCaster<AbstractBlock.AbstractBlockState> {
+public abstract class AbstractBlockStateMixin extends State<Block, BlockState> implements MixinCaster<AbstractBlock.AbstractBlockState> {
 
     private AbstractBlockStateMixin(Block owner, ImmutableMap<Property<?>, Comparable<?>> entries, MapCodec<BlockState> codec) {
         super(owner, entries, codec);

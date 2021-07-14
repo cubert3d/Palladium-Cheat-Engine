@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(ClientPlayNetworkHandler.class)
-abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketListener {
+public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketListener {
 
     @Inject(at = @At(value = "HEAD"),
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",

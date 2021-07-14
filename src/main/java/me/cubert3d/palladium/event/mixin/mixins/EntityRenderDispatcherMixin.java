@@ -39,7 +39,7 @@ import java.util.OptionalDouble;
 )
 
 @Mixin(EntityRenderDispatcher.class)
-abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityRenderDispatcher> {
+public abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityRenderDispatcher> {
 
     private static final RenderLayer ESP_LAYER = RenderLayer.of("esp", VertexFormats.POSITION_COLOR, 1, 256,
             RenderLayer.MultiPhaseParameters.builder().lineWidth(new RenderPhase

@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(HorseBaseEntity.class)
-abstract class HorseBaseEntityMixin {
+public abstract class HorseBaseEntityMixin {
 
     /*
     The method "isTame" must be injected into so that the horse does not buck the player.
@@ -52,7 +52,6 @@ abstract class HorseBaseEntityMixin {
      */
     @Inject(method = "canJump()Z", at = @At("HEAD"), cancellable = true)
     private void canJumpInject(CallbackInfoReturnable<Boolean> info) {
-        HorseBaseEntity horse = (HorseBaseEntity) (Object) this;
         ActionResult result = EntityControlCallback.EVENT.invoker().interact();
         if (result.equals(ActionResult.SUCCESS)) {
             info.setReturnValue(true);

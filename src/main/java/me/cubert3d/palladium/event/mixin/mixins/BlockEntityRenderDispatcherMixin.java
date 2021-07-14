@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(BlockEntityRenderDispatcher.class)
-abstract class BlockEntityRenderDispatcherMixin {
+public abstract class BlockEntityRenderDispatcherMixin {
 
     @Inject(method = "render(" +
             "Lnet/minecraft/block/entity/BlockEntity;" +

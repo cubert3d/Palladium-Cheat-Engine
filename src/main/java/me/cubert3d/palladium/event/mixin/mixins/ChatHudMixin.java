@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(ChatHud.class)
-abstract class ChatHudMixin extends DrawableHelper {
+public abstract class ChatHudMixin extends DrawableHelper {
 
     @Inject(at = @At(value = "HEAD"),
             method = "addMessage(Lnet/minecraft/text/Text;IIZ)V",

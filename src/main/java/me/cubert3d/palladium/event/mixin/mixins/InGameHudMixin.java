@@ -21,16 +21,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(InGameHud.class)
-abstract class InGameHudMixin extends DrawableHelper {
+public abstract class InGameHudMixin extends DrawableHelper {
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void onRender(MatrixStack matrices, float tickDelta, final CallbackInfo info) {
+    private void renderInject(MatrixStack matrices, float tickDelta, final CallbackInfo info) {
         Palladium.getInstance().getGuiRenderer().render(matrices);
     }
 
     @Inject(method = "renderPumpkinOverlay()V",
             at = @At("HEAD"), cancellable = true)
-    private void onRenderPumpkinOverlay(final CallbackInfo info) {
+    private void renderPumpkinOverlayInject(final CallbackInfo info) {
 
         ActionResult result = OverlayCallback.EVENT.invoker().interact(AntiOverlayModule.Overlay.PUMPKIN);
 
@@ -40,7 +40,7 @@ abstract class InGameHudMixin extends DrawableHelper {
 
     @Inject(method = "renderPortalOverlay(F)V",
             at = @At("HEAD"), cancellable = true)
-    private void onRenderPortalOverlay(float nauseaStrength, final CallbackInfo info) {
+    private void renderPortalOverlayInject(float nauseaStrength, final CallbackInfo info) {
 
         ActionResult result = OverlayCallback.EVENT.invoker().interact(AntiOverlayModule.Overlay.PORTAL);
 

@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(Block.class)
-abstract class BlockMixin extends AbstractBlock implements ItemConvertible {
+public abstract class BlockMixin extends AbstractBlock implements ItemConvertible {
 
     private BlockMixin(Settings settings) {
         super(settings);

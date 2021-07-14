@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(MiningToolItem.class)
-abstract class MiningToolItemMixin extends ToolItem implements Vanishable {
+public abstract class MiningToolItemMixin extends ToolItem implements Vanishable {
 
     private MiningToolItemMixin(ToolMaterial material, Settings settings) {
         super(material, settings);

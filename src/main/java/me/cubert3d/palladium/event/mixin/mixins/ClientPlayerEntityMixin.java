@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(ClientPlayerEntity.class)
-abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements MixinCaster<ClientPlayerEntity> {
+public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements MixinCaster<ClientPlayerEntity> {
 
     private ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
