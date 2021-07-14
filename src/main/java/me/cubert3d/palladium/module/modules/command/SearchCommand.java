@@ -5,8 +5,6 @@ import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -28,10 +26,10 @@ public final class SearchCommand extends CommandModule {
         if (args.length > 0 && args[0].length() > 0) {
             searchPhrase = args[0];
             search = true;
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(String.format("§6Showing modules beginning with \"§e%s§6\":", searchPhrase)));
+            printToChatHud(String.format("§6Showing modules beginning with \"§e%s§6\":", searchPhrase));
         }
         else {
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("§eShowing all modules:"));
+            printToChatHud("§eShowing all modules:");
         }
 
         for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
@@ -41,7 +39,7 @@ public final class SearchCommand extends CommandModule {
 
                 // Search function: if the name of the module starts with the first argument, then list it.
                 if (!search || name.toLowerCase().startsWith(searchPhrase.toLowerCase())) {
-                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(name + ": " + description));
+                    printToChatHud(name + ": " + description);
                 }
             }
             else if (Palladium.getInstance().isDebugModeEnabled()) {
@@ -50,7 +48,7 @@ public final class SearchCommand extends CommandModule {
 
                 // Search function: if the name of the module starts with the first argument, then list it.
                 if (!search || name.toLowerCase().startsWith(searchPhrase.toLowerCase())) {
-                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(name + ": " + description));
+                    printToChatHud(name + ": " + description);
                 }
             }
         }

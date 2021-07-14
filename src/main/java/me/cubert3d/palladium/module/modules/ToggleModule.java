@@ -7,8 +7,6 @@ import me.cubert3d.palladium.module.setting.list.ListSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -44,7 +42,7 @@ public abstract class ToggleModule extends Module {
         if (isAvailable()) {
             enabled = true;
             onEnable();
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + " is now enabled"));
+            printToChatHud(getName() + " is now enabled");
         }
     }
 
@@ -53,16 +51,18 @@ public abstract class ToggleModule extends Module {
         if (isAvailable()) {
             enabled = false;
             onDisable();
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + " is now disabled"));
+            printToChatHud(getName() + " is now disabled");
         }
     }
 
     @Override
     public final boolean toggle() {
-        if (isEnabled())
+        if (isEnabled()) {
             disable();
-        else
+        }
+        else {
             enable();
+        }
         return isEnabled();
     }
 
@@ -88,10 +88,10 @@ public abstract class ToggleModule extends Module {
     public void parseArgs(String @NotNull [] args) {
         if (args.length == 0) {
             if (this.isEnabled()) {
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + " is currently enabled"));
+                printToChatHud(getName() + " is currently enabled");
             }
             else {
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + " is currently disabled"));
+                printToChatHud(getName() + " is currently disabled");
             }
         }
         else if (args.length == 1) {
@@ -146,7 +146,7 @@ public abstract class ToggleModule extends Module {
                 if (args[1].equalsIgnoreCase("reset")) {
                     setting.reset();
                     this.onChangeSetting();
-                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(setting.getName() + " reset to default"));
+                    printToChatHud(setting.getName() + " reset to default");
                 }
                 // "<command> <single-setting> [value]": change the value of the setting
                 else if (!setting.isListSetting()) {
@@ -161,7 +161,7 @@ public abstract class ToggleModule extends Module {
                     }
 
                     this.onChangeSetting();
-                    MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(setting.getName() + " is now set to " + setting.getAsString()));
+                    printToChatHud(setting.getName() + " is now set to " + setting.getAsString());
                 }
                 // Two arguments are not enough for list-type settings.
                 else {
@@ -187,12 +187,12 @@ public abstract class ToggleModule extends Module {
                     // "<command> <list-setting> add/remove [value]":
                     if (args[1].equalsIgnoreCase("add")) {
                         listSetting.addElement(element);
-                        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Added \"" + args[2] + "\" to " + setting.getName()));
+                        printToChatHud("Added \"" + args[2] + "\" to " + setting.getName());
                         this.onChangeSetting();
                     }
                     else if (args[1].equalsIgnoreCase("remove")) {
                         listSetting.removeElement(element);
-                        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("Removed \"" + args[2] + "\" from " + setting.getName()));
+                        printToChatHud("Removed \"" + args[2] + "\" from " + setting.getName());
                         this.onChangeSetting();
                     }
                     else {

@@ -168,10 +168,10 @@ public abstract class Module {
 
     protected void displaySetting(@NotNull Setting setting) {
         if (setting.isSet()) {
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + ", " + setting.getName() + ": " + setting.getAsString()));
+            printToChatHud(getName() + ", " + setting.getName() + ": " + setting.getAsString());
         }
         else {
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(getName() + ", " + setting.getName() + " is not set"));
+            printToChatHud(getName() + ", " + setting.getName() + " is not set");
         }
     }
 
@@ -206,6 +206,10 @@ public abstract class Module {
         else {
             listOfSettings = this.getName() + " has no settings";
         }
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(listOfSettings));
+        printToChatHud(listOfSettings);
+    }
+
+    protected final void printToChatHud(String message) {
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(message));
     }
 }
