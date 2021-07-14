@@ -1,6 +1,5 @@
 package me.cubert3d.palladium.module.modules.player;
 
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -26,7 +25,7 @@ public final class AutoToolModule extends ToggleModule {
     // TODO: add setting for whether to pick a tool based on its effectiveness, or its durability.
 
     public AutoToolModule() {
-        super("AutoTool", "Switches to the best tool in your hotbar when you try to mine a block.", ModuleDevStatus.AVAILABLE);
+        super("AutoTool", "Switches to the best tool in your hotbar when you try to mine a block.");
     }
 
     @Override

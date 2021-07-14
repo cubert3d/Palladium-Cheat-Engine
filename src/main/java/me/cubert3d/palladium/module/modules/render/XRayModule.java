@@ -2,7 +2,6 @@ package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.event.callback.BlockRenderCallback;
 import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.Common;
@@ -106,7 +105,7 @@ public final class XRayModule extends ToggleModule {
     private final BlockListSetting whitelist;
 
     public XRayModule() {
-        super("XRay", "Lets you see ores in the ground.", ModuleDevStatus.AVAILABLE);
+        super("XRay", "Lets you see ores in the ground.");
         this.whitelist = new BlockListSetting("Whitelist", defaultWhiteList);
         this.addSetting(whitelist);
     }

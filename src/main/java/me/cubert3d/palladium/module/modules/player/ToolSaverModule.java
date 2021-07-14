@@ -3,7 +3,6 @@ package me.cubert3d.palladium.module.modules.player;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -30,7 +29,7 @@ import java.util.Objects;
 public final class ToolSaverModule extends ToggleModule {
 
     public ToolSaverModule() {
-        super("ToolSaver", "Swaps tools out of your hand when they reach their last point of durability.", ModuleDevStatus.DEBUG_ONLY);
+        super("ToolSaver", "Swaps tools out of your hand when they reach their last point of durability.");
     }
 
     @Override

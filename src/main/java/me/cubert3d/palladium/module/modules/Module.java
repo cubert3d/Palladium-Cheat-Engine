@@ -1,7 +1,5 @@
 package me.cubert3d.palladium.module.modules;
 
-import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
@@ -32,13 +30,10 @@ public abstract class Module implements Named {
     private final String description;
     private final Set<Setting> settings = new LinkedHashSet<>();
     private final KeyBindingSetting bindingSetting;
-    // Available or still in development
-    private final ModuleDevStatus status;
 
-    protected Module(String name, String description, ModuleDevStatus status) {
+    protected Module(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
         this.bindingSetting = new KeyBindingSetting("Binding", null);
         this.addSetting(bindingSetting);
         this.onConstruct();
@@ -69,12 +64,8 @@ public abstract class Module implements Named {
 
     public abstract ModuleType getType();
 
-    public final ModuleDevStatus getDevStatus() {
-        return status;
-    }
-
     public final boolean isAvailable() {
-        return status.equals(ModuleDevStatus.AVAILABLE) || Palladium.getInstance().isDebugModeEnabled();
+        return true;
     }
 
 

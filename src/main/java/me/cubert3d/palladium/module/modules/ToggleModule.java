@@ -1,8 +1,6 @@
 package me.cubert3d.palladium.module.modules;
 
-import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.input.CommandError;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.ModuleType;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.ListSetting;
@@ -16,8 +14,8 @@ public abstract class ToggleModule extends Module {
 
     private boolean enabled;
 
-    protected ToggleModule(String name, String description, ModuleDevStatus status) {
-        super(name, description, status);
+    protected ToggleModule(String name, String description) {
+        super(name, description);
         this.enabled = false;
     }
 
@@ -33,7 +31,7 @@ public abstract class ToggleModule extends Module {
 
     @Override
     public final void enable() {
-        if (getDevStatus().equals(ModuleDevStatus.AVAILABLE) || Palladium.getInstance().isDebugModeEnabled()) {
+        if (isAvailable()) {
             enabled = true;
             onEnable();
             Common.sendMessage(this.getName() + " is now enabled");
@@ -42,7 +40,7 @@ public abstract class ToggleModule extends Module {
 
     @Override
     public final void disable() {
-        if (getDevStatus().equals(ModuleDevStatus.AVAILABLE) || Palladium.getInstance().isDebugModeEnabled()) {
+        if (isAvailable()) {
             enabled = false;
             onDisable();
             Common.sendMessage(this.getName() + " is now disabled");

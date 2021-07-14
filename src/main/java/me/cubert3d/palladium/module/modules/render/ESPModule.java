@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.event.callback.EntityRenderCallback;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.EntityListSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -23,7 +22,7 @@ public final class ESPModule extends ToggleModule {
     private final EntityListSetting entities;
 
     public ESPModule() {
-        super("ESP", "Renders a box around entities that can be seen through walls.", ModuleDevStatus.AVAILABLE);
+        super("ESP", "Renders a box around entities that can be seen through walls.");
         this.entities = new EntityListSetting("Entities");
         this.addSetting(entities);
     }

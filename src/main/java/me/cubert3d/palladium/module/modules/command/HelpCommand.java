@@ -2,7 +2,6 @@ package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.input.CommandError;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.Common;
@@ -26,7 +25,7 @@ public final class HelpCommand extends CommandModule {
     private static final int PAGE_SIZE = 10;
 
     public HelpCommand() {
-        super("Help", "Lists the modules and commands, and their descriptions.", ModuleDevStatus.AVAILABLE);
+        super("Help", "Lists the modules and commands, and their descriptions.");
     }
 
     @Override
@@ -51,22 +50,8 @@ public final class HelpCommand extends CommandModule {
 
         if (page != null && page.size() > 0) {
             Common.sendMessage(String.format("§6Displaying page §e%d§6 of modules: ", pageNumber));
-            boolean debug = Palladium.getInstance().isDebugModeEnabled();
             for (Module module : page) {
-
-                String message;
-                if (debug) {
-                    if (module.getDevStatus().equals(ModuleDevStatus.DEBUG_ONLY)) {
-                        message = module.getName() + ": " + module.getDescription() + " §c(" + module.getDevStatus().toString() + ")";
-                    }
-                    else {
-                        message = module.getName() + ": " + module.getDescription() + " (" + module.getDevStatus().toString() + ")";
-                    }
-                }
-                else {
-                    message = String.format("%s: %s", module.getName(), module.getDescription());
-                }
-
+                String message = String.format("%s: %s", module.getName(), module.getDescription());
                 Common.sendMessage(message);
             }
         }

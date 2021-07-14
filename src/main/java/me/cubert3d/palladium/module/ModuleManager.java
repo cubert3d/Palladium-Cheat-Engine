@@ -111,9 +111,7 @@ public final class ModuleManager {
         module.onLoad();
         // Update the module counters.
         numModules++;
-        if (module.getDevStatus().equals(ModuleDevStatus.AVAILABLE)) {
-            numAvailableModules++;
-        }
+        numAvailableModules++;
     }
 
 

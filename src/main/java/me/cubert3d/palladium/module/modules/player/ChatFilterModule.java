@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.player;
 
 import me.cubert3d.palladium.event.callback.ChatFilterCallback;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -17,7 +16,7 @@ import net.minecraft.util.ActionResult;
 public final class ChatFilterModule extends ToggleModule {
 
     public ChatFilterModule() {
-        super("ChatFilter", "Blocks any messages that contain a blocked phrase.", ModuleDevStatus.AVAILABLE);
+        super("ChatFilter", "Blocks any messages that contain a blocked phrase.");
         this.addSetting(new StringListSetting("Blacklist"));
     }
 

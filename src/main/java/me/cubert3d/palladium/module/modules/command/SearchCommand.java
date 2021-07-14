@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.Common;
@@ -20,7 +19,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 public final class SearchCommand extends CommandModule {
 
     public SearchCommand() {
-        super("Search", "Searches for modules and commands by name.", ModuleDevStatus.AVAILABLE);
+        super("Search", "Searches for modules and commands by name.");
     }
 
     @Override
@@ -53,12 +52,7 @@ public final class SearchCommand extends CommandModule {
 
                 // Search function: if the name of the module starts with the first argument, then list it.
                 if (!search || name.toLowerCase().startsWith(searchPhrase.toLowerCase())) {
-                    if (module.getDevStatus().equals(ModuleDevStatus.DEBUG_ONLY)) {
-                        Common.sendMessage(name + ": " + description + " §c(" + module.getDevStatus() + ")");
-                    }
-                    else {
-                        Common.sendMessage(name + ": " + description + " (" + module.getDevStatus() + ")");
-                    }
+                    Common.sendMessage(name + ": " + description);
                 }
             }
         }

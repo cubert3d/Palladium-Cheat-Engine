@@ -3,7 +3,6 @@ package me.cubert3d.palladium.module.modules.gui;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.provider.EffectListProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -19,7 +18,7 @@ public final class EffectListModule extends ToggleModule {
     private static final TextProvider effectList = new EffectListProvider();
 
     public EffectListModule() {
-        super("Effects", "Displays the player's current effects and their remaining duration.", ModuleDevStatus.AVAILABLE);
+        super("Effects", "Displays the player's current effects and their remaining duration.");
     }
 
     @Override

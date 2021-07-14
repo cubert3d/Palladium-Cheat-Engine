@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.player;
 
 import me.cubert3d.palladium.event.callback.HealthUpdateCallback;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.DoubleSetting;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
@@ -28,7 +27,7 @@ public final class AutoDisconnectModule extends ToggleModule {
     private final DoubleSetting threshold;
 
     public AutoDisconnectModule() {
-        super("AutoDisconnect", "Disconnects you once you fall to a certain health.", ModuleDevStatus.AVAILABLE);
+        super("AutoDisconnect", "Disconnects you once you fall to a certain health.");
         this.threshold = new DoubleSetting("Threshold", 4.0, 19.0);
         this.addSetting(threshold);
     }

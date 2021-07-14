@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.movement;
 
 import me.cubert3d.palladium.event.callback.ClickTPRaycastCallback;
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 import net.minecraft.client.MinecraftClient;
@@ -22,7 +21,7 @@ import net.minecraft.util.math.Vec3d;
 public final class ClickTPModule extends ToggleModule {
 
     public ClickTPModule() {
-        super("ClickTP", "Allows the player to teleport to where they click", ModuleDevStatus.AVAILABLE);
+        super("ClickTP", "Allows the player to teleport to where they click");
     }
 
     @Override

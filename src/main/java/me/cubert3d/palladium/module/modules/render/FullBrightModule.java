@@ -1,6 +1,5 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.DoubleSetting;
 import me.cubert3d.palladium.util.Common;
@@ -22,7 +21,7 @@ public final class FullBrightModule extends ToggleModule {
     private final DoubleSetting gamma;
 
     public FullBrightModule() {
-        super("FullBright", "Fully illuminates all blocks.", ModuleDevStatus.AVAILABLE);
+        super("FullBright", "Fully illuminates all blocks.");
         this.gamma = new DoubleSetting("Gamma", 10.0, 10.0);
         this.addSetting(gamma);
     }

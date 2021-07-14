@@ -1,6 +1,5 @@
 package me.cubert3d.palladium.module.modules.player;
 
-import me.cubert3d.palladium.module.ModuleDevStatus;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassDescription;
 
@@ -14,6 +13,6 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 
 public final class BlinkModule extends ToggleModule {
     public BlinkModule() {
-        super("Blink", "Blocks communication with the server.", ModuleDevStatus.AVAILABLE);
+        super("Blink", "Blocks communication with the server.");
     }
 }
