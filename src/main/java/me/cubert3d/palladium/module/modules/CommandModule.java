@@ -7,9 +7,17 @@ import me.cubert3d.palladium.module.setting.list.ListSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
 import me.cubert3d.palladium.util.Common;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "6/29/2021",
+        type = ClassType.MODULE
+)
 
 public abstract class CommandModule extends Module {
 

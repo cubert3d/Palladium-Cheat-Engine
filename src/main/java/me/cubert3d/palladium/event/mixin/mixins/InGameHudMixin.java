@@ -3,7 +3,8 @@ package me.cubert3d.palladium.event.mixin.mixins;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,11 +14,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/9/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/9/2021",
+        type = ClassType.MIXIN
 )
 
 @Mixin(InGameHud.class)

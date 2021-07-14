@@ -5,19 +5,18 @@ import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/12/2021",
-        status = "in-progress"
+        type = ClassType.MODULE
 )
 
 public final class HelpCommand extends CommandModule {

@@ -10,15 +10,15 @@ import me.cubert3d.palladium.module.setting.single.DoubleSetting;
 import me.cubert3d.palladium.module.setting.single.IntegerSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
-import me.cubert3d.palladium.util.annotation.Named;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/7/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/7/2021",
+        type = ClassType.SETTING
 )
 
 public abstract class Setting implements Named {

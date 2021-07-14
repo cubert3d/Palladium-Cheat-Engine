@@ -1,18 +1,15 @@
 package me.cubert3d.palladium.util;
 
-import me.cubert3d.palladium.util.annotation.ClassDescription;
-import me.cubert3d.palladium.util.annotation.UtilityClass;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/14/2021",
-        status = "in-progress"
+        type = ClassType.UTILITY
 )
 
-@UtilityClass
 public final class StringUtil {
 
     private StringUtil() {}

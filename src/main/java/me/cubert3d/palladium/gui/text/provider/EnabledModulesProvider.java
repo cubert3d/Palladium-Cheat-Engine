@@ -3,9 +3,17 @@ package me.cubert3d.palladium.gui.text.provider;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/23/2021",
+        type = ClassType.PROVIDER
+)
 
 public final class EnabledModulesProvider extends TextProvider {
 

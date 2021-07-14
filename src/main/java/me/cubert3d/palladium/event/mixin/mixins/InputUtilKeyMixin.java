@@ -2,11 +2,19 @@ package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.input.Keys;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.InputUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "6/22/2021",
+        type = ClassType.MIXIN
+)
 
 @Mixin(InputUtil.Key.class)
 abstract class InputUtilKeyMixin implements MixinCaster<InputUtil.Key> {

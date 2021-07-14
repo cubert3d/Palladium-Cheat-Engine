@@ -1,12 +1,12 @@
 package me.cubert3d.palladium.module.setting.single;
 
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/7/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/7/2021",
+        type = ClassType.SETTING
 )
 
 public abstract class NumberSetting<N extends Number> extends SingleSetting<N> {

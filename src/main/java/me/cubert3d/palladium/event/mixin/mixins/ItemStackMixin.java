@@ -4,7 +4,8 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,12 +30,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/8/2021",
-        status = "in-progress"
+        type = ClassType.MIXIN
 )
 
 @Mixin(ItemStack.class)

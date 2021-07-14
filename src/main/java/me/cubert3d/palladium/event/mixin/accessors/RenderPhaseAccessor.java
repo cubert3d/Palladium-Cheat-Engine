@@ -1,15 +1,15 @@
 package me.cubert3d.palladium.event.mixin.accessors;
 
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.render.RenderPhase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "6/23/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "6/23/2021",
+        type = ClassType.MIXIN
 )
 /*
 Provides accessors to the builder methods for render layers, for building custom render layers.

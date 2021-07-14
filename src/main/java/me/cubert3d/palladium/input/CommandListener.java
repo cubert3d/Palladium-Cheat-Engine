@@ -3,17 +3,16 @@ package me.cubert3d.palladium.input;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.CommandCallback;
 import me.cubert3d.palladium.module.modules.Module;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.util.ActionResult;
 
 import java.util.Optional;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/6/2021",
-        status = "in-progress"
+        type = ClassType.LISTENER
 )
 
 public final class CommandListener {

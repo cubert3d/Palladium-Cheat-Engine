@@ -8,7 +8,8 @@ import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -20,11 +21,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/10/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/10/2021",
+        type = ClassType.MIXIN
 )
 
 @Mixin(ClientPlayerEntity.class)

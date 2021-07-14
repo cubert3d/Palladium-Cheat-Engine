@@ -4,21 +4,21 @@ import me.cubert3d.palladium.gui.GUIRenderer;
 import me.cubert3d.palladium.input.CommandListener;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "7/5/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "7/5/2021",
+        type = ClassType.MAIN
 )
 
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.6.3";
+    public static final String VERSION = "0.1.7";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 

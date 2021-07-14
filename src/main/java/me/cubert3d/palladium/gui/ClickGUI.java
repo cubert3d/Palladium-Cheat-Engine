@@ -9,18 +9,17 @@ import me.cubert3d.palladium.gui.widget.WidgetManager;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.NotNull;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "4/10/2021",
-        status = "in-progress"
+        type = ClassType.RENDERER
 )
 
 public final class ClickGUI {

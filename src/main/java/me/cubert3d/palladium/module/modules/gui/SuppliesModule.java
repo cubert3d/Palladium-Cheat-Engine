@@ -5,13 +5,13 @@ import me.cubert3d.palladium.gui.text.provider.SuppliesProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.ItemListSetting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/10/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/10/2021",
+        type = ClassType.MODULE
 )
 
 public final class SuppliesModule extends ToggleModule {

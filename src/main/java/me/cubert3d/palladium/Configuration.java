@@ -2,6 +2,8 @@ package me.cubert3d.palladium;
 
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.setting.Setting;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.EnabledParseException;
 import me.cubert3d.palladium.util.exception.SettingNotFoundException;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +12,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "6/27/2021",
+        type = ClassType.MAIN
+)
 
 public final class Configuration {
 

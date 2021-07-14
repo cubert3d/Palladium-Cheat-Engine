@@ -5,7 +5,8 @@ import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -18,12 +19,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/7/2021",
-        status = "benched"
+        type = ClassType.MODULE
 )
 
 public final class ToolSaverModule extends ToggleModule {

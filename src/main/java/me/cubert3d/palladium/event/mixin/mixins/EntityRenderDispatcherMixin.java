@@ -4,7 +4,8 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.EntityRenderCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.event.mixin.accessors.RenderPhaseAccessor;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.render.ColorF;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
@@ -31,12 +32,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.OptionalDouble;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "6/22/2021",
-        status = "in-progress"
+        type = ClassType.MIXIN
 )
 
 @Mixin(EntityRenderDispatcher.class)

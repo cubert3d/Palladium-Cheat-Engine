@@ -4,16 +4,13 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-// Written by cubert3d on 3/8/2021
-
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/8/2021",
-        status = "complete"
+        type = ClassType.MODULE
 )
 
 public final class SearchCommand extends CommandModule {

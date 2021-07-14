@@ -2,7 +2,8 @@ package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.event.callback.FreecamCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,11 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/3/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/3/2021",
+        type = ClassType.MIXIN
 )
 
 @Mixin(PlayerEntity.class)

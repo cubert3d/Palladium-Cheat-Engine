@@ -1,14 +1,13 @@
 package me.cubert3d.palladium.module.modules.player;
 
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/10/2021",
-        status = "complete"
+        type = ClassType.MODULE
 )
 
 public final class BlinkModule extends ToggleModule {

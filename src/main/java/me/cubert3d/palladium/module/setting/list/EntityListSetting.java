@@ -2,18 +2,18 @@ package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 
 import java.util.Collection;
 import java.util.Optional;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/7/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/7/2021",
+        type = ClassType.SETTING
 )
 
 public final class EntityListSetting extends ListSetting<EntityType<? extends Entity>> {

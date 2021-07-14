@@ -1,13 +1,14 @@
 package me.cubert3d.palladium.module;
 
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
+@ClassInfo(
         authors = {
                 "cubert3d"
         },
         date = "3/5/2021",
-        status = "complete"
+        type = ClassType.MISC
 )
 
 public enum ModuleType {

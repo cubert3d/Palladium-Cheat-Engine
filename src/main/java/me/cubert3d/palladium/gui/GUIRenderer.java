@@ -1,6 +1,14 @@
 package me.cubert3d.palladium.gui;
 
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "7/4/2021",
+        type = ClassType.RENDERER
+)
 
 public final class GUIRenderer {
 

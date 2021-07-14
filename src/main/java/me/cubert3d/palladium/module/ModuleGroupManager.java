@@ -24,12 +24,20 @@ import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.ModuleNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "7/5/2021",
+        type = ClassType.MANAGER
+)
 
 public final class ModuleGroupManager {
 

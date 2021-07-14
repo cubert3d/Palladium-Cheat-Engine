@@ -4,19 +4,18 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.input.Keys;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/11/2021",
-        status = "in-progress"
+        type = ClassType.MIXIN
 )
 
 @Mixin(Mouse.class)

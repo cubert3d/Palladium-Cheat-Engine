@@ -4,11 +4,19 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.util.Common;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/23/2021",
+        type = ClassType.PROVIDER
+)
 
 public final class PlayerInfoProvider extends TextProvider {
 

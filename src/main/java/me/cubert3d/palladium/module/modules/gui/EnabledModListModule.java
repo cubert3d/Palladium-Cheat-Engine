@@ -3,14 +3,13 @@ package me.cubert3d.palladium.module.modules.gui;
 import me.cubert3d.palladium.gui.text.provider.EnabledModulesProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/8/2021",
-        status = "in-progress"
+        type = ClassType.MODULE
 )
 
 public final class EnabledModListModule extends ToggleModule {

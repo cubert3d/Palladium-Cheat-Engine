@@ -4,18 +4,17 @@ import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "4/23/2021",
-        status = "in-progress"
+        type = ClassType.WIDGET
 )
 
 /*

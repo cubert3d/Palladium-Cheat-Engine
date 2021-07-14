@@ -1,20 +1,17 @@
 package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
-import me.cubert3d.palladium.util.annotation.UtilityClass;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "4/20/2021",
-        status = "in-progress"
+        type = ClassType.UTILITY
 )
 
-@UtilityClass
 public final class DrawHelper {
 
     private DrawHelper() {}

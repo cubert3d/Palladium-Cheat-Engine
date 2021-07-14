@@ -3,14 +3,14 @@ package me.cubert3d.palladium.module.modules.player;
 import me.cubert3d.palladium.event.callback.ChatFilterCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.util.ActionResult;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/12/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/12/2021",
+        type = ClassType.MODULE
 )
 
 public final class ChatFilterModule extends ToggleModule {

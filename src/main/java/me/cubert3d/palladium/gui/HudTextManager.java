@@ -1,16 +1,15 @@
 package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
 import java.util.Optional;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "4/9/2021",
-        status = "in-progress"
+        type = ClassType.MANAGER
 )
 
 public final class HudTextManager {

@@ -26,9 +26,9 @@ import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
-import me.cubert3d.palladium.util.annotation.UtilityClass;
 import me.cubert3d.palladium.util.exception.ModuleNotFoundException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -37,14 +37,12 @@ import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/4/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/4/2021",
+        type = ClassType.MANAGER
 )
 
-@UtilityClass
 public final class ModuleManager {
 
     private final LinkedHashSet<Module> moduleSet;

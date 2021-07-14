@@ -1,17 +1,17 @@
 package me.cubert3d.palladium.gui.text.provider;
 
 import me.cubert3d.palladium.gui.text.ColorText;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/23/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/23/2021",
+        type = ClassType.PROVIDER
 )
 
 public abstract class TextProvider {

@@ -4,8 +4,16 @@ import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.module.ModuleGroup;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.NotNull;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/23/2021",
+        type = ClassType.WIDGET
+)
 
 public class ModuleGroupWindow extends Window {
 

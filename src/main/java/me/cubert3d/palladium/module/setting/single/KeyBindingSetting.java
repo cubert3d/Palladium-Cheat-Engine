@@ -2,11 +2,19 @@ package me.cubert3d.palladium.module.setting.single;
 
 import me.cubert3d.palladium.input.Keys;
 import me.cubert3d.palladium.module.setting.SettingType;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.SettingParseException;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "6/29/2021",
+        type = ClassType.SETTING
+)
 
 public final class KeyBindingSetting extends SingleSetting<InputUtil.Key> {
 

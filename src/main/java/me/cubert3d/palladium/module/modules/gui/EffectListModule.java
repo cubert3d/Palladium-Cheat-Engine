@@ -4,13 +4,13 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.provider.EffectListProvider;
 import me.cubert3d.palladium.gui.text.provider.TextProvider;
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/17/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/17/2021",
+        type = ClassType.MODULE
 )
 
 public final class EffectListModule extends ToggleModule {

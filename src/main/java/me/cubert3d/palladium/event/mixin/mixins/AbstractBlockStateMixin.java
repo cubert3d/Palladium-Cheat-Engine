@@ -6,7 +6,8 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.BlockRenderCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -21,11 +22,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/24/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/24/2021",
+        type = ClassType.MIXIN
 )
 
 @Mixin(AbstractBlock.AbstractBlockState.class)

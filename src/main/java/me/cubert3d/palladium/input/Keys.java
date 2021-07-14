@@ -1,11 +1,19 @@
 package me.cubert3d.palladium.input;
 
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "6/22/2021",
+        type = ClassType.UTILITY
+)
 
 public final class Keys {
 

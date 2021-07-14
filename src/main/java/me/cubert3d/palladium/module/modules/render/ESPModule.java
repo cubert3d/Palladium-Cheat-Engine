@@ -3,18 +3,17 @@ package me.cubert3d.palladium.module.modules.render;
 import me.cubert3d.palladium.event.callback.EntityRenderCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.EntityListSetting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "6/23/2021",
-        status = "in-progress"
+        type = ClassType.MODULE
 )
 
 public final class ESPModule extends ToggleModule {

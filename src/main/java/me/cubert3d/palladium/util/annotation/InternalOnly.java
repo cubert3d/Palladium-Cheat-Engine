@@ -1,10 +1,9 @@
 package me.cubert3d.palladium.util.annotation;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/9/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/9/2021",
+        type = ClassType.ANNOTATION
 )
 
 // Used for methods which might return null or even throw an exception,

@@ -5,7 +5,8 @@ import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -19,11 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/10/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/10/2021",
+        type = ClassType.MODULE
 )
 
 public final class XRayModule extends ToggleModule {

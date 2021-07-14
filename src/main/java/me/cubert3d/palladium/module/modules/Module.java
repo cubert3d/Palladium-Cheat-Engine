@@ -5,21 +5,20 @@ import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import me.cubert3d.palladium.util.Common;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.annotation.InternalOnly;
-import me.cubert3d.palladium.util.annotation.Named;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/3/2021",
-        status = "in-progress"
+        type = ClassType.MODULE
 )
 
 public abstract class Module implements Named {

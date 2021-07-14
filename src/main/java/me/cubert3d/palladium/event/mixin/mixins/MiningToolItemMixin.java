@@ -1,7 +1,8 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -19,12 +20,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/7/2021",
-        status = "in-progress"
+        type = ClassType.MIXIN
 )
 
 @DebugOnly

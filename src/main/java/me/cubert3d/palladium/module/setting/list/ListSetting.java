@@ -2,7 +2,8 @@ package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.Configuration;
 import me.cubert3d.palladium.module.setting.Setting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.SettingParseException;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,11 +12,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/7/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/7/2021",
+        type = ClassType.SETTING
 )
 
 public abstract class ListSetting<E> extends Setting {

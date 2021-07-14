@@ -2,7 +2,8 @@ package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -15,11 +16,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/8/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/8/2021",
+        type = ClassType.MIXIN
 )
 
 @Mixin(LivingEntity.class)

@@ -1,11 +1,11 @@
 package me.cubert3d.palladium.util;
 
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.options.GameOptions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -21,15 +21,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /*
-    A collection of common, useful fields and methods, to be used anywhere
+A collection of common, useful fields and methods, to be used anywhere
  */
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/4/2021",
-        status = "in-progress"
+        type = ClassType.UTILITY
 )
 
 public final class Common {
@@ -44,10 +42,6 @@ public final class Common {
 
     public static ClientPlayerEntity getPlayer() {
         return getMC().player;
-    }
-
-    public static GameOptions getOptions() {
-        return getMC().options;
     }
 
 

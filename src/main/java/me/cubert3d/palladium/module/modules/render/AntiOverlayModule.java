@@ -3,15 +3,15 @@ package me.cubert3d.palladium.module.modules.render;
 import me.cubert3d.palladium.event.callback.OverlayCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
-import me.cubert3d.palladium.util.annotation.Named;
+import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.util.ActionResult;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/10/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/10/2021",
+        type = ClassType.MODULE
 )
 
 public final class AntiOverlayModule extends ToggleModule {

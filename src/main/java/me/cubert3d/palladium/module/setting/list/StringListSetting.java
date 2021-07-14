@@ -2,16 +2,16 @@ package me.cubert3d.palladium.module.setting.list;
 
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
 import java.util.Collection;
 import java.util.Optional;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/7/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/7/2021",
+        type = ClassType.SETTING
 )
 
 public final class StringListSetting extends ListSetting<String> {

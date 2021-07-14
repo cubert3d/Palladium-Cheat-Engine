@@ -1,13 +1,13 @@
 package me.cubert3d.palladium.module.modules.gui;
 
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "4/10/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "4/10/2021",
+        type = ClassType.MODULE
 )
 
 public final class PalladiumHudModule extends ToggleModule {

@@ -2,7 +2,8 @@ package me.cubert3d.palladium.module.modules.movement;
 
 import me.cubert3d.palladium.event.callback.ClickTPRaycastCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -10,12 +11,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "3/11/2021",
-        status = "in-progress"
+        type = ClassType.MODULE
 )
 
 public final class ClickTPModule extends ToggleModule {

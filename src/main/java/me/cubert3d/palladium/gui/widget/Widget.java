@@ -1,15 +1,14 @@
 package me.cubert3d.palladium.gui.widget;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
+@ClassInfo(
+        authors = "cubert3d",
         date = "4/20/2021",
-        status = "in-progress"
+        type = ClassType.WIDGET
 )
 
 public abstract class Widget {

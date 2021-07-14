@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.callback;
 
-import me.cubert3d.palladium.util.annotation.ClassDescription;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.block.BlockState;
@@ -9,11 +10,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "7/6/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "7/6/2021",
+        type = ClassType.CALLBACK
 )
 
 public interface BlockStateRenderCallback {

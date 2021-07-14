@@ -1,8 +1,9 @@
 package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.module.modules.Module;
-import me.cubert3d.palladium.util.annotation.ClassDescription;
-import me.cubert3d.palladium.util.annotation.Named;
+import me.cubert3d.palladium.util.Named;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -12,11 +13,10 @@ import java.util.ArrayList;
     Inspired by Nodus.
  */
 
-@ClassDescription(
-        authors = {
-                "cubert3d"
-        },
-        date = "3/6/2021"
+@ClassInfo(
+        authors = "cubert3d",
+        date = "3/6/2021",
+        type = ClassType.MISC
 )
 
 public final class ModuleGroup implements Named {
