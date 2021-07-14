@@ -4,18 +4,19 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 
 @ClassInfo(
+        description = "Thrown when reading the config file and a line cannot be parsed.",
         authors = "cubert3d",
-        date = "7/5/2021",
+        date = "7/14/2021",
         type = ClassType.EXCEPTION
 )
 
-public final class EnabledParseException extends ReadException {
+public final class ParseLineException extends ReadException {
 
-    public EnabledParseException() {
+    public ParseLineException() {
 
     }
 
-    public EnabledParseException(String errorMessage) {
+    public ParseLineException(String errorMessage) {
         super(errorMessage);
     }
 }

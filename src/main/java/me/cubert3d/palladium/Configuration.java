@@ -5,6 +5,8 @@ import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.EnabledParseException;
+import me.cubert3d.palladium.util.exception.ParseLineException;
+import me.cubert3d.palladium.util.exception.ReadException;
 import me.cubert3d.palladium.util.exception.SettingNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
@@ -85,13 +87,18 @@ public final class Configuration {
                     Module module = null;
                     boolean enabled = false;
 
-                    try {
+                    if (strings.length >= 2) {
                         moduleName = strings[0];
                         enabledStatus = strings[1];
-                        module = parseModuleName(moduleName);
-                        enabled = parseEnabledStatus(enabledStatus);
-                    } catch (Exception e) {
-                        printReadException(e);
+                        try {
+                            module = parseModuleName(moduleName);
+                            enabled = parseEnabledStatus(enabledStatus);
+                        } catch (ReadException e) {
+                            printReadException(e);
+                        }
+                    }
+                    else {
+                        printReadException(new ParseLineException());
                     }
 
                     if (module != null) {
@@ -159,8 +166,9 @@ public final class Configuration {
         Palladium.getLogger().error("Error reading from config file at line " + readCounter + ": " + exceptionMessage);
     }
 
-    private void printWriteException(Exception e) {
-        Palladium.getLogger().error("Error writing to config file at line " + writeCounter);
+    private void printWriteException(@NotNull Exception e) {
+        String exceptionMessage = e.getClass().getSimpleName() + ", " + e.getMessage();
+        Palladium.getLogger().error("Error writing to config file at line " + writeCounter + ": " + exceptionMessage);
     }
 
     private @NotNull Module parseModuleName(String name) {
@@ -175,7 +183,7 @@ public final class Configuration {
             return false;
         }
         else {
-            throw new EnabledParseException();
+            throw new EnabledParseException("Unable to parse enabled status \"" + string + "\"");
         }
     }
 
@@ -186,6 +194,6 @@ public final class Configuration {
                 return setting;
             }
         }
-        throw new SettingNotFoundException();
+        throw new SettingNotFoundException("Unable to parse setting \"" + name + "\" in module " + module.getName());
     }
 }
