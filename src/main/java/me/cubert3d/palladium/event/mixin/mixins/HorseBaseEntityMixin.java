@@ -12,6 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HorseBaseEntity.class)
 abstract class HorseBaseEntityMixin {
 
+    /*
+    The method "isTame" must be injected into so that the horse does not buck the player.
+     */
     @Inject(method = "isTame()Z", at = @At("HEAD"), cancellable = true)
     private void isTameInject(CallbackInfoReturnable<Boolean> info) {
         ActionResult result = EntityControlCallback.EVENT.invoker().interact();
@@ -21,7 +24,7 @@ abstract class HorseBaseEntityMixin {
     }
 
     /*
-    Only target the isSaddled call in travel so that the entity-control module does
+    Only target the "isSaddled" call in "travel" so that the entity-control module does
     not render saddles on all horses, regardless of whether they actually have saddles.
      */
     @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/HorseBaseEntity;isSaddled()Z"))
@@ -32,6 +35,19 @@ abstract class HorseBaseEntityMixin {
         }
         else {
             return horse.isSaddled();
+        }
+    }
+
+    /*
+    The method "canJump" must be injected into because it relies on the "isSaddled" method,
+    which is only being redirected inside the "travel" method.
+     */
+    @Inject(method = "canJump()Z", at = @At("HEAD"), cancellable = true)
+    private void canJumpInject(CallbackInfoReturnable<Boolean> info) {
+        HorseBaseEntity horse = (HorseBaseEntity) (Object) this;
+        ActionResult result = EntityControlCallback.EVENT.invoker().interact();
+        if (result.equals(ActionResult.SUCCESS)) {
+            info.setReturnValue(true);
         }
     }
 }
