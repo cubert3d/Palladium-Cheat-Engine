@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
         type = ClassType.WIDGET
 )
 
-public class ModuleGroupWindow extends Window {
+public final class ModuleGroupWindow extends Window {
 
     private ModuleGroup moduleGroup;
 

@@ -3,7 +3,6 @@ package me.cubert3d.palladium.event.mixin.mixins;
 import me.cubert3d.palladium.event.callback.MineBlockCallback;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,10 +22,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @ClassInfo(
         authors = "cubert3d",
         date = "3/7/2021",
-        type = ClassType.MIXIN
+        type = ClassType.MIXIN,
+        complete = false
 )
 
-@DebugOnly
 @Mixin(MiningToolItem.class)
 abstract class MiningToolItemMixin extends ToolItem implements Vanishable {
 

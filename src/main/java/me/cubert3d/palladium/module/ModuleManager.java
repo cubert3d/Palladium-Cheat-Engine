@@ -28,7 +28,6 @@ import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import me.cubert3d.palladium.util.annotation.InternalOnly;
 import me.cubert3d.palladium.util.exception.ModuleNotFoundException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -145,7 +144,6 @@ public final class ModuleManager {
         return optional;
     }
 
-    @InternalOnly
     public final @NotNull Module getModuleByClass(Class<? extends Module> clazz) throws ModuleNotFoundException {
         for (Module module : moduleSet) {
             if (module.getClass().equals(clazz)) {
@@ -155,7 +153,6 @@ public final class ModuleManager {
         throw new ModuleNotFoundException("Could not find module of class " + clazz.getSimpleName());
     }
 
-    @InternalOnly
     public final boolean isModuleEnabled(Class<? extends Module> clazz) {
         for (Module module : moduleSet) {
             if (module.getClass().equals(clazz))

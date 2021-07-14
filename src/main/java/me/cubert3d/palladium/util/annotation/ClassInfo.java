@@ -12,4 +12,5 @@ public @interface ClassInfo {
     String[] authors();                 // List of authors
     String date();                      // MM/DD/YYYY (i am murican)
     ClassType type();
+    boolean complete() default true;
 }

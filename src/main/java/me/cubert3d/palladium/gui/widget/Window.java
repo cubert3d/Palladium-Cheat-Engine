@@ -10,7 +10,8 @@ import net.minecraft.client.util.math.MatrixStack;
 @ClassInfo(
         authors = "cubert3d",
         date = "4/20/2021",
-        type = ClassType.WIDGET
+        type = ClassType.WIDGET,
+        complete = false
 )
 
 public class Window extends Widget {

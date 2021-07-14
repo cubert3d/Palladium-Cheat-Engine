@@ -2,7 +2,6 @@ package me.cubert3d.palladium.event.callback;
 
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import me.cubert3d.palladium.util.annotation.DebugOnly;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,10 +11,10 @@ import net.minecraft.util.ActionResult;
 @ClassInfo(
         authors = "cubert3d",
         date = "3/8/2021",
-        type = ClassType.CALLBACK
+        type = ClassType.CALLBACK,
+        complete = false
 )
 
-@DebugOnly
 public interface ItemStackDamageCallback {
     Event<ItemStackDamageCallback> EVENT = EventFactory.createArrayBacked(ItemStackDamageCallback.class,
             (listeners) -> (player, stack) -> {

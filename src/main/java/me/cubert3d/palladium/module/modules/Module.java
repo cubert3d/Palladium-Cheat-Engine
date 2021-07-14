@@ -8,7 +8,6 @@ import me.cubert3d.palladium.util.Common;
 import me.cubert3d.palladium.util.Named;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import me.cubert3d.palladium.util.annotation.InternalOnly;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
@@ -94,7 +93,6 @@ public abstract class Module implements Named {
 
     // Nullable method with no Optional, used for code references,
     // where the setting's existence should be guaranteed.
-    @InternalOnly
     public final @NotNull Setting getSetting(String name) {
         name = name.trim();
         for (Setting setting : settings) {
