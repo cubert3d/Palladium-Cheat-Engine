@@ -16,7 +16,7 @@ import me.cubert3d.palladium.util.annotation.ClassDescription;
 public final class ClickGUIModule extends ToggleModule {
 
     public ClickGUIModule() {
-        super("ClickGUI", "Manages the Click GUI.", ModuleDevStatus.DEBUG_ONLY);
+        super("ClickGUI", "Manages the Click GUI.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 
@@ -21,12 +20,6 @@ import net.minecraft.util.math.Vec3d;
 )
 
 public final class ClickTPModule extends ToggleModule {
-
-    // Maximum distance, in blocks, that the player is allowed to teleport.
-    private static final double maxDistance = 10.0;
-
-    // Hand that triggers the teleportation when it is swung.
-    public static final Hand HAND = Hand.OFF_HAND;
 
     public ClickTPModule() {
         super("ClickTP", "Allows the player to teleport to where they click", ModuleDevStatus.AVAILABLE);

@@ -1,6 +1,7 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.callback.HealthUpdateCallback;
 import me.cubert3d.palladium.event.callback.InventoryUpdateCallback;
 import me.cubert3d.palladium.module.modules.player.BlinkModule;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
@@ -47,8 +48,7 @@ abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketListener
     @Inject(at = @At(value = "TAIL"),
             method = "onHealthUpdate(Lnet/minecraft/network/packet/s2c/play/HealthUpdateS2CPacket;)V")
     private void onHealthUpdateInject(@NotNull HealthUpdateS2CPacket packet, final CallbackInfo info) {
-
-
+        HealthUpdateCallback.EVENT.invoker().interact(packet.getHealth());
     }
 
     @Inject(at = @At(value = "TAIL"),

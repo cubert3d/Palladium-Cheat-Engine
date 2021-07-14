@@ -8,7 +8,7 @@ import net.minecraft.util.ActionResult;
 public final class EntityControlModule extends ToggleModule {
 
     public EntityControlModule() {
-        super("EntityControl", "Allows the player to control horses.", ModuleDevStatus.DEBUG_ONLY);
+        super("EntityControl", "Allows the player to control horses.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override

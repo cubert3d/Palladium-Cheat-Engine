@@ -19,7 +19,7 @@ public final class EffectListModule extends ToggleModule {
     private static final TextProvider effectList = new EffectListProvider();
 
     public EffectListModule() {
-        super("Effects", "Displays the player's current effects and their remaining duration.", ModuleDevStatus.DEBUG_ONLY);
+        super("Effects", "Displays the player's current effects and their remaining duration.", ModuleDevStatus.AVAILABLE);
     }
 
     @Override

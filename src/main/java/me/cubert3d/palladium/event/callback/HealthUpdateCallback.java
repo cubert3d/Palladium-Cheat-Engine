@@ -14,6 +14,9 @@ import net.minecraft.util.ActionResult;
 )
 
 public interface HealthUpdateCallback {
+    /*
+    Used by the Auto-Disconnect module.
+     */
     Event<HealthUpdateCallback> EVENT = EventFactory.createArrayBacked(HealthUpdateCallback.class,
             (listeners) -> (health) -> {
                 for (HealthUpdateCallback listener : listeners) {
@@ -23,5 +26,6 @@ public interface HealthUpdateCallback {
                 }
                 return ActionResult.PASS;
             });
+
     ActionResult interact(float health);
 }
