@@ -8,6 +8,7 @@
   "client": [
     "MinecraftClientMixin",
     "ClientPlayNetworkHandlerMixin",
+    "ClientPlayerInteractionManagerMixin",
     "PlayerEntityMixin",
     "ClientPlayerEntityMixin",
     "KeyboardMixin",
@@ -19,7 +20,6 @@
     "ChatHudMixin",
     "LivingEntityMixin",
     "HorseBaseEntityMixin",
-    "MiningToolItemMixin",
     "ItemStackMixin",
     "BlockMixin",
     "AbstractBlockStateMixin",

@@ -1,23 +1,35 @@
 package me.cubert3d.palladium.module.modules.player;
 
-import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
-import me.cubert3d.palladium.event.callback.MineBlockCallback;
+import me.cubert3d.palladium.event.callback.ToolSaverCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.ElytraItem;
+import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.HoeItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
+import net.minecraft.item.Items;
+import net.minecraft.item.OnAStickItem;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShearsItem;
+import net.minecraft.item.ShovelItem;
+import net.minecraft.item.SwordItem;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Pair;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -28,119 +40,74 @@ import java.util.Objects;
 
 public final class ToolSaverModule extends ToggleModule {
 
+    private final ReplacementSorter sorter;
+
     public ToolSaverModule() {
         super("ToolSaver", "Swaps tools out of your hand when they reach their last point of durability.");
+        this.sorter = new ReplacementSorter();
     }
 
     @Override
     public void onLoad() {
 
-        MineBlockCallback.EVENT.register((player, stack) -> {
-
-            if (!this.isEnabled())
-                return ActionResult.PASS;
-
-            Palladium.getLogger().debug("Mined Block!");
-
-            int damage = stack.getDamage();
-            int maxDamage = stack.getMaxDamage();
-
-
-            if (damage == (maxDamage - 1)) {
-                swapTool(player, stack);
+        ToolSaverCallback.EVENT.register(armorSwap -> {
+            if (isEnabled()) {
+                ClientPlayerEntity player = MinecraftClient.getInstance().player;
+                if (player != null) {
+                    ItemStack stack = player.inventory.getMainHandStack();
+                    int durability = stack.getMaxDamage() - stack.getDamage();
+                    if (stack.isDamageable() && durability == 1) {
+                        swapTool(stack, player);
+                    }
+                }
             }
-
-            return ActionResult.PASS;
-        });
-
-        ItemStackDamageCallback.EVENT.register((player, stack) -> {
-
-            if (!this.isEnabled())
-                return ActionResult.PASS;
-
-            int newDamage = stack.getDamage();
-            Palladium.getLogger().debug(String.format("Damage: %d/%d", newDamage, stack.getMaxDamage()));
-
             return ActionResult.PASS;
         });
     }
 
-    private void swapTool(@NotNull PlayerEntity player, ItemStack stack) {
-
+    private void swapTool(ItemStack stack, @NotNull ClientPlayerEntity player) {
         PlayerInventory inventory = player.inventory;
-        Pair<Integer, ItemStack> bestSwap = getBestSwap(inventory, stack);
-
         int indexFrom = inventory.getSlotWithStack(stack);
-        int indexTo = bestSwap.getLeft();
-        ItemStack swapWith = bestSwap.getRight();
+        int indexTo = getBestReplacementIndex(inventory, stack);
+        sendSwapPackets(indexFrom, indexTo, player);
+    }
 
-        if (!player.world.isClient()) {
+    private void sendSwapPackets(int indexFrom, int indexTo, @NotNull ClientPlayerEntity player) {
+        ClientPlayerInteractionManager interactionManager = MinecraftClient.getInstance().interactionManager;
+        if (interactionManager != null) {
 
-            Palladium.getLogger().debug("Case 1");
+            final int syncID = player.currentScreenHandler.syncId;
+            final int slotID = convertIndex(indexTo);
+            final int clickData = indexFrom;
+            final SlotActionType actionType = SlotActionType.SWAP;
 
-            /*
-                ClickSlotC2SPacket fields:
-
-                syncID: used for syncing packets.
-                clickData: for swapping, it is the number key that was pressed
-                actionType:
-                actionID: increments with each packet of this kind sent.
-
-                slot:   the index of the slot that is clicked;
-                        when an item is swapped by number key, it doesn't matter
-                        if its swapped into or out of that slot, for it still
-                        gives the index of that slot, rather than the index of
-                        the hotbar slot it is swapped into or out of.
-
-                stack:  this only actually represents the item-stack when that
-                        information needs to be stored.
-             */
-
-            // The click-data, in this context, is basically the number key
-            // that was pressed in the item swap.
-            int clickData = indexFrom;
-
-            int slot = convertIndex(indexTo);
-
-            ClickSlotC2SPacket packet = new ClickSlotC2SPacket(0, slot, clickData, SlotActionType.SWAP, ItemStack.EMPTY, (short) 0);
-
-            Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendPacket(packet);
-
-            inventory.updateItems();
-
-            Palladium.getLogger().debug("Tool Saved!");
-        }
-        else {
-            Palladium.getLogger().debug("Case 2");
-
-            inventory.setStack(indexTo, stack);
-            inventory.setStack(indexFrom, swapWith);
+            interactionManager.clickSlot(syncID, slotID, clickData, actionType, player);
         }
     }
 
-    @Contract("_, _ -> new")
-    private @NotNull Pair<Integer, ItemStack> getBestSwap(@NotNull PlayerInventory inventory, ItemStack stack) {
+    private int getBestReplacementIndex(@NotNull PlayerInventory inventory, ItemStack stack) {
 
-        int index = -1;
-        ItemStack swapWith = ItemStack.EMPTY;
+        List<ReplacementProfile> replacements = new ArrayList<>();
 
         for (int i = 0; i < inventory.main.size(); i++) {
             ItemStack currentStack = inventory.getStack(i);
-
-            if (currentStack.isEmpty()
-                    || !currentStack.isDamageable()
-                    || currentStack.getDamage() < (currentStack.getMaxDamage() - 1)) {
-                index = i;
-                swapWith = currentStack;
-                break;
+            ReplacementType type = ReplacementType.of(stack, currentStack);
+            if (type.isSuitable()) {
+                replacements.add(new ReplacementProfile(currentStack, type, i));
             }
         }
+        replacements.sort(sorter);
 
-        return new Pair<>(index, swapWith);
+        if (replacements.size() > 0) {
+            return replacements.get(0).getIndex();
+        }
+        else {
+            return -1;
+        }
     }
 
     // Converts the inventory index from PlayerInventory indexing to ClickSlotC2SPacket indexing
-    private static int convertIndex(int index) {
+    private int convertIndex(int index) {
         int newIndex = -1;
 
         // Hotbar
@@ -166,5 +133,156 @@ public final class ToolSaverModule extends ToggleModule {
         }
 
         return  newIndex;
+    }
+
+    enum EquipmentType {
+        PICKAXE,
+        SHOVEL,
+        AXE,
+        HOE,
+        SWORD,
+        BOW,
+        CROSSBOW,
+        HELMET,
+        CHESTPLATE,
+        LEGGINGS,
+        BOOTS,
+        ELYTRA,
+        SHEARS,
+        FISHING_ROD,
+        CARROT_ON_STICK,
+        MUSHROOM_ON_STICK,
+        NONE;
+
+        private static EquipmentType of(@NotNull ItemStack stack) {
+            Item item = stack.getItem();
+            if (item instanceof PickaxeItem) {
+                return PICKAXE;
+            }
+            else if (item instanceof ShovelItem) {
+                return SHOVEL;
+            }
+            else if (item instanceof AxeItem) {
+                return AXE;
+            }
+            else if (item instanceof HoeItem) {
+                return HOE;
+            }
+            else if (item instanceof SwordItem) {
+                return SWORD;
+            }
+            else if (item instanceof BowItem) {
+                return BOW;
+            }
+            else if (item instanceof CrossbowItem) {
+                return CROSSBOW;
+            }
+            else if (item instanceof ArmorItem) {
+                switch (((ArmorItem) item).getSlotType()) {
+                    case HEAD: return HELMET;
+                    case CHEST: return CHESTPLATE;
+                    case LEGS: return LEGGINGS;
+                    case FEET: return BOOTS;
+                }
+            }
+            else if (item instanceof ElytraItem) {
+                return ELYTRA;
+            }
+            else if (item instanceof ShearsItem) {
+                return SHEARS;
+            }
+            else if (item instanceof FishingRodItem) {
+                return FISHING_ROD;
+            }
+            else if (item instanceof OnAStickItem) {
+                if (item == Items.CARROT_ON_A_STICK) {
+                    return CARROT_ON_STICK;
+                }
+                else if (item == Items.WARPED_FUNGUS_ON_A_STICK) {
+                    return MUSHROOM_ON_STICK;
+                }
+            }
+            return NONE;
+        }
+    }
+
+    enum ReplacementType {
+        SAME(true),     // The replacement is the same kind of equipment.
+        EMPTY(true),    // The replacement is an empty slot or a non-damageable item.
+        NONE(false);    // Not a suitable replacement.
+
+        private final boolean suitable;
+
+        ReplacementType(boolean suitable) {
+            this.suitable = suitable;
+        }
+
+        public boolean isSuitable() {
+            return suitable;
+        }
+
+        private static ReplacementType of(ItemStack stack, @NotNull ItemStack replacer) {
+            // Check if the replacer item is equipment of the same type.
+            if ((replacer.getMaxDamage() - replacer.getDamage()) > 1) {
+                EquipmentType stackType = EquipmentType.of(stack);
+                EquipmentType replacerType = EquipmentType.of(replacer);
+                if (!stackType.equals(EquipmentType.NONE) && stackType.equals(replacerType)) {
+                    return ReplacementType.SAME;
+                }
+            }
+
+            // If not, see if it is an empty or non-damageable item.
+            if (!replacer.isDamageable()) {
+                return ReplacementType.EMPTY;
+            }
+            else {
+                return ReplacementType.NONE;
+            }
+        }
+    }
+
+    private static class ReplacementSorter implements Comparator<ReplacementProfile> {
+
+        @Override
+        public int compare(@NotNull ReplacementProfile o1, @NotNull ReplacementProfile o2) {
+
+            ReplacementType type1 = o1.getType();
+            ReplacementType type2 = o2.getType();
+
+            if (type1.equals(type2)) {
+                return 0;
+            }
+            else if (type1.equals(ReplacementType.SAME)) {
+                return -1;
+            }
+            else if (type1.equals(ReplacementType.EMPTY)) {
+                return 1;
+            }
+            return 0;
+        }
+    }
+
+    private static class ReplacementProfile {
+        private final ItemStack stack;
+        private final ReplacementType type;
+        private final int index;
+
+        private ReplacementProfile(ItemStack stack, ReplacementType type, int index) {
+            this.stack = stack;
+            this.index = index;
+            this.type = type;
+        }
+
+        public ItemStack getStack() {
+            return stack;
+        }
+
+        public ReplacementType getType() {
+            return type;
+        }
+
+        public int getIndex() {
+            return index;
+        }
     }
 }

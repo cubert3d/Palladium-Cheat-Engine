@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
-import me.cubert3d.palladium.event.callback.ItemStackDamageCallback;
 import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
@@ -12,14 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -38,41 +33,6 @@ import java.util.Random;
 
 @Mixin(ItemStack.class)
 abstract class ItemStackMixin implements MixinCaster<ItemStack> {
-
-    /*
-    @Inject(at = @At(value = "TAIL"),
-            method = "damage(ILjava/util/Random;Lnet/minecraft/server/network/ServerPlayerEntity;)Z")
-    private void onItemStackDamage(int amount, Random random, @Nullable ServerPlayerEntity player,
-                                   CallbackInfoReturnable<Boolean> info) {
-        ActionResult result = ItemStackDamageCallback.EVENT.invoker().interact(player, (ItemStack) (Object) this);
-
-        if (result == ActionResult.FAIL) {
-            info.cancel();
-        }
-    }
-     */
-
-    /*
-    @Inject(at = @At(value = "TAIL"),
-            method = "damage(I" +
-                    "Lnet/minecraft/entity/LivingEntity;" +
-                    "Ljava/util/function/Consumer;)V")
-    private void onItemStackDamage(int amount, LivingEntity entity, Consumer<?> breakCallback,
-                                   CallbackInfo info) {
-        ActionResult result = ItemStackDamageCallback.EVENT.invoker().interact((PlayerEntity) entity, (ItemStack) (Object) this);
-
-        if (result == ActionResult.FAIL) {
-            info.cancel();
-        }
-    }
-     */
-
-    @Inject(method = "damage(ILjava/util/Random;Lnet/minecraft/server/network/ServerPlayerEntity;)Z",
-            at = @At(value = "TAIL"))
-    private void damageInject(int amount, Random random, @Nullable ServerPlayerEntity player,
-                              final CallbackInfoReturnable<Boolean> info) {
-        ActionResult result = ItemStackDamageCallback.EVENT.invoker().interact(player, self());
-    }
 
     @Inject(method = "getTooltip(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/client/item/TooltipContext;)Ljava/util/List;",
             at = @At("TAIL"), cancellable = true)
