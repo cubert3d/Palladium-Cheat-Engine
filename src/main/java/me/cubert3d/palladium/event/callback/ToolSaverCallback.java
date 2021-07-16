@@ -1,7 +1,13 @@
 package me.cubert3d.palladium.event.callback;
 
+import me.cubert3d.palladium.event.mixin.mixins.ClientPlayerInteractionManagerMixin;
+import me.cubert3d.palladium.event.mixin.mixins.LivingEntityMixin;
+import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
+import me.cubert3d.palladium.util.annotation.CallbackInfo;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import me.cubert3d.palladium.util.annotation.Interaction;
+import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.util.ActionResult;
@@ -10,6 +16,20 @@ import net.minecraft.util.ActionResult;
         authors = "cubert3d",
         date = "7/14/2021",
         type = ClassType.CALLBACK
+)
+
+@CallbackInfo(
+        listeners = {
+                @Listener(where = ToolSaverModule.class)
+        },
+        interactions = {
+                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "attackBlockInject"),
+                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "interactBlockInject"),
+                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "interactItemInject"),
+                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "attackEntityInject"),
+                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "interactEntityInject"),
+                @Interaction(where = LivingEntityMixin.class, method = "damageInject")
+        }
 )
 
 public interface ToolSaverCallback {
@@ -22,7 +42,7 @@ public interface ToolSaverCallback {
     when a fishing rod is used (DONE)
     when a damageable item is used to attack a mob (DONE)
     when an arrow is loosed from a bow or crossbow (DONE)
-    when armor is damaged
+    when armor is damaged (DONE)
     when an elytra is used up
      */
     Event<ToolSaverCallback> EVENT = EventFactory.createArrayBacked(ToolSaverCallback.class,

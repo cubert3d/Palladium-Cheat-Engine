@@ -21,6 +21,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.OnAStickItem;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ShearsItem;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.screen.slot.SlotActionType;
@@ -54,10 +55,24 @@ public final class ToolSaverModule extends ToggleModule {
             if (isEnabled()) {
                 ClientPlayerEntity player = MinecraftClient.getInstance().player;
                 if (player != null) {
-                    ItemStack stack = player.inventory.getMainHandStack();
-                    int durability = stack.getMaxDamage() - stack.getDamage();
-                    if (stack.isDamageable() && durability == 1) {
-                        swapTool(stack, player);
+                    PlayerInventory inventory = player.inventory;
+
+                    // If this is not an armor swap, just check the item in the player's hand.
+                    if (!armorSwap) {
+                        ItemStack stack = inventory.getMainHandStack();
+                        int durability = stack.getMaxDamage() - stack.getDamage();
+                        if (stack.isDamageable() && durability == 1) {
+                            swapTool(stack, player);
+                        }
+                    }
+                    // If it is, check all of the player's armor (and shield).
+                    else {
+                        for (ItemStack armor : inventory.armor) {
+                            int durability = armor.getMaxDamage() - armor.getDamage();
+                            if (armor.isDamageable() && durability == 2) {
+                                swapArmor(armor, player);
+                            }
+                        }
                     }
                 }
             }
@@ -66,22 +81,37 @@ public final class ToolSaverModule extends ToggleModule {
     }
 
     private void swapTool(ItemStack stack, @NotNull ClientPlayerEntity player) {
-        PlayerInventory inventory = player.inventory;
-        int indexFrom = inventory.getSlotWithStack(stack);
-        int indexTo = getBestReplacementIndex(inventory, stack);
-        sendSwapPackets(indexFrom, indexTo, player);
-    }
-
-    private void sendSwapPackets(int indexFrom, int indexTo, @NotNull ClientPlayerEntity player) {
         ClientPlayerInteractionManager interactionManager = MinecraftClient.getInstance().interactionManager;
         if (interactionManager != null) {
 
+            PlayerInventory inventory = player.inventory;
             final int syncID = player.currentScreenHandler.syncId;
-            final int slotID = convertIndex(indexTo);
-            final int clickData = indexFrom;
+            final int slotID = convertIndex(getBestReplacementIndex(inventory, stack));
+            final int clickData = inventory.getSlotWithStack(stack);
             final SlotActionType actionType = SlotActionType.SWAP;
 
             interactionManager.clickSlot(syncID, slotID, clickData, actionType, player);
+        }
+    }
+
+    private void swapArmor(@NotNull ItemStack stack, @NotNull ClientPlayerEntity player) {
+        ClientPlayerInteractionManager interactionManager = MinecraftClient.getInstance().interactionManager;
+        if (interactionManager != null) {
+
+            PlayerInventory inventory = player.inventory;
+            final int syncID = player.currentScreenHandler.syncId;
+            final SlotActionType actionType = SlotActionType.QUICK_MOVE;
+            final int clickData = 0;
+
+            int indexFrom = getArmorIndex(stack.getItem(), inventory);
+            int indexTo = convertIndex(getBestArmorReplacementIndex(inventory, stack));
+
+            // Only swap the armor if *can* be swapped.
+            // if indexTo == -1, then the inventory has no empty room to put the almost broken armor into.
+            if (indexTo >= 0) {
+                interactionManager.clickSlot(syncID, indexFrom, clickData, actionType, player);
+                interactionManager.clickSlot(syncID, indexTo, clickData, actionType, player);
+            }
         }
     }
 
@@ -106,8 +136,52 @@ public final class ToolSaverModule extends ToggleModule {
         }
     }
 
+    private int getBestArmorReplacementIndex(@NotNull PlayerInventory inventory, ItemStack stack) {
+
+        List<ReplacementProfile> replacements = new ArrayList<>();
+
+        for (int i = 0; i < inventory.main.size(); i++) {
+            ItemStack currentStack = inventory.getStack(i);
+            ReplacementType type = ReplacementType.of(stack, currentStack);
+            if (type.equals(ReplacementType.SAME) || type.equals(ReplacementType.EMPTY)) {
+                replacements.add(new ReplacementProfile(currentStack, type, i));
+            }
+        }
+        replacements.sort(sorter);
+
+        if (replacements.size() > 0) {
+            return replacements.get(0).getIndex();
+        }
+        else {
+            return -1;
+        }
+    }
+
+    private int getArmorIndex(Item armor, PlayerInventory inventory) {
+        if (armor instanceof ArmorItem) {
+            switch (((ArmorItem) armor).getSlotType()) {
+                case HEAD: return 5;
+                case CHEST: return 6;
+                case LEGS: return 7;
+                case FEET: return 8;
+                case OFFHAND: return 45;
+                case MAINHAND: return inventory.selectedSlot + 36;
+                default: return -1;
+            }
+        }
+        else {
+            return -1;
+        }
+    }
+
     // Converts the inventory index from PlayerInventory indexing to ClickSlotC2SPacket indexing
     private int convertIndex(int index) {
+        /*
+        The inventory class and the click-slot packet use two different indices for their contents.
+        The inventory class only indexes the the main inventory itself, along with the armor slots
+        and off-hand slot; whereas the packet also indexes the crafting menu, because it also has
+        to handle slots being clicked there as well, and not just in the main inventory.
+         */
         int newIndex = -1;
 
         // Hotbar
@@ -143,6 +217,7 @@ public final class ToolSaverModule extends ToggleModule {
         SWORD,
         BOW,
         CROSSBOW,
+        SHIELD,
         HELMET,
         CHESTPLATE,
         LEGGINGS,
@@ -177,6 +252,9 @@ public final class ToolSaverModule extends ToggleModule {
             else if (item instanceof CrossbowItem) {
                 return CROSSBOW;
             }
+            else if (item instanceof ShieldItem) {
+                return SHIELD;
+            }
             else if (item instanceof ArmorItem) {
                 switch (((ArmorItem) item).getSlotType()) {
                     case HEAD: return HELMET;
@@ -207,9 +285,10 @@ public final class ToolSaverModule extends ToggleModule {
     }
 
     enum ReplacementType {
-        SAME(true),     // The replacement is the same kind of equipment.
-        EMPTY(true),    // The replacement is an empty slot or a non-damageable item.
-        NONE(false);    // Not a suitable replacement.
+        SAME(true),             // The replacement is the same kind of equipment.
+        NON_DAMAGEABLE(true),   // The replacement is a non-damageable item.
+        EMPTY(true),            // The replacement is an empty slot.
+        NONE(false);            // Not a suitable replacement.
 
         private final boolean suitable;
 
@@ -231,12 +310,14 @@ public final class ToolSaverModule extends ToggleModule {
                 }
             }
 
-            // If not, see if it is an empty or non-damageable item.
-            if (!replacer.isDamageable()) {
-                return ReplacementType.EMPTY;
+            if (!stack.isDamageable() && !stack.isEmpty()) {
+                return NON_DAMAGEABLE;
+            }
+            else if (stack.isEmpty()) {
+                return EMPTY;
             }
             else {
-                return ReplacementType.NONE;
+                return NONE;
             }
         }
     }
