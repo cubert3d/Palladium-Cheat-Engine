@@ -6,6 +6,8 @@ import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 
 import java.util.Optional;
@@ -18,8 +20,6 @@ import java.util.Optional;
 )
 
 public final class CommandListener {
-
-    private static final String commandPrefix = ".";
 
     private CommandListener() {}
 
@@ -39,6 +39,9 @@ public final class CommandListener {
     }
 
     public static void processCommand(String[] labelAndArgs) {
+
+        // Put the command to the player's chat HUD.
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(PalladiumCommand.getPrefix().concat(String.join(" ", labelAndArgs))));
 
         // The first word--used to get a module.
         String label = labelAndArgs[0];
