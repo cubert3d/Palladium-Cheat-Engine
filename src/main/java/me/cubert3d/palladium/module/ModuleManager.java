@@ -2,7 +2,10 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.modules.command.EchoCommand;
+import me.cubert3d.palladium.module.modules.command.ExecuteCommand;
 import me.cubert3d.palladium.module.modules.command.HelpCommand;
+import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.module.modules.command.SearchCommand;
 import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
 import me.cubert3d.palladium.module.modules.gui.EffectListModule;
@@ -68,8 +71,11 @@ public final class ModuleManager {
         Palladium.getLogger().info("Filling module set...");
 
         // COMMANDS
+        addModule(new PalladiumCommand());
         addModule(new HelpCommand());
         addModule(new SearchCommand());
+        addModule(new EchoCommand());
+        addModule(new ExecuteCommand());
 
         // GUI
         addModule(new PalladiumHudModule());

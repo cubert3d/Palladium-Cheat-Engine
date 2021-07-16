@@ -3,6 +3,7 @@ package me.cubert3d.palladium.input;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.CommandCallback;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.util.ActionResult;
@@ -25,33 +26,34 @@ public final class CommandListener {
     public static void registerListener() {
         CommandCallback.EVENT.register((player, message) -> {
 
-            if (!message.startsWith(commandPrefix)) {
+            final String prefix = PalladiumCommand.getPrefix();
+
+            if (!message.startsWith(prefix)) {
                 return ActionResult.PASS;
             }
-
-            // Everything in the message except for the command prefix.
-            String content = message.substring(commandPrefix.length());
-
-            // Split the content into words.
-            String[] words = content.split(" ");
-
-            // The first word--used to get a module.
-            String label = words[0];
-
-            // The arguments to be passed to the command.
-            String[] args = new String[words.length - 1];
-            System.arraycopy(words, 1, args, 0, args.length);
-
-            Optional<Module> optional = Palladium.getInstance().getModuleManager().getModuleOptional(label.toLowerCase());
-
-            if (optional.isPresent()) {
-                optional.get().parseArgs(args);
-            }
             else {
-                CommandError.sendErrorMessage(CommandError.MODULE_NOT_FOUND);
+                processCommand(message.substring(prefix.length()).split(" "));
+                return ActionResult.FAIL;
             }
-
-            return ActionResult.FAIL;
         });
+    }
+
+    public static void processCommand(String[] labelAndArgs) {
+
+        // The first word--used to get a module.
+        String label = labelAndArgs[0];
+
+        // The arguments to be passed to the command.
+        String[] args = new String[labelAndArgs.length - 1];
+        System.arraycopy(labelAndArgs, 1, args, 0, args.length);
+
+        Optional<Module> optional = Palladium.getInstance().getModuleManager().getModuleOptional(label.toLowerCase());
+
+        if (optional.isPresent()) {
+            optional.get().parseArgs(args);
+        }
+        else {
+            CommandError.sendErrorMessage(CommandError.MODULE_NOT_FOUND);
+        }
     }
 }
