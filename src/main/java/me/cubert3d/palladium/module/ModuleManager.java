@@ -2,9 +2,12 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.modules.command.DisconnectCommand;
+import me.cubert3d.palladium.module.modules.command.DropCommand;
 import me.cubert3d.palladium.module.modules.command.EchoCommand;
 import me.cubert3d.palladium.module.modules.command.ExecuteCommand;
 import me.cubert3d.palladium.module.modules.command.HelpCommand;
+import me.cubert3d.palladium.module.modules.command.MusicBoxCommand;
 import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.module.modules.command.SearchCommand;
 import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
@@ -76,6 +79,9 @@ public final class ModuleManager {
         addModule(new SearchCommand());
         addModule(new EchoCommand());
         addModule(new ExecuteCommand());
+        addModule(new DisconnectCommand());
+        addModule(new DropCommand());
+        addModule(new MusicBoxCommand());
 
         // GUI
         addModule(new PalladiumHudModule());

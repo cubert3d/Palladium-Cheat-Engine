@@ -1,16 +1,22 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
+import me.cubert3d.palladium.input.Keys;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.InputUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -31,6 +37,16 @@ abstract class KeyboardMixin {
          */
         // Make sure there is no 'screen' open--aka menu, chat console, etc
         if (MinecraftClient.getInstance().currentScreen == null) {
+
+            Optional<InputUtil.Key> prefixKey = Keys.getKeyFromString(PalladiumCommand.getPrefix());
+            if (prefixKey.isPresent()) {
+                int prefixKeyCode = prefixKey.get().getCode();
+                if (key == prefixKeyCode) {
+                    ((MinecraftClientAccessor) MinecraftClient.getInstance()).invokeOpenChatScreen("");
+                    return;
+                }
+            }
+
             for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
                 KeyBindingSetting binding = module.getBinding();
                 if (binding.isSet() && binding.getValue().getCode() == key) {

@@ -28,8 +28,8 @@ public final class Keys {
     // The translation key uses '.' as its delimiter, but in order to make
     // it resemble other user-input, such as that of the /give command.
     // E.g. "tipped_arrow" vs "tipped.arrow"; "numpad_8" vs "numpad.8"
-    private static final char TRANSLATION_KEY_DELIMITER = '.';
-    private static final char NEW_DELIMITER = '_';
+    private static final String TRANSLATION_KEY_DELIMITER = ".";
+    private static final String NEW_DELIMITER = "_";
 
     private static final Map<String, InputUtil.Key> stringsToKeys = new HashMap<>();
     private static final Map<Integer, InputUtil.Key> intsToKeys = new HashMap<>();
@@ -44,10 +44,40 @@ public final class Keys {
     }
 
     public static Optional<InputUtil.Key> getKeyFromString(@NotNull String string) {
+        string = convertStringToKey(string);
+        string = string.replaceAll(NEW_DELIMITER, TRANSLATION_KEY_DELIMITER);
         if (!string.startsWith(TRANSLATION_KEY_PREFIX)) {
             string = TRANSLATION_KEY_PREFIX.concat(string);
         }
         return Optional.ofNullable(stringsToKeys.get(string));
+    }
+
+    private static String convertStringToKey(@NotNull String string) {
+        switch (string.trim().toLowerCase()) {
+            case ",":
+            case "<": return "comma";
+            case ".":
+            case ">": return "period";
+            case "/":
+            case "?": return "slash";
+            case ";":
+            case ":": return "semicolon";
+            case "'":
+            case "\"": return "apostrophe";
+            case "[":
+            case "{": return "left.bracket";
+            case "]":
+            case "}": return "right.bracket";
+            case "\\":
+            case "|": return "backslash";
+            case "`":
+            case "~": return "grave.accent";
+            case "-":
+            case "_": return "minus";
+            case "+":
+            case "=": return "equal";
+            default: return string;
+        }
     }
     
     /*

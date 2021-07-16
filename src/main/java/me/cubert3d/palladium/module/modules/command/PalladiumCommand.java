@@ -3,6 +3,14 @@ package me.cubert3d.palladium.module.modules.command;
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "7/15/2021",
+        type = ClassType.MODULE
+)
 
 public final class PalladiumCommand extends CommandModule {
 

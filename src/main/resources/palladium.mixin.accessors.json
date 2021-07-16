@@ -9,6 +9,7 @@
     "MinecraftClientAccessor",
     "KeyBindingAccessor",
     "RenderPhaseAccessor",
+    "MusicTrackerAccessor",
     "EntityTypeAccessor"
   ],
   "injectors": {

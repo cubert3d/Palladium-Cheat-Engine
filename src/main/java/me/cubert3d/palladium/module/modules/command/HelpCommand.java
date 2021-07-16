@@ -58,7 +58,7 @@ public final class HelpCommand extends CommandModule {
     }
 
     @Contract(pure = true)
-    private static @Nullable LinkedHashSet<Module> getPage(final int pageNumber) {
+    private @Nullable LinkedHashSet<Module> getPage(final int pageNumber) {
 
         // Cannot access a zero or negative page.
         if (pageNumber < 1) return null;

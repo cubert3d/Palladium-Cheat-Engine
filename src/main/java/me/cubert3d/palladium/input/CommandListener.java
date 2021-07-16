@@ -25,9 +25,7 @@ public final class CommandListener {
 
     public static void registerListener() {
         CommandCallback.EVENT.register((player, message) -> {
-
             final String prefix = PalladiumCommand.getPrefix();
-
             if (!message.startsWith(prefix)) {
                 return ActionResult.PASS;
             }
@@ -41,7 +39,7 @@ public final class CommandListener {
     public static void processCommand(String[] labelAndArgs) {
 
         // Put the command to the player's chat HUD.
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(PalladiumCommand.getPrefix().concat(String.join(" ", labelAndArgs))));
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(">> " + String.join(" ", labelAndArgs)));
 
         // The first word--used to get a module.
         String label = labelAndArgs[0];

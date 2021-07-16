@@ -3,7 +3,15 @@ package me.cubert3d.palladium.module.modules.command;
 import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.input.CommandListener;
 import me.cubert3d.palladium.module.modules.CommandModule;
+import me.cubert3d.palladium.util.annotation.ClassInfo;
+import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
+
+@ClassInfo(
+        authors = "cubert3d",
+        date = "7/15/2021",
+        type = ClassType.MODULE
+)
 
 public final class ExecuteCommand extends CommandModule {
 
