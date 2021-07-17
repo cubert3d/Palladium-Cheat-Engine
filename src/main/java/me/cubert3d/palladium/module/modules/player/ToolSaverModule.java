@@ -9,21 +9,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.FishingRodItem;
-import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.OnAStickItem;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.item.ShieldItem;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SwordItem;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
@@ -121,7 +108,7 @@ public final class ToolSaverModule extends ToggleModule {
 
         for (int i = 0; i < inventory.main.size(); i++) {
             ItemStack currentStack = inventory.getStack(i);
-            ReplacementType type = ReplacementType.of(stack, currentStack);
+            ReplacementType type = getReplacementType(stack, currentStack);
             if (type.isSuitable()) {
                 replacements.add(new ReplacementProfile(currentStack, type, i));
             }
@@ -142,7 +129,7 @@ public final class ToolSaverModule extends ToggleModule {
 
         for (int i = 0; i < inventory.main.size(); i++) {
             ItemStack currentStack = inventory.getStack(i);
-            ReplacementType type = ReplacementType.of(stack, currentStack);
+            ReplacementType type = getReplacementType(stack, currentStack);
             if (type.equals(ReplacementType.SAME) || type.equals(ReplacementType.EMPTY)) {
                 replacements.add(new ReplacementProfile(currentStack, type, i));
             }
@@ -154,6 +141,38 @@ public final class ToolSaverModule extends ToggleModule {
         }
         else {
             return -1;
+        }
+    }
+
+    private boolean isSameEquipmentType(@NotNull Item item1, @NotNull Item item2) {
+        if (item1.getClass().equals(item2.getClass())) {
+            if (item1 instanceof ArmorItem && item2 instanceof ArmorItem) {
+                return ((ArmorItem) item1).getSlotType().equals(((ArmorItem) item2).getSlotType());
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    private ReplacementType getReplacementType(ItemStack stack, @NotNull ItemStack replacer) {
+        // Check if the replacer item is equipment of the same type.
+        if (replacer.isDamageable() && (replacer.getMaxDamage() - replacer.getDamage()) > 1
+                && isSameEquipmentType(stack.getItem(), replacer.getItem())) {
+            return ReplacementType.SAME;
+        }
+
+        if (!stack.isDamageable() && !stack.isEmpty()) {
+            return ReplacementType.NON_DAMAGEABLE;
+        }
+        else if (stack.isEmpty()) {
+            return ReplacementType.EMPTY;
+        }
+        else {
+            return ReplacementType.NONE;
         }
     }
 
@@ -209,81 +228,6 @@ public final class ToolSaverModule extends ToggleModule {
         return  newIndex;
     }
 
-    enum EquipmentType {
-        PICKAXE,
-        SHOVEL,
-        AXE,
-        HOE,
-        SWORD,
-        BOW,
-        CROSSBOW,
-        SHIELD,
-        HELMET,
-        CHESTPLATE,
-        LEGGINGS,
-        BOOTS,
-        ELYTRA,
-        SHEARS,
-        FISHING_ROD,
-        CARROT_ON_STICK,
-        MUSHROOM_ON_STICK,
-        NONE;
-
-        private static EquipmentType of(@NotNull ItemStack stack) {
-            Item item = stack.getItem();
-            if (item instanceof PickaxeItem) {
-                return PICKAXE;
-            }
-            else if (item instanceof ShovelItem) {
-                return SHOVEL;
-            }
-            else if (item instanceof AxeItem) {
-                return AXE;
-            }
-            else if (item instanceof HoeItem) {
-                return HOE;
-            }
-            else if (item instanceof SwordItem) {
-                return SWORD;
-            }
-            else if (item instanceof BowItem) {
-                return BOW;
-            }
-            else if (item instanceof CrossbowItem) {
-                return CROSSBOW;
-            }
-            else if (item instanceof ShieldItem) {
-                return SHIELD;
-            }
-            else if (item instanceof ArmorItem) {
-                switch (((ArmorItem) item).getSlotType()) {
-                    case HEAD: return HELMET;
-                    case CHEST: return CHESTPLATE;
-                    case LEGS: return LEGGINGS;
-                    case FEET: return BOOTS;
-                }
-            }
-            else if (item instanceof ElytraItem) {
-                return ELYTRA;
-            }
-            else if (item instanceof ShearsItem) {
-                return SHEARS;
-            }
-            else if (item instanceof FishingRodItem) {
-                return FISHING_ROD;
-            }
-            else if (item instanceof OnAStickItem) {
-                if (item == Items.CARROT_ON_A_STICK) {
-                    return CARROT_ON_STICK;
-                }
-                else if (item == Items.WARPED_FUNGUS_ON_A_STICK) {
-                    return MUSHROOM_ON_STICK;
-                }
-            }
-            return NONE;
-        }
-    }
-
     enum ReplacementType {
         SAME(true),             // The replacement is the same kind of equipment.
         NON_DAMAGEABLE(true),   // The replacement is a non-damageable item.
@@ -298,27 +242,6 @@ public final class ToolSaverModule extends ToggleModule {
 
         public boolean isSuitable() {
             return suitable;
-        }
-
-        private static ReplacementType of(ItemStack stack, @NotNull ItemStack replacer) {
-            // Check if the replacer item is equipment of the same type.
-            if ((replacer.getMaxDamage() - replacer.getDamage()) > 1) {
-                EquipmentType stackType = EquipmentType.of(stack);
-                EquipmentType replacerType = EquipmentType.of(replacer);
-                if (!stackType.equals(EquipmentType.NONE) && stackType.equals(replacerType)) {
-                    return ReplacementType.SAME;
-                }
-            }
-
-            if (!stack.isDamageable() && !stack.isEmpty()) {
-                return NON_DAMAGEABLE;
-            }
-            else if (stack.isEmpty()) {
-                return EMPTY;
-            }
-            else {
-                return NONE;
-            }
         }
     }
 
