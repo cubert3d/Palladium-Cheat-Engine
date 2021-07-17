@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.input;
+package me.cubert3d.palladium.module.command;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.callback.CommandCallback;
@@ -30,7 +30,10 @@ public final class CommandListener {
                 return ActionResult.PASS;
             }
             else {
-                processCommand(message.substring(prefix.length()).split(" "));
+                // Put the command to the player's chat HUD.
+                String[] labelAndArgs = message.substring(prefix.length()).split(" ");
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(">> " + String.join(" ", labelAndArgs)));
+                processCommand(labelAndArgs);
                 return ActionResult.FAIL;
             }
         });
@@ -38,8 +41,7 @@ public final class CommandListener {
 
     public static void processCommand(String[] labelAndArgs) {
 
-        // Put the command to the player's chat HUD.
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(">> " + String.join(" ", labelAndArgs)));
+
 
         // The first word--used to get a module.
         String label = labelAndArgs[0];

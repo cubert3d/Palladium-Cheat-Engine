@@ -13,6 +13,7 @@ public enum ClassType {
     RENDERER,
     MODULE,
     SETTING,
+    MACRO,
     WIDGET,
     PROVIDER,
     MIXIN,

@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules;
 
-import me.cubert3d.palladium.input.CommandError;
 import me.cubert3d.palladium.module.ModuleType;
+import me.cubert3d.palladium.module.command.CommandError;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.module.setting.list.ListSetting;
 import me.cubert3d.palladium.module.setting.single.SingleSetting;

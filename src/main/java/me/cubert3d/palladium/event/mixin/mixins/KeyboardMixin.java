@@ -2,12 +2,12 @@ package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
-import me.cubert3d.palladium.input.Keys;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.module.setting.single.KeyBindingSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import me.cubert3d.palladium.util.input.Keys;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;

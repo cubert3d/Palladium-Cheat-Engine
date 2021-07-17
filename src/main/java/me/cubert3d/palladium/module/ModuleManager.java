@@ -7,6 +7,7 @@ import me.cubert3d.palladium.module.modules.command.DropCommand;
 import me.cubert3d.palladium.module.modules.command.EchoCommand;
 import me.cubert3d.palladium.module.modules.command.ExecuteCommand;
 import me.cubert3d.palladium.module.modules.command.HelpCommand;
+import me.cubert3d.palladium.module.modules.command.MacroCommand;
 import me.cubert3d.palladium.module.modules.command.MusicBoxCommand;
 import me.cubert3d.palladium.module.modules.command.PalladiumCommand;
 import me.cubert3d.palladium.module.modules.command.SearchCommand;
@@ -16,6 +17,7 @@ import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
 import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
 import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
 import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
+import me.cubert3d.palladium.module.modules.movement.AutoWalkModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.EntityControlModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
@@ -75,6 +77,7 @@ public final class ModuleManager {
 
         // COMMANDS
         addModule(new PalladiumCommand());
+        addModule(new MacroCommand());
         addModule(new HelpCommand());
         addModule(new SearchCommand());
         addModule(new EchoCommand());
@@ -108,6 +111,7 @@ public final class ModuleManager {
         addModule(new AutoDisconnectModule());
 
         // MOVEMENT
+        addModule(new AutoWalkModule());
         addModule(new SprintModule());
         addModule(new SneakModule());
         addModule(new ClickTPModule());

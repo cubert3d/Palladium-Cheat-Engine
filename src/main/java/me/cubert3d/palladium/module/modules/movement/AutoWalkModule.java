@@ -9,20 +9,20 @@ import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
-        date = "3/10/2021",
+        date = "7/16/2021",
         type = ClassType.MODULE
 )
 
-public final class SprintModule extends ToggleModule {
+public final class AutoWalkModule extends ToggleModule {
 
-    public SprintModule() {
-        super("Sprint", "Makes the player sprint.");
+    public AutoWalkModule() {
+        super("AutoWalk", "Makes the player automatically walk forward.");
     }
 
     @Override
     public final void onLoad() {
         KeyPressedCallback.EVENT.register(binding -> {
-            if (isEnabled() && binding.equals(MinecraftClient.getInstance().options.keySprint)) {
+            if (isEnabled() && binding.equals(MinecraftClient.getInstance().options.keyForward)) {
                 return ActionResult.SUCCESS;
             }
             else {

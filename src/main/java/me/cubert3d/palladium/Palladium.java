@@ -1,9 +1,10 @@
 package me.cubert3d.palladium;
 
 import me.cubert3d.palladium.gui.GUIRenderer;
-import me.cubert3d.palladium.input.CommandListener;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
+import me.cubert3d.palladium.module.command.CommandListener;
+import me.cubert3d.palladium.module.command.MacroManager;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.apache.logging.log4j.LogManager;
@@ -19,12 +20,13 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.9.2";
+    public static final String VERSION = "0.1.10";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 
     private ModuleManager moduleManager;
     private ModuleGroupManager moduleGroupManager;
+    private MacroManager macroManager;
     private Configuration configuration;
     private GUIRenderer guiRenderer;
     /*
@@ -42,6 +44,7 @@ public final class Palladium {
 
         this.moduleManager = new ModuleManager();
         this.moduleGroupManager = new ModuleGroupManager(moduleManager);
+        this.macroManager = new MacroManager();
         this.configuration = new Configuration();
         this.guiRenderer = new GUIRenderer();
         this.debug = true;
@@ -75,6 +78,10 @@ public final class Palladium {
 
     public final ModuleGroupManager getModuleGroupManager() {
         return moduleGroupManager;
+    }
+
+    public final MacroManager getMacroManager() {
+        return macroManager;
     }
 
     public final Configuration getConfiguration() {

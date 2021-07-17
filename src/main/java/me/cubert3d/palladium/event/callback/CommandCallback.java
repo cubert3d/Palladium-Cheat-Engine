@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.event.callback;
 
 import me.cubert3d.palladium.event.mixin.mixins.ClientPlayerEntityMixin;
-import me.cubert3d.palladium.input.CommandListener;
+import me.cubert3d.palladium.module.command.CommandListener;
 import me.cubert3d.palladium.util.annotation.CallbackInfo;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;

@@ -1,10 +1,10 @@
 package me.cubert3d.palladium.module.setting.single;
 
-import me.cubert3d.palladium.input.Keys;
 import me.cubert3d.palladium.module.setting.SettingType;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.SettingParseException;
+import me.cubert3d.palladium.util.input.Keys;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.NotNull;
 
