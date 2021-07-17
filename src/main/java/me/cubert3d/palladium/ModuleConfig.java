@@ -22,7 +22,7 @@ import java.util.Scanner;
         type = ClassType.MAIN
 )
 
-public final class Configuration {
+public final class ModuleConfig {
 
     public static final String KEY_VALUE_DELIMITER = ": ";
     public static final String LIST_DELIMITER = ", ";
@@ -34,7 +34,7 @@ public final class Configuration {
     private int readCounter;
     private int writeCounter;
 
-    Configuration() {
+    public ModuleConfig() {
         this.readCounter = 1;
         this.writeCounter = 1;
     }
@@ -55,17 +55,17 @@ public final class Configuration {
     }
 
     public void loadConfig() {
-        Palladium.getLogger().info("Loading config...");
+        Palladium.getLogger().info("Loading module config...");
         createFile();
         read();
-        Palladium.getLogger().info("Done loading config!");
+        Palladium.getLogger().info("Done loading module config!");
     }
 
     public void saveConfig() {
-        Palladium.getLogger().info("Saving config...");
+        Palladium.getLogger().info("Saving module config...");
         createFile();
         write();
-        Palladium.getLogger().info("Done saving config!");
+        Palladium.getLogger().info("Done saving module config!");
     }
 
     private void read() {
@@ -163,12 +163,12 @@ public final class Configuration {
 
     private void printReadException(@NotNull Exception e) {
         String exceptionMessage = e.getClass().getSimpleName() + ", " + e.getMessage();
-        Palladium.getLogger().error("Error reading from config file at line " + readCounter + ": " + exceptionMessage);
+        Palladium.getLogger().error("Error reading module config file at line " + readCounter + ": " + exceptionMessage);
     }
 
     private void printWriteException(@NotNull Exception e) {
         String exceptionMessage = e.getClass().getSimpleName() + ", " + e.getMessage();
-        Palladium.getLogger().error("Error writing to config file at line " + writeCounter + ": " + exceptionMessage);
+        Palladium.getLogger().error("Error writing to module config file at line " + writeCounter + ": " + exceptionMessage);
     }
 
     private @NotNull Module parseModuleName(String name) {

@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.setting.list;
 
-import me.cubert3d.palladium.Configuration;
+import me.cubert3d.palladium.ModuleConfig;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -84,7 +84,7 @@ public abstract class ListSetting<E> extends Setting {
             string = string.concat(append.trim());
 
             if (counter < getList().size() - 1) {
-                string = string.concat(Configuration.LIST_DELIMITER);
+                string = string.concat(ModuleConfig.LIST_DELIMITER);
             }
 
             counter++;
@@ -105,7 +105,7 @@ public abstract class ListSetting<E> extends Setting {
          */
 
         List<E> list = new ArrayList<>();
-        String[] strings = string.split(Configuration.LIST_DELIMITER);
+        String[] strings = string.split(ModuleConfig.LIST_DELIMITER);
 
         // Iterate through the split strings, and parse each of them.
         for (String splitString : strings) {

@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.module.command;
+package me.cubert3d.palladium.module.macro;
 
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -22,6 +22,13 @@ public final class MacroManager {
 
     public MacroManager() {
         this.macros = new HashMap<>();
+    }
+
+    public void loadList(@NotNull ArrayList<Macro> macros) {
+        this.macros.clear();
+        for (Macro macro : macros) {
+            this.macros.put(macro.getID(), macro);
+        }
     }
 
     public final Optional<Macro> getMacro(@NotNull String name) {

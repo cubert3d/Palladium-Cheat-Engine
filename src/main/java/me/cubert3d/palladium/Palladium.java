@@ -4,7 +4,7 @@ import me.cubert3d.palladium.gui.GUIRenderer;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.command.CommandListener;
-import me.cubert3d.palladium.module.command.MacroManager;
+import me.cubert3d.palladium.module.macro.MacroManager;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.apache.logging.log4j.LogManager;
@@ -20,14 +20,15 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.10.1";
+    public static final String VERSION = "0.1.10.2";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 
     private ModuleManager moduleManager;
     private ModuleGroupManager moduleGroupManager;
     private MacroManager macroManager;
-    private Configuration configuration;
+    private ModuleConfig moduleConfig;
+    private MacroConfig macroConfig;
     private GUIRenderer guiRenderer;
     /*
     In debug mode, modules and other features that are
@@ -45,7 +46,8 @@ public final class Palladium {
         this.moduleManager = new ModuleManager();
         this.moduleGroupManager = new ModuleGroupManager(moduleManager);
         this.macroManager = new MacroManager();
-        this.configuration = new Configuration();
+        this.moduleConfig = new ModuleConfig();
+        this.macroConfig = new MacroConfig(macroManager);
         this.guiRenderer = new GUIRenderer();
         this.debug = true;
 
@@ -53,6 +55,7 @@ public final class Palladium {
         getModuleManager().initialize();
         getModuleGroupManager().initialize();
         getGuiRenderer().initialize();
+        getMacroConfig().loadConfig();
 
         // Listeners
         CommandListener.registerListener();
@@ -60,7 +63,8 @@ public final class Palladium {
 
     public void close() {
         getLogger().info("Closing Palladium Cheat Engine...");
-        getConfiguration().saveConfig();
+        getModuleConfig().saveConfig();
+        getMacroConfig().saveConfig();
         getLogger().info("Done!");
     }
 
@@ -84,8 +88,12 @@ public final class Palladium {
         return macroManager;
     }
 
-    public final Configuration getConfiguration() {
-        return configuration;
+    public final ModuleConfig getModuleConfig() {
+        return moduleConfig;
+    }
+
+    public final MacroConfig getMacroConfig() {
+        return macroConfig;
     }
 
     public final GUIRenderer getGuiRenderer() {

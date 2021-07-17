@@ -1,8 +1,10 @@
-package me.cubert3d.palladium.module.command;
+package me.cubert3d.palladium.module.macro;
 
+import me.cubert3d.palladium.module.command.CommandListener;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @ClassInfo(
@@ -11,7 +13,7 @@ import java.util.ArrayList;
         type = ClassType.MACRO
 )
 
-public final class Macro {
+public final class Macro implements Serializable {
 
     private final String name;
     private final String id;
