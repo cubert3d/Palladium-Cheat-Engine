@@ -1,5 +1,6 @@
-package me.cubert3d.palladium;
+package me.cubert3d.palladium.config;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
@@ -10,9 +11,7 @@ import me.cubert3d.palladium.util.exception.ReadException;
 import me.cubert3d.palladium.util.exception.SettingNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 @ClassInfo(
@@ -22,56 +21,17 @@ import java.util.Scanner;
         type = ClassType.MAIN
 )
 
-public final class ModuleConfig {
-
-    public static final String KEY_VALUE_DELIMITER = ": ";
-    public static final String LIST_DELIMITER = ", ";
-
-    private static String fileDirectory = "palladium";
-    private static String fileName = "config.txt";
-    private static String fullFileName = fileDirectory + "/" + fileName;
-
-    private int readCounter;
-    private int writeCounter;
+public final class ModuleConfig extends AbstractConfig {
 
     public ModuleConfig() {
-        this.readCounter = 1;
-        this.writeCounter = 1;
+        super("modules.txt");
     }
 
-    private void createFile() {
-        File path = new File(fileDirectory);
-        File file = new File(fullFileName);
-        if (!file.exists()) {
-            try {
-                path.mkdir();
-                file.createNewFile();
-                Palladium.getLogger().info("Created config file");
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void loadConfig() {
-        Palladium.getLogger().info("Loading module config...");
-        createFile();
-        read();
-        Palladium.getLogger().info("Done loading module config!");
-    }
-
-    public void saveConfig() {
-        Palladium.getLogger().info("Saving module config...");
-        createFile();
-        write();
-        Palladium.getLogger().info("Done saving module config!");
-    }
-
-    private void read() {
+    @Override
+    protected final void read() {
         try {
 
-            Scanner scanner = new Scanner(new File(fullFileName));
+            Scanner scanner = new Scanner(getFile());
             Module currentModule = null;
 
             while (scanner.hasNextLine()) {
@@ -133,9 +93,10 @@ public final class ModuleConfig {
         readCounter = 1;
     }
 
-    private void write() {
+    @Override
+    protected final void write() {
         try {
-            FileWriter writer = new FileWriter(fullFileName);
+            FileWriter writer = new FileWriter(getFile());
 
             for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
 
@@ -159,16 +120,6 @@ public final class ModuleConfig {
         catch (Exception e) {
             printWriteException(e);
         }
-    }
-
-    private void printReadException(@NotNull Exception e) {
-        String exceptionMessage = e.getClass().getSimpleName() + ", " + e.getMessage();
-        Palladium.getLogger().error("Error reading module config file at line " + readCounter + ": " + exceptionMessage);
-    }
-
-    private void printWriteException(@NotNull Exception e) {
-        String exceptionMessage = e.getClass().getSimpleName() + ", " + e.getMessage();
-        Palladium.getLogger().error("Error writing to module config file at line " + writeCounter + ": " + exceptionMessage);
     }
 
     private @NotNull Module parseModuleName(String name) {

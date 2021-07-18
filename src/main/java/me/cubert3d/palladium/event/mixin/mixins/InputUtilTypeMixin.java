@@ -21,6 +21,6 @@ abstract class InputUtilTypeMixin {
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void staticConstructorInject(final CallbackInfo info) {
         // The config loading is called here to ensure that it is only read *after* the keys are loaded.
-        Palladium.getInstance().getModuleConfig().loadConfig();
+        Palladium.getInstance().getModuleConfig().load();
     }
 }

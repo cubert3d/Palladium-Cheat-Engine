@@ -1,5 +1,7 @@
 package me.cubert3d.palladium;
 
+import me.cubert3d.palladium.config.MacroConfig;
+import me.cubert3d.palladium.config.ModuleConfig;
 import me.cubert3d.palladium.gui.GUIRenderer;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
@@ -20,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.10.3";
+    public static final String VERSION = "0.1.10.4";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 
@@ -55,7 +57,7 @@ public final class Palladium {
         getModuleManager().initialize();
         getModuleGroupManager().initialize();
         getGuiRenderer().initialize();
-        getMacroConfig().loadConfig();
+        getMacroConfig().load();
 
         // Listeners
         CommandListener.registerListener();
@@ -63,8 +65,8 @@ public final class Palladium {
 
     public void close() {
         getLogger().info("Closing Palladium Cheat Engine...");
-        getModuleConfig().saveConfig();
-        getMacroConfig().saveConfig();
+        getModuleConfig().save();
+        getMacroConfig().save();
         getLogger().info("Done!");
     }
 
