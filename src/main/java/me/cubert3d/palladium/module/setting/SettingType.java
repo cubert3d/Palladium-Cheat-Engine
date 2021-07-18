@@ -15,6 +15,7 @@ public enum SettingType {
     INTEGER,
     DOUBLE,
     STRING,
+    ENUM,
     KEY_BINDING,
     LIST_STRING,
     LIST_BLOCK,

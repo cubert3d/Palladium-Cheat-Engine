@@ -10,7 +10,8 @@
     "KeyBindingAccessor",
     "RenderPhaseAccessor",
     "MusicTrackerAccessor",
-    "EntityTypeAccessor"
+    "EntityTypeAccessor",
+    "WorldAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

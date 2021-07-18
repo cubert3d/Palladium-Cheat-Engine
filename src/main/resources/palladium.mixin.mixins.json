@@ -22,11 +22,13 @@
     "HorseBaseEntityMixin",
     "ItemStackMixin",
     "BlockMixin",
+    "WorldMixin",
     "AbstractBlockStateMixin",
     "FluidRendererMixin",
     "ChunkLightProviderMixin",
     "BlockEntityRenderDispatcherMixin",
-    "EntityRenderDispatcherMixin"
+    "EntityRenderDispatcherMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
