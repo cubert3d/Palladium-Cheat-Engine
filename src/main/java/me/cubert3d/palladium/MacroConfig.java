@@ -4,12 +4,11 @@ import me.cubert3d.palladium.module.macro.Macro;
 import me.cubert3d.palladium.module.macro.MacroManager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public final class MacroConfig {
 
@@ -60,25 +59,41 @@ public final class MacroConfig {
     }
 
     private void read() {
+
         try {
-            FileInputStream fileInputStream = new FileInputStream(fullFileName);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            ArrayList<Macro> macros = (ArrayList<Macro>) objectInputStream.readObject();
-            macroManager.loadList(macros);
-        } catch (IOException | ClassNotFoundException e) {
-            Palladium.getLogger().error("Error reading macro config file!");
+            Scanner scanner = new Scanner(new File(fullFileName));
+            Macro currentMacro = null;
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (!line.startsWith("\t")) {
+                    String macroName = line.replaceAll("\n", "");
+                    currentMacro = new Macro(macroName);
+                    Palladium.getInstance().getMacroManager().addMacro(currentMacro);
+                }
+                else if (currentMacro != null) {
+                    String command = line.replaceFirst("\t", "").replaceAll("\n", "");
+                    currentMacro.addCommand(command);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     private void write() {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(fullFileName);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(macroManager.getMacroList());
-            objectOutputStream.flush();
-            objectOutputStream.close();
-        } catch (IOException e) {
-            Palladium.getLogger().error("Error writing to macro config file!");
+            FileWriter writer = new FileWriter(fullFileName);
+            ArrayList<Macro> macros = Palladium.getInstance().getMacroManager().getMacroList();
+            for (Macro macro : macros) {
+                writer.write(macro.getName() + "\n");
+                for (String command : macro.getCommands()) {
+                    writer.write("\t" + command + "\n");
+                }
+            }
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

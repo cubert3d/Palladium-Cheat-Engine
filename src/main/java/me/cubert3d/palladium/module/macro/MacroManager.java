@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,14 +21,11 @@ public final class MacroManager {
     private final Map<String, Macro> macros;
 
     public MacroManager() {
-        this.macros = new HashMap<>();
+        this.macros = new LinkedHashMap<>();
     }
 
-    public void loadList(@NotNull ArrayList<Macro> macros) {
-        this.macros.clear();
-        for (Macro macro : macros) {
-            this.macros.put(macro.getID(), macro);
-        }
+    public void addMacro(Macro macro) {
+        this.macros.put(macro.getID(), macro);
     }
 
     public final Optional<Macro> getMacro(@NotNull String name) {
@@ -42,7 +39,7 @@ public final class MacroManager {
         return macro;
     }
 
-    public final Optional<Macro> removeMacro(String name) {
+    public final Optional<Macro> removeMacro(@NotNull String name) {
         final String id = name.trim().toLowerCase().replaceAll(" ", "_");
         return Optional.ofNullable(macros.remove(id));
     }

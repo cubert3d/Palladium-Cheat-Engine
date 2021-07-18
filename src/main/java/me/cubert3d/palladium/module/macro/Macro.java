@@ -4,7 +4,6 @@ import me.cubert3d.palladium.module.command.CommandListener;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 @ClassInfo(
@@ -13,13 +12,13 @@ import java.util.ArrayList;
         type = ClassType.MACRO
 )
 
-public final class Macro implements Serializable {
+public final class Macro {
 
     private final String name;
     private final String id;
     private final ArrayList<String> commands;
 
-    Macro(String name) {
+    public Macro(String name) {
         this.name = name.trim();
         this.id = name.trim().toLowerCase().replaceAll(" ", "_");
         this.commands = new ArrayList<>();
