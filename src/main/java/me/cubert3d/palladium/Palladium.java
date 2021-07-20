@@ -3,10 +3,10 @@ package me.cubert3d.palladium;
 import me.cubert3d.palladium.config.MacroConfig;
 import me.cubert3d.palladium.config.ModuleConfig;
 import me.cubert3d.palladium.gui.GUIRenderer;
+import me.cubert3d.palladium.macro.MacroManager;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.command.CommandListener;
-import me.cubert3d.palladium.module.macro.MacroManager;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.11";
+    public static final String VERSION = "0.1.12";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 

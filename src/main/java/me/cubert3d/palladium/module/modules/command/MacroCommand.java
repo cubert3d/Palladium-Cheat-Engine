@@ -1,9 +1,9 @@
 package me.cubert3d.palladium.module.modules.command;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.macro.Macro;
+import me.cubert3d.palladium.macro.MacroManager;
 import me.cubert3d.palladium.module.command.CommandError;
-import me.cubert3d.palladium.module.macro.Macro;
-import me.cubert3d.palladium.module.macro.MacroManager;
 import me.cubert3d.palladium.module.modules.CommandModule;
 import org.jetbrains.annotations.NotNull;
 

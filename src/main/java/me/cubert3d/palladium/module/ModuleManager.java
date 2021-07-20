@@ -2,6 +2,7 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.modules.combat.KillAuraModule;
 import me.cubert3d.palladium.module.modules.command.DisconnectCommand;
 import me.cubert3d.palladium.module.modules.command.DropCommand;
 import me.cubert3d.palladium.module.modules.command.EchoCommand;
@@ -111,6 +112,9 @@ public final class ModuleManager {
         addModule(new BlinkModule());
         addModule(new ChatFilterModule());
         addModule(new AutoDisconnectModule());
+
+        // COMBAT
+        addModule(new KillAuraModule());
 
         // MOVEMENT
         addModule(new AutoWalkModule());

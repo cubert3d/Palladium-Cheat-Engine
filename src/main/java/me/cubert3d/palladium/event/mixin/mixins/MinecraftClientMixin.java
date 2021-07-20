@@ -1,6 +1,8 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
 import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.event.callback.KillAuraCallback;
+import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -19,10 +21,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(MinecraftClient.class)
-abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements SnooperListener, WindowEventHandler {
+abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements SnooperListener, WindowEventHandler, MixinCaster<MinecraftClient> {
 
     private MinecraftClientMixin(String string) {
         super(string);
+    }
+
+    @Inject(method = "tick()V", at = @At("TAIL"))
+    private void tickInject(CallbackInfo info) {
+        KillAuraCallback.EVENT.invoker().interact();
     }
 
     @Inject(method = "close()V", at = @At("HEAD"))

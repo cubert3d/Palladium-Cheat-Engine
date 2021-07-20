@@ -1,4 +1,4 @@
-package me.cubert3d.palladium.module.macro;
+package me.cubert3d.palladium.macro;
 
 import me.cubert3d.palladium.module.command.CommandListener;
 import me.cubert3d.palladium.util.annotation.ClassInfo;

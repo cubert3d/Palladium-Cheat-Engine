@@ -38,6 +38,11 @@ public final class WeatherModule extends ToggleModule {
         });
     }
 
+    @Override
+    public @NotNull Optional<String> getPrimaryInfo() {
+        return Optional.of(weatherSetting.getAsString());
+    }
+
     public enum Setting {
         NONE(0.15F, 0.0F),
         CLEAR(0.15F, 0.0F),

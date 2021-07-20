@@ -20,6 +20,9 @@ public interface MinecraftClientAccessor {
     @Accessor("renderTickCounter")
     RenderTickCounter getRenderTickCounter();
 
+    @Accessor
+    int getAttackCooldown();
+
     @Accessor("currentFPS")
     static int getCurrentFPS() {
         throw new AssertionError();

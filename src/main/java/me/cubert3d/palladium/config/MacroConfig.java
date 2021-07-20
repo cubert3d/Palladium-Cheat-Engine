@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.config;
 
-import me.cubert3d.palladium.module.macro.Macro;
-import me.cubert3d.palladium.module.macro.MacroManager;
+import me.cubert3d.palladium.macro.Macro;
+import me.cubert3d.palladium.macro.MacroManager;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

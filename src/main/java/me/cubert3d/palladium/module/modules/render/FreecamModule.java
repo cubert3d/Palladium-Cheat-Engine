@@ -1,12 +1,12 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.event.callback.FreecamCallback;
+import me.cubert3d.palladium.event.callback.SendPacketCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.util.ActionResult;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -24,12 +24,7 @@ public final class FreecamModule extends ToggleModule {
 
     @Override
     public final void onLoad() {
-        FreecamCallback.EVENT.register(() -> {
-            if (isEnabled()) {
-                return ActionResult.FAIL;
-            }
-            return ActionResult.PASS;
-        });
+        SendPacketCallback.EVENT.register(packet -> isEnabled() && packet instanceof PlayerMoveC2SPacket);
     }
 
     @Override
