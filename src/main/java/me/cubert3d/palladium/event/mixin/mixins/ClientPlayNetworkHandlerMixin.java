@@ -26,7 +26,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketL
     @Inject(at = @At(value = "HEAD"),
             method = "sendPacket(Lnet/minecraft/network/Packet;)V",
             cancellable = true)
-    private void onSendPacket(Packet<?> packet, final CallbackInfo info) {
+    private void sendPacketInject(Packet<?> packet, final CallbackInfo info) {
         boolean shouldCancel = SendPacketCallback.EVENT.invoker().shouldCancel(packet);
         if (shouldCancel) {
             info.cancel();

@@ -1,7 +1,12 @@
 package me.cubert3d.palladium.event.callback;
 
+import me.cubert3d.palladium.event.mixin.mixins.MinecraftClientMixin;
+import me.cubert3d.palladium.module.modules.combat.KillAuraModule;
+import me.cubert3d.palladium.util.annotation.CallbackInfo;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import me.cubert3d.palladium.util.annotation.Interaction;
+import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
@@ -11,6 +16,15 @@ import net.fabricmc.fabric.api.event.EventFactory;
         type = ClassType.CALLBACK
 )
 
+@CallbackInfo(
+        returns = Void.class,
+        listeners = {
+                @Listener(where = KillAuraModule.class)
+        },
+        interactions = {
+                @Interaction(where = MinecraftClientMixin.class, method = "tickInject")
+        }
+)
 
 public interface KillAuraCallback {
 

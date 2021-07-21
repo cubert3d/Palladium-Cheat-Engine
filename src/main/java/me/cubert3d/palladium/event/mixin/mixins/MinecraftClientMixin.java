@@ -21,14 +21,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 )
 
 @Mixin(MinecraftClient.class)
-abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements SnooperListener, WindowEventHandler, MixinCaster<MinecraftClient> {
+public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements SnooperListener, WindowEventHandler, MixinCaster<MinecraftClient> {
 
     private MinecraftClientMixin(String string) {
         super(string);
     }
 
     @Inject(method = "tick()V", at = @At("TAIL"))
-    private void tickInject(CallbackInfo info) {
+    private void tickInject(final CallbackInfo info) {
         KillAuraCallback.EVENT.invoker().interact();
     }
 

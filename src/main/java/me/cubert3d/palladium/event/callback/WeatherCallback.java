@@ -34,8 +34,8 @@ public interface WeatherCallback {
 
     Event<WeatherCallback> EVENT = EventFactory.createArrayBacked(WeatherCallback.class,
             listeners -> () -> {
-                for (WeatherCallback event : listeners) {
-                    WeatherModule.Setting setting = event.check();
+                for (WeatherCallback listener : listeners) {
+                    WeatherModule.Setting setting = listener.check();
                     if (setting != WeatherModule.Setting.NONE) {
                         return setting;
                     }
