@@ -18,8 +18,8 @@ public abstract class SingleSetting<T> extends Setting {
     private T value;
     private final T defaultValue;
 
-    protected SingleSetting(final String name, T defaultValue) {
-        super(name);
+    protected SingleSetting(final String name, final String description, T defaultValue) {
+        super(name, description);
         this.value = defaultValue;
         this.defaultValue = defaultValue;
     }

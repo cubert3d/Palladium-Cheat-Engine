@@ -14,12 +14,12 @@ import java.util.Optional;
 
 public final class IntegerSetting extends NumberSetting<Integer> {
 
-    public IntegerSetting(final String name, Integer defaultValue, int maxValue) {
-        this(name, defaultValue, 0, maxValue);
+    public IntegerSetting(final String name, final String description, Integer defaultValue, int maxValue) {
+        this(name, description, defaultValue, 0, maxValue);
     }
 
-    public IntegerSetting(final String name, Integer defaultValue, int minValue, int maxValue) {
-        super(name, defaultValue, minValue, maxValue);
+    public IntegerSetting(final String name, final String description, Integer defaultValue, int minValue, int maxValue) {
+        super(name, description, defaultValue, minValue, maxValue);
     }
 
     @Override

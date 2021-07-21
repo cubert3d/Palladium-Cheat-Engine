@@ -18,12 +18,12 @@ import java.util.Optional;
 
 public final class EntityListSetting extends ListSetting<EntityType<? extends Entity>> {
 
-    public EntityListSetting(String name) {
-        super(name);
+    public EntityListSetting(final String name, final String description) {
+        super(name, description);
     }
 
-    public EntityListSetting(String name, Collection<EntityType<? extends Entity>> defaultCollection) {
-        super(name, defaultCollection);
+    public EntityListSetting(final String name, final String description, Collection<EntityType<? extends Entity>> defaultCollection) {
+        super(name, description, defaultCollection);
     }
 
     @Override

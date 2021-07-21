@@ -14,8 +14,8 @@ import java.util.Optional;
 
 public final class BooleanSetting extends SingleSetting<Boolean> {
 
-    public BooleanSetting(final String name, Boolean defaultValue) {
-        super(name, defaultValue);
+    public BooleanSetting(final String name, final String description, Boolean defaultValue) {
+        super(name, description, defaultValue);
     }
 
     @Override

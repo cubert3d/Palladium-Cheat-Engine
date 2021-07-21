@@ -12,6 +12,9 @@ import me.cubert3d.palladium.module.setting.single.SingleSetting;
 import me.cubert3d.palladium.module.setting.single.StringSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 @ClassInfo(
         description = "Module setting.",
@@ -30,13 +33,21 @@ public abstract class Setting {
     };
 
     private final String name;
+    private final String description;
 
-    protected Setting(final String name) {
+    protected Setting(final String name, final String description) {
         this.name = name;
+        this.description = description;
     }
 
     public final String getName() {
         return name;
+    }
+
+    public @NotNull ArrayList<String> getDescription() {
+        ArrayList<String> lines = new ArrayList<>();
+        lines.add(description);
+        return lines;
     }
 
     public boolean isSet() {

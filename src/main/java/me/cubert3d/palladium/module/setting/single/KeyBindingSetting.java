@@ -18,8 +18,8 @@ import java.util.Optional;
 
 public final class KeyBindingSetting extends SingleSetting<InputUtil.Key> {
 
-    public KeyBindingSetting(String name, InputUtil.Key defaultValue) {
-        super(name, defaultValue);
+    public KeyBindingSetting(final String name, final String description, InputUtil.Key defaultValue) {
+        super(name, description, defaultValue);
     }
 
     @Override

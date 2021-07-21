@@ -14,12 +14,12 @@ import java.util.Optional;
 
 public final class DoubleSetting extends NumberSetting<Double> {
 
-    public DoubleSetting(final String name, Double defaultValue, double maxValue) {
-        super(name, defaultValue, 0.0, maxValue);
+    public DoubleSetting(final String name, final String description, Double defaultValue, double maxValue) {
+        super(name, description, defaultValue, 0.0, maxValue);
     }
 
-    public DoubleSetting(final String name, Double defaultValue, double minValue, double maxValue) {
-        super(name, defaultValue, minValue, maxValue);
+    public DoubleSetting(final String name, final String description, Double defaultValue, double minValue, double maxValue) {
+        super(name, description, defaultValue, minValue, maxValue);
     }
 
     @Override

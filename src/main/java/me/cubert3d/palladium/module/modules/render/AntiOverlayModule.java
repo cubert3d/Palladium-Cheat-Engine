@@ -16,10 +16,10 @@ public final class AntiOverlayModule extends ToggleModule {
 
     public AntiOverlayModule() {
         super("AntiOverlay", "Removes obtrusive overlays.");
-        this.addSetting(new BooleanSetting("Pumpkin", true));
-        this.addSetting(new BooleanSetting("Portal", true));
-        this.addSetting(new BooleanSetting("Nausea", true));
-        this.addSetting(new BooleanSetting("Blindness", true));
+        this.addSetting(new BooleanSetting("Pumpkin", "Whether or not to hide the pumpkin overlay.", true));
+        this.addSetting(new BooleanSetting("Portal", "Whether or not to hide the nether portal overlay.", true));
+        this.addSetting(new BooleanSetting("Nausea", "Whether or not to remove the visual effect of nausea.", true));
+        this.addSetting(new BooleanSetting("Blindness", "Whether or not to remove the visual effect of blindness.", true));
     }
 
     @Override

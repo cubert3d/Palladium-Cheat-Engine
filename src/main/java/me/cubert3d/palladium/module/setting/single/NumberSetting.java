@@ -14,8 +14,8 @@ public abstract class NumberSetting<N extends Number> extends SingleSetting<N> {
     private final N minValue;
     private final N maxValue;
 
-    protected NumberSetting(String name, N defaultValue, N minValue, N maxValue) {
-        super(name, defaultValue);
+    protected NumberSetting(final String name, final String description, N defaultValue, N minValue, N maxValue) {
+        super(name, description, defaultValue);
         this.minValue = minValue;
         this.maxValue = maxValue;
     }

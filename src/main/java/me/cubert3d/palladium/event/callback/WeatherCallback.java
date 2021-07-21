@@ -18,7 +18,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 )
 
 @CallbackInfo(
-        returns = WeatherModule.Setting.class,
+        returns = WeatherModule.SettingEnum.class,
         listeners = {
                 @Listener(where = WeatherModule.class)
         },
@@ -33,13 +33,13 @@ public interface WeatherCallback {
     Event<WeatherCallback> EVENT = EventFactory.createArrayBacked(WeatherCallback.class,
             listeners -> () -> {
                 for (WeatherCallback listener : listeners) {
-                    WeatherModule.Setting setting = listener.check();
-                    if (setting != WeatherModule.Setting.NONE) {
+                    WeatherModule.SettingEnum setting = listener.check();
+                    if (setting != WeatherModule.SettingEnum.NONE) {
                         return setting;
                     }
                 }
-                return WeatherModule.Setting.NONE;
+                return WeatherModule.SettingEnum.NONE;
             });
 
-    WeatherModule.Setting check();
+    WeatherModule.SettingEnum check();
 }

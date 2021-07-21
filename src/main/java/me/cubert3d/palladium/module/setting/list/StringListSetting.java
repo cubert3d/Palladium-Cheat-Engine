@@ -16,12 +16,12 @@ import java.util.Optional;
 
 public final class StringListSetting extends ListSetting<String> {
 
-    public StringListSetting(String name) {
-        super(name);
+    public StringListSetting(final String name, final String description) {
+        super(name, description);
     }
 
-    public StringListSetting(String name, Collection<String> defaultCollection) {
-        super(name, defaultCollection);
+    public StringListSetting(final String name, final String description, Collection<String> defaultCollection) {
+        super(name, description, defaultCollection);
     }
 
     @Override

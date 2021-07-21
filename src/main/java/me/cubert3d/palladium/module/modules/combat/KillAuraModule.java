@@ -6,6 +6,7 @@ import me.cubert3d.palladium.event.mixin.accessors.ClientPlayNetworkHandlerAcces
 import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
+import me.cubert3d.palladium.module.setting.single.EnumDescribed;
 import me.cubert3d.palladium.module.setting.single.EnumSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -27,6 +28,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,11 +56,11 @@ public final class KillAuraModule extends ToggleModule {
 
     public KillAuraModule() {
         super("KillAura", "Makes the player automatically swing at nearby enemies.");
-        this.comparatorSetting = new ComparatorSetting("SortBy", ComparatorSettingEnum.LEAST_HEALTH);
-        this.targetPlayers = new BooleanSetting("TargetPlayers", true);
-        this.targetHostile = new BooleanSetting("TargetHostile", true);
-        this.targetNeutral = new BooleanSetting("TargetNeutral", true);
-        this.targetPassive = new BooleanSetting("TargetPassive", true);
+        this.comparatorSetting = new ComparatorSetting("SortBy", "The criterion by which a target is chosen.", ComparatorSettingEnum.LEAST_HEALTH);
+        this.targetPlayers = new BooleanSetting("TargetPlayers", "Whether or not to target players.", true);
+        this.targetHostile = new BooleanSetting("TargetHostile", "Whether or not to target hostile entities.", true);
+        this.targetNeutral = new BooleanSetting("TargetNeutral", "Whether or not to target neutral entities.", true);
+        this.targetPassive = new BooleanSetting("TargetPassive", "Whether or not to target passive entities.", true);
         this.addSetting(comparatorSetting);
         this.addSetting(targetPlayers);
         this.addSetting(targetHostile);
@@ -240,8 +242,17 @@ public final class KillAuraModule extends ToggleModule {
 
     private static class ComparatorSetting extends EnumSetting<ComparatorSettingEnum> {
 
-        public ComparatorSetting(String name, ComparatorSettingEnum defaultValue) {
-            super(name, defaultValue);
+        public ComparatorSetting(final String name, final String description, ComparatorSettingEnum defaultValue) {
+            super(name, description, defaultValue);
+        }
+
+        @Override
+        public @NotNull ArrayList<String> getDescription() {
+            ArrayList<String> lines = super.getDescription();
+            for (ComparatorSettingEnum setting : ComparatorSettingEnum.values()) {
+                lines.add(setting.toString() + ": " + setting.getDescription());
+            }
+            return lines;
         }
 
         @Override
@@ -258,31 +269,42 @@ public final class KillAuraModule extends ToggleModule {
         }
     }
 
-    private enum ComparatorSettingEnum {
-        MOST_HEALTH {
+    private enum ComparatorSettingEnum implements EnumDescribed {
+        MOST_HEALTH("Target the entity with the most health.") {
             @Override
             Comparator<Entity> getComparator(ClientPlayerEntity player) {
                 return new HealthComparator(true);
             }
         },
-        LEAST_HEALTH {
+        LEAST_HEALTH("Target the entity with the least health.") {
             @Override
             Comparator<Entity> getComparator(ClientPlayerEntity player) {
                 return new HealthComparator(true);
             }
         },
-        FARTHEST {
+        FARTHEST("Target the entity which is farthest away.") {
             @Override
             Comparator<Entity> getComparator(ClientPlayerEntity player) {
                 return new DistanceComparator(player, true);
             }
         },
-        CLOSEST {
+        CLOSEST("Target the entity which is closest.") {
             @Override
             Comparator<Entity> getComparator(ClientPlayerEntity player) {
                 return new DistanceComparator(player, true);
             }
         };
+
+        private final String description;
+
+        ComparatorSettingEnum(String description) {
+            this.description = description;
+        }
+
+        @Override
+        public final String getDescription() {
+            return description;
+        }
 
         abstract Comparator<Entity> getComparator(ClientPlayerEntity player);
     }

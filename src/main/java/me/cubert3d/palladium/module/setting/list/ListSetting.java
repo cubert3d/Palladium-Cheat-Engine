@@ -27,13 +27,13 @@ public abstract class ListSetting<E> extends Setting {
     private final List<E> defaultList = new ArrayList<>();
     private final boolean useDefaultList;
 
-    protected ListSetting(final String name) {
-        super(name);
+    protected ListSetting(final String name, final String description) {
+        super(name, description);
         useDefaultList = false;
     }
 
-    protected ListSetting(final String name, Collection<E> defaultCollection) {
-        super(name);
+    protected ListSetting(final String name, final String description, Collection<E> defaultCollection) {
+        super(name, description);
         list.addAll(defaultCollection);
         defaultList.addAll(defaultCollection);
         useDefaultList = true;

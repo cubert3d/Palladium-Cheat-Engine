@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public final class PlayerListSetting extends ListSetting<PlayerEntry> {
 
-    public PlayerListSetting(String name) {
-        super(name);
+    public PlayerListSetting(final String name, final String description) {
+        super(name, description);
     }
 
     @Override

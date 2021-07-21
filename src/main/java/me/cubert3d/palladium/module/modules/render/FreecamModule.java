@@ -16,7 +16,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 public final class FreecamModule extends ToggleModule {
 
-    double lastX, lastY, lastZ;
+    private double lastX, lastY, lastZ;
 
     public FreecamModule() {
         super("Freecam", "Allows you to move your camera freely, as if in spectator mode.");

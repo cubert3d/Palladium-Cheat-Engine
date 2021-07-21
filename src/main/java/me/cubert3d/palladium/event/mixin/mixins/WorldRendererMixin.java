@@ -26,8 +26,8 @@ public abstract class WorldRendererMixin {
     @Redirect(method = "renderWeather",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/Biome;getPrecipitation()Lnet/minecraft/world/biome/Biome$Precipitation;"))
     private Biome.Precipitation getPrecipitationRedirect(Biome biome) {
-        WeatherModule.Setting setting = WeatherCallback.EVENT.invoker().check();
-        if (!setting.equals(WeatherModule.Setting.NONE)) {
+        WeatherModule.SettingEnum setting = WeatherCallback.EVENT.invoker().check();
+        if (!setting.equals(WeatherModule.SettingEnum.NONE)) {
             return setting.toPrecipitation();
         }
         else {
@@ -38,8 +38,8 @@ public abstract class WorldRendererMixin {
     @Redirect(method = "renderWeather",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/Biome;getTemperature(Lnet/minecraft/util/math/BlockPos;)F"))
     private float getTemperatureRedirect(Biome biome, BlockPos blockPos) {
-        WeatherModule.Setting setting = WeatherCallback.EVENT.invoker().check();
-        if (!setting.equals(WeatherModule.Setting.NONE)) {
+        WeatherModule.SettingEnum setting = WeatherCallback.EVENT.invoker().check();
+        if (!setting.equals(WeatherModule.SettingEnum.NONE)) {
             return setting.getTemperature();
         }
         else {
@@ -49,8 +49,8 @@ public abstract class WorldRendererMixin {
 
     @Inject(method = "tickRainSplashing(Lnet/minecraft/client/render/Camera;)V", at = @At("HEAD"), cancellable = true)
     private void tickRainSplashingInject(Camera camera, CallbackInfo info) {
-        WeatherModule.Setting setting = WeatherCallback.EVENT.invoker().check();
-        if (!setting.equals(WeatherModule.Setting.NONE) && !setting.equals(WeatherModule.Setting.RAIN)) {
+        WeatherModule.SettingEnum setting = WeatherCallback.EVENT.invoker().check();
+        if (!setting.equals(WeatherModule.SettingEnum.NONE) && !setting.equals(WeatherModule.SettingEnum.RAIN)) {
             info.cancel();
         }
     }

@@ -10,6 +10,7 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @ClassInfo(
@@ -24,7 +25,20 @@ public abstract class CommandModule extends Module {
     protected CommandModule(String name, String description) {
         super(name, description);
         // Let the player set args that are automatically passed to the execute() method when the bound key is pressed.
-        this.addSetting(new StringSetting("Arguments", ""));
+        this.addSetting(new StringSetting("Arguments", "The arguments that are automatically passed to the command when executed through pressing the bound key.", ""));
+    }
+
+    @Override
+    public ArrayList<String> getUsages() {
+        ArrayList<String> usages = new ArrayList<>();
+        usages.add("§6Usages:");
+        usages.add(String.format("§e<< %s - Executes this command", getName()));
+        usages.add(String.format("§e<< %s [settings] - Lists the settings this command has", getName()));
+        usages.add(String.format("§e<< %s <setting_name> - Displays the value of the given setting, if present", getName()));
+        usages.add(String.format("§e<< %s <setting_name> [reset] - Resets the given setting back to its default value", getName()));
+        usages.add(String.format("§e<< %s <setting_name> <value> - Change the value of the given setting", getName()));
+        usages.add(String.format("§e<< %s <setting_name> [add/remove] <value> - Add or remove the value of the given list-type setting", getName()));
+        return usages;
     }
 
     @Override
@@ -71,23 +85,25 @@ public abstract class CommandModule extends Module {
 
             Optional<Setting> optionalSetting = getSettingOptional(args[0]);
 
-            if (args.length == 1 && args[0].equalsIgnoreCase("settings")) {
-                this.displayAllSettings();
-                return;
-            }
-            else {
+            switch (args[0]) {
+                case "settings":
+                    this.displayAllSettings();
+                    return;
 
-                // If there is more than 1 argument, then check if the player is trying
-                // to update a setting.
-                if (optionalSetting.isPresent()) {
-                    Setting setting = optionalSetting.get();
-                    switch (args.length) {
+                case "usages":
+                    this.displayUsages();
+                    return;
 
-                        case 1:
-                            this.displaySetting(setting);
-                            break;
+                default:
+                    if (optionalSetting.isPresent()) {
+                        Setting setting = optionalSetting.get();
+                        switch (args.length) {
 
-                        case 2:
+                            case 1:
+                                this.displaySetting(setting);
+                                break;
+
+                            case 2:
 
                             /*
                             Only two arguments are used for single-type settings.
@@ -97,36 +113,36 @@ public abstract class CommandModule extends Module {
                             args[1]: "reset" or new setting value
                              */
 
-                            // Check if the player is resetting the setting before trying to parse the input.
+                                // Check if the player is resetting the setting before trying to parse the input.
 
-                            // "<command> <setting> reset": reset the value of the setting to the default
-                            if (args[1].equalsIgnoreCase("reset")) {
-                                setting.reset();
-                                this.onChangeSetting();
-                                printToChatHud(setting.getName() + " reset to default");
-                            }
-                            // "<command> <single-setting> [value]": change the value of the setting
-                            else if (!setting.isListSetting()) {
-                                SingleSetting singleSetting = setting.asSingleSetting();
-                                String input = args[1];
-
-                                try {
-                                    singleSetting.setFromString(input);
+                                // "<command> <setting> reset": reset the value of the setting to the default
+                                if (args[1].equalsIgnoreCase("reset")) {
+                                    setting.reset();
+                                    this.onChangeSetting();
+                                    printToChatHud(setting.getName() + " reset to default");
                                 }
-                                catch (Exception e) {
-                                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                // "<command> <single-setting> [value]": change the value of the setting
+                                else if (!setting.isListSetting()) {
+                                    SingleSetting singleSetting = setting.asSingleSetting();
+                                    String input = args[1];
+
+                                    try {
+                                        singleSetting.setFromString(input);
+                                    }
+                                    catch (Exception e) {
+                                        CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                    }
+
+                                    this.onChangeSetting();
+                                    printToChatHud(setting.getName() + " is now set to " + setting.getAsString());
                                 }
+                                // Two arguments are not enough for list-type settings.
+                                else {
+                                    CommandError.sendErrorMessage(CommandError.TOO_FEW_ARGUMENTS);
+                                }
+                                break;
 
-                                this.onChangeSetting();
-                                printToChatHud(setting.getName() + " is now set to " + setting.getAsString());
-                            }
-                            // Two arguments are not enough for list-type settings.
-                            else {
-                                CommandError.sendErrorMessage(CommandError.TOO_FEW_ARGUMENTS);
-                            }
-                            break;
-
-                        case 3:
+                            case 3:
                             /*
                             Three arguments are needed to update list-type settings, because adding or removing
                             needs to be specified.
@@ -137,47 +153,47 @@ public abstract class CommandModule extends Module {
                             args[2]: element
                              */
 
-                            if (setting.isListSetting()) {
+                                if (setting.isListSetting()) {
 
-                                ListSetting listSetting = setting.asListSetting();
-                                Optional optionalElement = listSetting.convertStringToElement(args[2]);
-                                Object element;
+                                    ListSetting listSetting = setting.asListSetting();
+                                    Optional optionalElement = listSetting.convertStringToElement(args[2]);
+                                    Object element;
 
-                                if (optionalElement.isPresent()) {
-                                    element = optionalElement.get();
+                                    if (optionalElement.isPresent()) {
+                                        element = optionalElement.get();
+                                    }
+                                    else {
+                                        CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                        return;
+                                    }
+
+                                    // "<command> <list-setting> add/remove [value]":
+                                    if (args[1].equalsIgnoreCase("add")) {
+                                        listSetting.addElement(element);
+                                        printToChatHud("Added \"" + args[2] + "\" to " + setting.getName());
+                                        this.onChangeSetting();
+                                    }
+                                    else if (args[1].equalsIgnoreCase("remove")) {
+                                        listSetting.removeElement(element);
+                                        printToChatHud("Removed \"" + args[2] + "\" from " + setting.getName());
+                                        this.onChangeSetting();
+                                    }
+                                    else {
+                                        CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
+                                    }
                                 }
+                                // Three arguments are too many for single-type settings.
                                 else {
-                                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                                    return;
+                                    CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
                                 }
+                                break;
 
-                                // "<command> <list-setting> add/remove [value]":
-                                if (args[1].equalsIgnoreCase("add")) {
-                                    listSetting.addElement(element);
-                                    printToChatHud("Added \"" + args[2] + "\" to " + setting.getName());
-                                    this.onChangeSetting();
-                                }
-                                else if (args[1].equalsIgnoreCase("remove")) {
-                                    listSetting.removeElement(element);
-                                    printToChatHud("Removed \"" + args[2] + "\" from " + setting.getName());
-                                    this.onChangeSetting();
-                                }
-                                else {
-                                    CommandError.sendErrorMessage(CommandError.INVALID_ARGUMENTS);
-                                }
-                            }
-                            // Three arguments are too many for single-type settings.
-                            else {
+                            default:
                                 CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
-                            }
-                            break;
-
-                        default:
-                            CommandError.sendErrorMessage(CommandError.TOO_MANY_ARGUMENTS);
-                            break;
+                                break;
+                        }
+                        return;
                     }
-                    return;
-                }
             }
         }
         this.execute(args);

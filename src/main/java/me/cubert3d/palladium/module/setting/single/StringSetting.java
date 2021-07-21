@@ -16,8 +16,8 @@ public final class StringSetting extends SingleSetting<String> {
 
     public static final int MAX_STRING_LENGTH = 64;
 
-    public StringSetting(final String name, String defaultValue) {
-        super(name, defaultValue);
+    public StringSetting(final String name, final String description, String defaultValue) {
+        super(name, description, defaultValue);
     }
 
     @Override

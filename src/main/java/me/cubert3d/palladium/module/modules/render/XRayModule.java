@@ -104,7 +104,7 @@ public final class XRayModule extends ToggleModule {
 
     public XRayModule() {
         super("XRay", "Lets you see ores in the ground.");
-        this.whitelist = new BlockListSetting("Whitelist", defaultWhiteList);
+        this.whitelist = new BlockListSetting("Whitelist", "List of blocks that are shown with X-Ray.", defaultWhiteList);
         this.addSetting(whitelist);
     }
 

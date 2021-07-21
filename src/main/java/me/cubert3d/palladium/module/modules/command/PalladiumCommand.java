@@ -14,7 +14,7 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 
 public final class PalladiumCommand extends CommandModule {
 
-    private static final StringSetting prefixSetting = new StringSetting("Prefix", ".");
+    private static final StringSetting prefixSetting = new StringSetting("Prefix", "The prefix for using the command line interface.", ".");
 
     public PalladiumCommand() {
         super("Palladium", "Shows client information, and contains general settings.");

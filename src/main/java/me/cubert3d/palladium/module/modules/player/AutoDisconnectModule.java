@@ -27,7 +27,7 @@ public final class AutoDisconnectModule extends ToggleModule {
 
     public AutoDisconnectModule() {
         super("AutoDisconnect", "Disconnects you once you fall to a certain health.");
-        this.threshold = new DoubleSetting("Threshold", 4.0, 19.0);
+        this.threshold = new DoubleSetting("Threshold", "The health level at which to disconnect.", 4.0, 19.0);
         this.addSetting(threshold);
     }
 
@@ -76,6 +76,8 @@ public final class AutoDisconnectModule extends ToggleModule {
             else {
                 client.openScreen(new MultiplayerScreen(new TitleScreen()));
             }
+
+            disable();
         }
     }
 }

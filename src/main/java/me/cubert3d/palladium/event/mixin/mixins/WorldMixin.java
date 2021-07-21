@@ -22,8 +22,8 @@ public abstract class WorldMixin {
 
     @Inject(method = "getRainGradient(F)F", at = @At("HEAD"), cancellable = true)
     private void getRainGradientInject(float delta, CallbackInfoReturnable<Float> info) {
-        WeatherModule.Setting setting = WeatherCallback.EVENT.invoker().check();
-        if (!setting.equals(WeatherModule.Setting.NONE) && MinecraftClient.getInstance().world != null) {
+        WeatherModule.SettingEnum setting = WeatherCallback.EVENT.invoker().check();
+        if (!setting.equals(WeatherModule.SettingEnum.NONE) && MinecraftClient.getInstance().world != null) {
             info.setReturnValue(setting.getGradient());
         }
     }

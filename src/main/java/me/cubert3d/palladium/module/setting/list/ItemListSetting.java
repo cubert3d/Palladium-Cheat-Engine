@@ -18,12 +18,12 @@ import java.util.Optional;
 
 public final class ItemListSetting extends ListSetting<Item> {
 
-    public ItemListSetting(String name) {
-        super(name);
+    public ItemListSetting(final String name, final String description) {
+        super(name, description);
     }
 
-    public ItemListSetting(String name, Collection<Item> defaultCollection) {
-        super(name, defaultCollection);
+    public ItemListSetting(final String name, final String description, Collection<Item> defaultCollection) {
+        super(name, description, defaultCollection);
     }
 
     @Override

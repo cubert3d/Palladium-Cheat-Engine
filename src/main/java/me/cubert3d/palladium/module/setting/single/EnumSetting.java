@@ -12,8 +12,8 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 
 public abstract class EnumSetting<E extends Enum<E>> extends SingleSetting<E> {
 
-    public EnumSetting(String name, E defaultValue) {
-        super(name, defaultValue);
+    public EnumSetting(final String name, final String description, E defaultValue) {
+        super(name, description, defaultValue);
     }
 
     @Override

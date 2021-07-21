@@ -20,7 +20,7 @@ public final class ChatFilterModule extends ToggleModule {
 
     public ChatFilterModule() {
         super("ChatFilter", "Blocks any messages that contain a blacklisted phrase.");
-        this.blacklistSetting = new StringListSetting("Blacklist");
+        this.blacklistSetting = new StringListSetting("Blacklist", "The phrases to be filtered.");
         this.addSetting(blacklistSetting);
     }
 

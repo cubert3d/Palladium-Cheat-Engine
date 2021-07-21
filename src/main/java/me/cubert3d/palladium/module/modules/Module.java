@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -27,13 +28,14 @@ public abstract class Module {
     private final String name;
     // Should be brief and concise.
     private final String description;
+
     private final Set<Setting> settings = new LinkedHashSet<>();
     private final KeyBindingSetting bindingSetting;
 
     protected Module(String name, String description) {
         this.name = name;
         this.description = description;
-        this.bindingSetting = new KeyBindingSetting("Binding", null);
+        this.bindingSetting = new KeyBindingSetting("Binding", description, null);
         this.addSetting(bindingSetting);
         this.onConstruct();
     }
@@ -55,6 +57,8 @@ public abstract class Module {
     public final String getDescription() {
         return description;
     }
+
+    public abstract ArrayList<String> getUsages();
 
     public Optional<String> getPrimaryInfo() {
         return Optional.empty();
@@ -168,10 +172,10 @@ public abstract class Module {
 
     protected void displaySetting(@NotNull Setting setting) {
         if (setting.isSet()) {
-            printToChatHud(getName() + ", " + setting.getName() + ": " + setting.getAsString());
+            printToChatHud(getName() + "::" + setting.getName() + ": " + setting.getAsString());
         }
         else {
-            printToChatHud(getName() + ", " + setting.getName() + " is not set");
+            printToChatHud(getName() + "::" + setting.getName() + " is not set");
         }
     }
 
@@ -207,6 +211,12 @@ public abstract class Module {
             listOfSettings = this.getName() + " has no settings";
         }
         printToChatHud(listOfSettings);
+    }
+
+    public void displayUsages() {
+        for (String usage : getUsages()) {
+            printToChatHud(usage);
+        }
     }
 
     protected final void printToChatHud(String message) {

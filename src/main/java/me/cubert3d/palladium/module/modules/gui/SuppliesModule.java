@@ -33,9 +33,9 @@ public final class SuppliesModule extends AbstractHudModule {
     public SuppliesModule() {
         super("Supplies", "Displays important supplies and their quantities you have on-screen.");
         this.suppliesList = new SuppliesProvider(this);
-        this.itemsSetting = new ItemListSetting("Items");
-        this.rawCountsSetting = new BooleanSetting("RawCounts", false);
-        this.hideEmptySetting = new BooleanSetting("HideEmpty", false);
+        this.itemsSetting = new ItemListSetting("Items", "The items whose counts are to be displayed.");
+        this.rawCountsSetting = new BooleanSetting("RawCounts", "Whether to show raw counts, or number of stacks and remainder.", false);
+        this.hideEmptySetting = new BooleanSetting("HideEmpty", "Whether or not to hide the supplies of which you have none.", false);
         this.addSetting(itemsSetting);
         this.addSetting(rawCountsSetting);
         this.addSetting(hideEmptySetting);

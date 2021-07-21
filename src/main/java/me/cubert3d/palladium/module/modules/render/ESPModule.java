@@ -21,7 +21,7 @@ public final class ESPModule extends ToggleModule {
 
     public ESPModule() {
         super("ESP", "Renders a box around entities that can be seen through walls.");
-        this.entities = new EntityListSetting("Entities");
+        this.entities = new EntityListSetting("Entities", "The entities to be revealed with ESP.");
         this.addSetting(entities);
     }
 

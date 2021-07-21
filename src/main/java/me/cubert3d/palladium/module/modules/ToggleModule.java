@@ -9,6 +9,7 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @ClassInfo(
@@ -25,6 +26,20 @@ public abstract class ToggleModule extends Module {
     protected ToggleModule(String name, String description) {
         super(name, description);
         this.enabled = false;
+    }
+
+    @Override
+    public ArrayList<String> getUsages() {
+        ArrayList<String> usages = new ArrayList<>();
+        usages.add("§6Usages:");
+        usages.add(String.format("§e<< %s - Shows whether this module is enabled or disabled", getName()));
+        usages.add(String.format("§e<< %s [enable/disable/toggle] - Enable, disable, or toggle this module", getName()));
+        usages.add(String.format("§e<< %s [settings] - Lists the settings this module has", getName()));
+        usages.add(String.format("§e<< %s <setting_name> - Displays the value of the given setting, if present", getName()));
+        usages.add(String.format("§e<< %s <setting_name> [reset] - Resets the given setting back to its default value", getName()));
+        usages.add(String.format("§e<< %s <setting_name> <value> - Change the value of the given setting", getName()));
+        usages.add(String.format("§e<< %s <setting_name> [add/remove] <value> - Add or remove the value of the given list-type setting", getName()));
+        return usages;
     }
 
     @Override
@@ -111,6 +126,9 @@ public abstract class ToggleModule extends Module {
                 case "settings":
                     this.displayAllSettings();
                     break;
+                case "usages":
+                    this.displayUsages();
+                    break;
                 default:
                     Optional<Setting> optional = getSettingOptional(args[0]);
                     if (optional.isPresent()) {
@@ -123,11 +141,9 @@ public abstract class ToggleModule extends Module {
             }
         }
         else {
-
             /*
             When there is more than one argument, assume that the player is trying to change a setting.
              */
-
             Optional<Setting> optional = getSettingOptional(args[0]);
             Setting setting;
 

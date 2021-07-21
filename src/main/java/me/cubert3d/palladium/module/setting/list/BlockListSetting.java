@@ -18,12 +18,12 @@ import java.util.Optional;
 
 public final class BlockListSetting extends ListSetting<Block> {
 
-    public BlockListSetting(String name) {
-        super(name);
+    public BlockListSetting(final String name, final String description) {
+        super(name, description);
     }
 
-    public BlockListSetting(String name, Collection<Block> defaultCollection) {
-        super(name, defaultCollection);
+    public BlockListSetting(final String name, final String description, Collection<Block> defaultCollection) {
+        super(name, description, defaultCollection);
     }
 
     @Override

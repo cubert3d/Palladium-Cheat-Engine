@@ -22,7 +22,7 @@ public final class FullBrightModule extends ToggleModule {
 
     public FullBrightModule() {
         super("FullBright", "Fully illuminates all blocks.");
-        this.gamma = new DoubleSetting("Gamma", 10.0, 10.0);
+        this.gamma = new DoubleSetting("Gamma", "The brightness enforced by FullBright.", 10.0, 10.0);
         this.addSetting(gamma);
     }
 
