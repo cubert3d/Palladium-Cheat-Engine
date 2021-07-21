@@ -5,6 +5,7 @@ import me.cubert3d.palladium.event.callback.SendPacketCallback;
 import me.cubert3d.palladium.event.mixin.accessors.ClientPlayNetworkHandlerAccessor;
 import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
 import me.cubert3d.palladium.module.modules.ToggleModule;
+import me.cubert3d.palladium.module.setting.single.BooleanSetting;
 import me.cubert3d.palladium.module.setting.single.EnumSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -17,6 +18,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.Angerable;
+import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
@@ -26,6 +31,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -36,6 +42,10 @@ import java.util.Optional;
 public final class KillAuraModule extends ToggleModule {
 
     private final ComparatorSetting comparatorSetting;
+    private final BooleanSetting targetPlayers;
+    private final BooleanSetting targetHostile;
+    private final BooleanSetting targetNeutral;
+    private final BooleanSetting targetPassive;
 
     private PlayerMoveC2SPacket.LookOnly lastLookPacketSent;
     private Entity nextTarget;
@@ -45,7 +55,15 @@ public final class KillAuraModule extends ToggleModule {
     public KillAuraModule() {
         super("KillAura", "Makes the player automatically swing at nearby enemies.");
         this.comparatorSetting = new ComparatorSetting("SortBy", ComparatorSettingEnum.LEAST_HEALTH);
+        this.targetPlayers = new BooleanSetting("TargetPlayers", true);
+        this.targetHostile = new BooleanSetting("TargetHostile", true);
+        this.targetNeutral = new BooleanSetting("TargetNeutral", true);
+        this.targetPassive = new BooleanSetting("TargetPassive", true);
         this.addSetting(comparatorSetting);
+        this.addSetting(targetPlayers);
+        this.addSetting(targetHostile);
+        this.addSetting(targetNeutral);
+        this.addSetting(targetPassive);
     }
 
     @Override
@@ -118,9 +136,9 @@ public final class KillAuraModule extends ToggleModule {
         return !(target instanceof ItemEntity)
                 && !(target instanceof ExperienceOrbEntity)
                 && !(target instanceof PersistentProjectileEntity)
-                && player != null
                 && !target.equals(player)
-                && isTargetCloseEnough(player, target);
+                && isTargetCloseEnough(player, target)
+                && getFilter().test(target);
     }
 
     private boolean isTargetCloseEnough(@NotNull ClientPlayerEntity player, Entity target) {
@@ -321,6 +339,57 @@ public final class KillAuraModule extends ToggleModule {
             else {
                 return 0;
             }
+        }
+    }
+
+
+
+    // FILTERING
+
+    private Predicate<Entity> getFilter() {
+        Predicate<Entity> filter = entity -> false;
+
+        if (targetPlayers.getValue()) {
+            filter = filter.or(new PlayerFilter());
+        }
+        if (targetHostile.getValue()) {
+            filter = filter.or(new HostileFilter());
+        }
+        if (targetNeutral.getValue()) {
+            filter = filter.or(new NeutralFilter());
+        }
+        if (targetPassive.getValue()) {
+            filter = filter.or(new PassiveFilter());
+        }
+
+        return filter;
+    }
+
+    private static class PlayerFilter implements Predicate<Entity> {
+        @Override
+        public boolean test(Entity entity) {
+            return entity instanceof PlayerEntity;
+        }
+    }
+
+    private static class HostileFilter implements Predicate<Entity> {
+        @Override
+        public boolean test(Entity entity) {
+            return entity instanceof Monster && !(entity instanceof Angerable);
+        }
+    }
+
+    private static class NeutralFilter implements Predicate<Entity> {
+        @Override
+        public boolean test(Entity entity) {
+            return entity instanceof Angerable;
+        }
+    }
+
+    private static class PassiveFilter implements Predicate<Entity> {
+        @Override
+        public boolean test(Entity entity) {
+            return entity instanceof PassiveEntity && !(entity instanceof Angerable);
         }
     }
 }
