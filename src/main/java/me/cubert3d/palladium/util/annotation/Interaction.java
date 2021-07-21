@@ -11,6 +11,5 @@ package me.cubert3d.palladium.util.annotation;
 
 public @interface Interaction {
     Class<?> where();
-    String method();
-    boolean cancels() default true; // Whether this interaction can cancel the method injection it is in.
+    String[] method();
 }

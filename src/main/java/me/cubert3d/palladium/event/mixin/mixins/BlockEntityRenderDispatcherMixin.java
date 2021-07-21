@@ -8,7 +8,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,11 +33,9 @@ public abstract class BlockEntityRenderDispatcherMixin {
                                                       final CallbackInfo info) {
         // For x-ray, prevents block entities that are not on the whitelist from rendering.
         if (blockEntity.hasWorld()) {
-
             Block block = blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock();
-            ActionResult xRayResult = BlockRenderCallback.EVENT.invoker().interact(block);
-
-            if (xRayResult.equals(ActionResult.FAIL)) {
+            boolean render = BlockRenderCallback.EVENT.invoker().shouldRender(block);
+            if (!render) {
                 info.cancel();
             }
         }

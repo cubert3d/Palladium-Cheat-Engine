@@ -11,6 +11,5 @@ package me.cubert3d.palladium.util.annotation;
 
 public @interface Listener {
     Class<?> where();                   // Where this listener is located.
-    boolean cancels() default true;     // Whether this listener can return anything other than PASS.
-    boolean inModule() default true;    // Whether this listener is inside a module.
+    String[] method() default "onLoad";
 }

@@ -11,7 +11,6 @@ import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.options.KeyBinding;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -20,6 +19,7 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Boolean.class,
         listeners = {
                 @Listener(where = AutoWalkModule.class),
                 @Listener(where = SprintModule.class)
@@ -34,13 +34,13 @@ public interface KeyPressedCallback {
     Event<KeyPressedCallback> EVENT = EventFactory.createArrayBacked(KeyPressedCallback.class,
             listeners -> binding -> {
                 for (KeyPressedCallback listener : listeners) {
-                    ActionResult result = listener.interact(binding);
-                    if (result != ActionResult.PASS) {
-                        return result;
+                    boolean result = listener.shouldForcePress(binding);
+                    if (result) {
+                        return true;
                     }
                 }
-                return ActionResult.PASS;
+                return false;
             });
 
-    ActionResult interact(KeyBinding binding);
+    boolean shouldForcePress(KeyBinding binding);
 }

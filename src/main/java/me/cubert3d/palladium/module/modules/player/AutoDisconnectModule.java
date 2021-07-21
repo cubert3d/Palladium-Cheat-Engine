@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -43,7 +42,6 @@ public final class AutoDisconnectModule extends ToggleModule {
             if (isEnabled() && health <= threshold.getValue()) {
                 disconnect();
             }
-            return ActionResult.PASS;
         });
     }
 

@@ -11,7 +11,6 @@ import me.cubert3d.palladium.util.annotation.Interaction;
 import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -20,13 +19,13 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Boolean.class,
         listeners = {
                 @Listener(where = AntiOverlayModule.class)
         },
         interactions = {
                 @Interaction(where = ClientPlayerEntityMixin.class, method = "updateNauseaInject"),
-                @Interaction(where = InGameHudMixin.class, method = "renderPumpkinOverlayInject"),
-                @Interaction(where = InGameHudMixin.class, method = "renderPortalOverlayInject"),
+                @Interaction(where = InGameHudMixin.class, method = {"renderPumpkinOverlayInject", "renderPortalOverlayInject"}),
                 @Interaction(where = LivingEntityMixin.class, method = "hasStatusEffectInject")
         }
 )
@@ -36,14 +35,13 @@ public interface OverlayCallback {
     Event<OverlayCallback> EVENT = EventFactory.createArrayBacked(OverlayCallback.class,
             (listeners) -> (overlay) -> {
                 for (OverlayCallback listener : listeners) {
-                    ActionResult result = listener.interact(overlay);
-
-                    if (result != ActionResult.PASS) {
-                        return result;
+                    boolean hideOverlay = listener.shouldHideOverlay(overlay);
+                    if (hideOverlay) {
+                        return true;
                     }
                 }
-                return ActionResult.PASS;
+                return false;
             });
 
-    ActionResult interact(AntiOverlayModule.Overlay overlay);
+    boolean shouldHideOverlay(AntiOverlayModule.Overlay overlay);
 }

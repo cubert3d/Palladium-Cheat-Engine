@@ -1,7 +1,6 @@
 package me.cubert3d.palladium.module.modules.render;
 
 import me.cubert3d.palladium.event.callback.BlockRenderCallback;
-import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.BlockListSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
@@ -10,7 +9,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShapes;
@@ -117,24 +115,7 @@ public final class XRayModule extends ToggleModule {
 
     @Override
     public void onLoad() {
-
-        BlockRenderCallback.EVENT.register(block -> {
-            if (isEnabled() && isSeeThrough(block)) {
-                return ActionResult.FAIL;
-            }
-            else {
-                return ActionResult.PASS;
-            }
-        });
-
-        BlockStateRenderCallback.EVENT.register((state, view, pos, facing, returns) -> {
-            if (isEnabled() && modifyDrawSide(state, view, pos, facing, returns)) {
-                return ActionResult.FAIL;
-            }
-            else {
-                return ActionResult.PASS;
-            }
-        });
+        BlockRenderCallback.EVENT.register(block -> !isEnabled() || !isSeeThrough(block));
     }
 
     @Override

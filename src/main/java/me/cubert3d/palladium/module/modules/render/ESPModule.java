@@ -7,7 +7,6 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
 
 @ClassInfo(
@@ -28,14 +27,7 @@ public final class ESPModule extends ToggleModule {
 
     @Override
     public void onLoad() {
-        EntityRenderCallback.EVENT.register(entity -> {
-            if (isEnabled() && shouldDrawESP(entity)) {
-                return ActionResult.FAIL;
-            }
-            else {
-                return ActionResult.PASS;
-            }
-        });
+        EntityRenderCallback.EVENT.register(entity -> isEnabled() && shouldDrawESP(entity));
     }
 
     private boolean shouldDrawESP(@NotNull Entity entity) {

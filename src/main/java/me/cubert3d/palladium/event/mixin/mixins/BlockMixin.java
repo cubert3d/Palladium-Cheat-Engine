@@ -1,13 +1,12 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
-import me.cubert3d.palladium.event.callback.BlockStateRenderCallback;
+import me.cubert3d.palladium.event.callback.BlockRenderCallback;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -44,14 +43,7 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
          However, this mixin is not enough--see AbstractBlockStateMixin, BlockEntityRenderDispatcherMixin,
          ChunkLightProviderMixin, and FluidRendererMixin.
         */
-
-        ActionResult result = BlockStateRenderCallback.EVENT.invoker().interact(state, world, pos, facing, info.getReturnValueZ());
-
-        if (result.equals(ActionResult.FAIL)) {
-            info.setReturnValue(false);
-        }
-        else {
-            info.setReturnValue(true);
-        }
+        boolean render = BlockRenderCallback.EVENT.invoker().shouldRender(state.getBlock());
+        info.setReturnValue(render);
     }
 }

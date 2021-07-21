@@ -9,7 +9,6 @@ import me.cubert3d.palladium.util.annotation.Interaction;
 import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         description = "Used by the entity control module.",
@@ -19,13 +18,12 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Boolean.class,
         listeners = {
                 @Listener(where = EntityControlModule.class)
         },
         interactions = {
-                @Interaction(where = HorseBaseEntityMixin.class, method = "isTameInject"),
-                @Interaction(where = HorseBaseEntityMixin.class, method = "isSaddledRedirect"),
-                @Interaction(where = HorseBaseEntityMixin.class, method = "canJumpInject")
+                @Interaction(where = HorseBaseEntityMixin.class, method = {"isTameInject", "isSaddledRedirect", "canJumpInject"})
         }
 )
 
@@ -34,13 +32,13 @@ public interface EntityControlCallback {
     Event<EntityControlCallback> EVENT = EventFactory.createArrayBacked(EntityControlCallback.class,
             listeners -> () -> {
                 for (EntityControlCallback listener : listeners) {
-                    ActionResult result = listener.interact();
-                    if (result != ActionResult.PASS) {
-                        return result;
+                    boolean control = listener.shouldControl();
+                    if (control) {
+                        return true;
                     }
                 }
-                return ActionResult.PASS;
+                return false;
             });
 
-    ActionResult interact();
+    boolean shouldControl();
 }

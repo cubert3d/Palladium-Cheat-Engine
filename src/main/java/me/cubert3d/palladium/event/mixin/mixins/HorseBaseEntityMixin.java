@@ -4,7 +4,6 @@ import me.cubert3d.palladium.event.callback.EntityControlCallback;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,8 +24,8 @@ public abstract class HorseBaseEntityMixin {
      */
     @Inject(method = "isTame()Z", at = @At("HEAD"), cancellable = true)
     private void isTameInject(CallbackInfoReturnable<Boolean> info) {
-        ActionResult result = EntityControlCallback.EVENT.invoker().interact();
-        if (result.equals(ActionResult.SUCCESS)) {
+        boolean control = EntityControlCallback.EVENT.invoker().shouldControl();
+        if (control) {
             info.setReturnValue(true);
         }
     }
@@ -37,8 +36,8 @@ public abstract class HorseBaseEntityMixin {
      */
     @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/HorseBaseEntity;isSaddled()Z"))
     private boolean isSaddledRedirect(HorseBaseEntity horse) {
-        ActionResult result = EntityControlCallback.EVENT.invoker().interact();
-        if (result.equals(ActionResult.SUCCESS)) {
+        boolean control = EntityControlCallback.EVENT.invoker().shouldControl();
+        if (control) {
             return true;
         }
         else {
@@ -52,8 +51,8 @@ public abstract class HorseBaseEntityMixin {
      */
     @Inject(method = "canJump()Z", at = @At("HEAD"), cancellable = true)
     private void canJumpInject(CallbackInfoReturnable<Boolean> info) {
-        ActionResult result = EntityControlCallback.EVENT.invoker().interact();
-        if (result.equals(ActionResult.SUCCESS)) {
+        boolean control = EntityControlCallback.EVENT.invoker().shouldControl();
+        if (control) {
             info.setReturnValue(true);
         }
     }

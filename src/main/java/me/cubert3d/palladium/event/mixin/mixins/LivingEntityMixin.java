@@ -13,7 +13,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements MixinCaster {
+public abstract class LivingEntityMixin extends Entity implements MixinCaster<LivingEntity> {
 
     private LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -45,12 +44,15 @@ public abstract class LivingEntityMixin extends Entity implements MixinCaster {
             at = @At("HEAD"), cancellable = true)
     private void hasStatusEffectInject(StatusEffect effect, final CallbackInfoReturnable<Boolean> info) {
 
-        ActionResult resultNausea = OverlayCallback.EVENT.invoker().interact(AntiOverlayModule.Overlay.NAUSEA);
-        ActionResult resultBlindness = OverlayCallback.EVENT.invoker().interact(AntiOverlayModule.Overlay.BLINDNESS);
+        boolean resultNausea = OverlayCallback.EVENT.invoker().shouldHideOverlay(AntiOverlayModule.Overlay.NAUSEA)
+                && effect.equals(StatusEffects.NAUSEA);
+        boolean resultBlindness = OverlayCallback.EVENT.invoker().shouldHideOverlay(AntiOverlayModule.Overlay.BLINDNESS)
+                && effect.equals(StatusEffects.BLINDNESS);
 
-        if ((resultNausea.equals(ActionResult.FAIL) && effect.equals(StatusEffects.NAUSEA))
-                || (resultBlindness.equals(ActionResult.FAIL) && effect.equals(StatusEffects.BLINDNESS))) {
-            info.setReturnValue(false);
+        if (self().equals(MinecraftClient.getInstance().player)) {
+            if (resultNausea || resultBlindness) {
+                info.setReturnValue(false);
+            }
         }
     }
 }

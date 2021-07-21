@@ -2,6 +2,7 @@ package me.cubert3d.palladium.event.callback;
 
 import me.cubert3d.palladium.event.mixin.mixins.AbstractBlockStateMixin;
 import me.cubert3d.palladium.event.mixin.mixins.BlockEntityRenderDispatcherMixin;
+import me.cubert3d.palladium.event.mixin.mixins.BlockMixin;
 import me.cubert3d.palladium.event.mixin.mixins.FluidRendererMixin;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.CallbackInfo;
@@ -12,7 +13,6 @@ import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.block.Block;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         description = "Used for the X-Ray, where only the Block object is needed.",
@@ -22,25 +22,30 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
-        listeners = @Listener(where = XRayModule.class),
+        returns = Boolean.class,
+        listeners = {
+                @Listener(where = XRayModule.class)
+        },
         interactions = {
                 @Interaction(where = AbstractBlockStateMixin.class, method = "getRenderTypeInject"),
                 @Interaction(where = BlockEntityRenderDispatcherMixin.class, method = "renderInject"),
+                @Interaction(where = BlockMixin.class, method = "shouldDrawSideInject"),
                 @Interaction(where = FluidRendererMixin.class, method = "renderInject")
         }
 )
 
 public interface BlockRenderCallback {
+
     Event<BlockRenderCallback> EVENT = EventFactory.createArrayBacked(BlockRenderCallback.class,
             listeners -> block -> {
                 for (BlockRenderCallback listener : listeners) {
-                    ActionResult result = listener.interact(block);
-                    if (result != ActionResult.PASS) {
-                        return result;
+                    boolean render = listener.shouldRender(block);
+                    if (!render) {
+                        return false;
                     }
                 }
-                return ActionResult.PASS;
+                return true;
             });
 
-    ActionResult interact(Block block);
+    boolean shouldRender(Block block);
 }

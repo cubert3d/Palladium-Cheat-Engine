@@ -13,7 +13,6 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,28 +33,26 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         super(world, profile);
     }
 
-    @Inject(at = @At(value = "HEAD"),
-            method = "sendChatMessage(Ljava/lang/String;)V",
+    @Inject(method = "sendChatMessage(Ljava/lang/String;)V",
+            at = @At(value = "HEAD"),
             cancellable = true)
     private void sendChatMessageInject(String message, final CallbackInfo info) {
-
         ClientPlayerEntity player = self();
-
-        ActionResult result = CommandCallback.EVENT.invoker().interact(player, message);
-
-        if (result.equals(ActionResult.FAIL))
+        boolean cancel = CommandCallback.EVENT.invoker().shouldCancel(player, message);
+        if (cancel) {
             info.cancel();
+        }
     }
 
-    @Inject(at = @At(value = "TAIL"),
-            method = "swingHand(Lnet/minecraft/util/Hand;)V",
+    @Inject(method = "swingHand(Lnet/minecraft/util/Hand;)V",
+            at = @At(value = "TAIL"),
             cancellable = true)
     private void swingHandInject(Hand hand, final CallbackInfo info) {
         ClickTPRaycastCallback.EVENT.invoker().interact(hand);
     }
 
-    @Inject(at = @At(value = "HEAD"),
-            method = "isSneaking()Z",
+    @Inject(method = "isSneaking()Z",
+            at = @At(value = "HEAD"),
             cancellable = true)
     private void isSneakingInject(final CallbackInfoReturnable<Boolean> info) {
         if (Palladium.getInstance().getModuleManager().isModuleEnabled(SneakModule.class)) {
@@ -68,9 +65,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             cancellable = true)
     private void updateNauseaInject(final CallbackInfo info) {
         ClientPlayerEntity player = self();
-        ActionResult result = OverlayCallback.EVENT.invoker().interact(AntiOverlayModule.Overlay.NAUSEA);
+        boolean hideOverlay = OverlayCallback.EVENT.invoker().shouldHideOverlay(AntiOverlayModule.Overlay.NAUSEA);
 
-        if (result.equals(ActionResult.FAIL)) {
+        if (hideOverlay) {
             player.nextNauseaStrength = 0.0F;
             player.lastNauseaStrength = 0.0F;
             info.cancel();

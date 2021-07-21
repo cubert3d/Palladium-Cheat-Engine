@@ -9,7 +9,6 @@ import me.cubert3d.palladium.util.annotation.Interaction;
 import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
 @ClassInfo(
@@ -20,11 +19,12 @@ import net.minecraft.util.Hand;
 )
 
 @CallbackInfo(
+        returns = Void.class,
         listeners = {
-                @Listener(where = ClickTPModule.class, cancels = false)
+                @Listener(where = ClickTPModule.class)
         },
         interactions = {
-                @Interaction(where = ClientPlayerEntityMixin.class, method = "swingHandInject", cancels = false)
+                @Interaction(where = ClientPlayerEntityMixin.class, method = "swingHandInject")
         }
 )
 
@@ -33,13 +33,9 @@ public interface ClickTPRaycastCallback {
     Event<ClickTPRaycastCallback> EVENT = EventFactory.createArrayBacked(ClickTPRaycastCallback.class,
             listeners -> hand -> {
                 for (ClickTPRaycastCallback listener : listeners) {
-                    ActionResult result = listener.interact(hand);
-                    if (result != ActionResult.PASS) {
-                        return result;
-                    }
+                    listener.interact(hand);
                 }
-                return ActionResult.PASS;
             });
 
-    ActionResult interact(Hand hand);
+    void interact(Hand hand);
 }

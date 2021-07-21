@@ -10,7 +10,6 @@ import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         description = "Used in the command listener.",
@@ -20,8 +19,9 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Boolean.class,
         listeners = {
-               @Listener(where = CommandListener.class, inModule = false)
+               @Listener(where = CommandListener.class, method = "registerListener")
         },
         interactions = {
                 @Interaction(where = ClientPlayerEntityMixin.class, method = "sendChatMessageInject")
@@ -33,14 +33,13 @@ public interface CommandCallback {
     Event<CommandCallback> EVENT = EventFactory.createArrayBacked(CommandCallback.class,
             (listeners) -> (player, message) -> {
                 for (CommandCallback listener : listeners) {
-                    ActionResult result = listener.interact(player, message);
-
-                    if (result != ActionResult.PASS)
-                        return result;
+                    boolean cancel = listener.shouldCancel(player, message);
+                    if (cancel) {
+                        return true;
+                    }
                 }
-
-                return ActionResult.PASS;
+                return false;
             });
 
-    ActionResult interact(ClientPlayerEntity player, String message);
+    boolean shouldCancel(ClientPlayerEntity player, String message);
 }

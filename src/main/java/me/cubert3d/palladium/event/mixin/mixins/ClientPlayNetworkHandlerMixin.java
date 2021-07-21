@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketListener {
 
-    @Inject(at = @At(value = "HEAD"),
-            method = "sendPacket(Lnet/minecraft/network/Packet;)V",
+    @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V",
+            at = @At(value = "HEAD"),
             cancellable = true)
     private void sendPacketInject(Packet<?> packet, final CallbackInfo info) {
         boolean shouldCancel = SendPacketCallback.EVENT.invoker().shouldCancel(packet);
@@ -33,8 +33,8 @@ public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketL
         }
     }
 
-    @Inject(at = @At(value = "TAIL"),
-            method = "onHealthUpdate(Lnet/minecraft/network/packet/s2c/play/HealthUpdateS2CPacket;)V")
+    @Inject(method = "onHealthUpdate(Lnet/minecraft/network/packet/s2c/play/HealthUpdateS2CPacket;)V",
+            at = @At(value = "TAIL"))
     private void onHealthUpdateInject(@NotNull HealthUpdateS2CPacket packet, final CallbackInfo info) {
         HealthUpdateCallback.EVENT.invoker().interact(packet.getHealth());
     }

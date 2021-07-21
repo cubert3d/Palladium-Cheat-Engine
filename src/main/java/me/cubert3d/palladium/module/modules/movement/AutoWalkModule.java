@@ -5,7 +5,6 @@ import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -21,13 +20,6 @@ public final class AutoWalkModule extends ToggleModule {
 
     @Override
     public final void onLoad() {
-        KeyPressedCallback.EVENT.register(binding -> {
-            if (isEnabled() && binding.equals(MinecraftClient.getInstance().options.keyForward)) {
-                return ActionResult.SUCCESS;
-            }
-            else {
-                return ActionResult.PASS;
-            }
-        });
+        KeyPressedCallback.EVENT.register(binding -> isEnabled() && binding.equals(MinecraftClient.getInstance().options.keyForward));
     }
 }

@@ -10,7 +10,6 @@ import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         description = "Used for the ESP module.",
@@ -20,6 +19,7 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Boolean.class,
         listeners = {
                 @Listener(where = ESPModule.class)
         },
@@ -33,13 +33,13 @@ public interface EntityRenderCallback {
     Event<EntityRenderCallback> EVENT = EventFactory.createArrayBacked(EntityRenderCallback.class,
             listeners -> entity -> {
                 for (EntityRenderCallback listener : listeners) {
-                    ActionResult result = listener.interact(entity);
-                    if (result != ActionResult.PASS) {
-                        return result;
+                    boolean drawESP = listener.shouldDrawESP(entity);
+                    if (drawESP) {
+                        return true;
                     }
                 }
-                return ActionResult.PASS;
+                return false;
             });
 
-    ActionResult interact(Entity entity);
+    boolean shouldDrawESP(Entity entity);
 }

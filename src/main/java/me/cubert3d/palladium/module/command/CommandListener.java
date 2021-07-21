@@ -8,7 +8,6 @@ import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.ActionResult;
 
 import java.util.Optional;
 
@@ -27,21 +26,19 @@ public final class CommandListener {
         CommandCallback.EVENT.register((player, message) -> {
             final String prefix = PalladiumCommand.getPrefix();
             if (!message.startsWith(prefix)) {
-                return ActionResult.PASS;
+                return false;
             }
             else {
                 // Put the command to the player's chat HUD.
                 String[] labelAndArgs = message.substring(prefix.length()).split(" ");
                 MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(">> " + String.join(" ", labelAndArgs)));
                 processCommand(labelAndArgs);
-                return ActionResult.FAIL;
+                return true;
             }
         });
     }
 
     public static void processCommand(String[] labelAndArgs) {
-
-
 
         // The first word--used to get a module.
         String label = labelAndArgs[0];

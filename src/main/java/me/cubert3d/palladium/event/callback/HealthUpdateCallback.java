@@ -9,7 +9,6 @@ import me.cubert3d.palladium.util.annotation.Interaction;
 import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         description = "Used by the Auto-Disconnect module.",
@@ -19,11 +18,12 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Void.class,
         listeners = {
-                @Listener(where = AutoDisconnectModule.class, cancels = false)
+                @Listener(where = AutoDisconnectModule.class)
         },
         interactions = {
-                @Interaction(where = ClientPlayNetworkHandlerMixin.class, method = "onHealthUpdateInject", cancels = false)
+                @Interaction(where = ClientPlayNetworkHandlerMixin.class, method = "onHealthUpdateInject")
         }
 )
 
@@ -32,12 +32,9 @@ public interface HealthUpdateCallback {
     Event<HealthUpdateCallback> EVENT = EventFactory.createArrayBacked(HealthUpdateCallback.class,
             (listeners) -> (health) -> {
                 for (HealthUpdateCallback listener : listeners) {
-                    ActionResult result = listener.interact(health);
-                    if (result != ActionResult.PASS)
-                        return result;
+                    listener.interact(health);
                 }
-                return ActionResult.PASS;
             });
 
-    ActionResult interact(float health);
+    void interact(float health);
 }

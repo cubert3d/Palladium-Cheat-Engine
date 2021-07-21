@@ -7,7 +7,6 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 
@@ -32,7 +31,6 @@ public final class ClickTPModule extends ToggleModule {
                     updatePosition(crosshairTarget.getPos());
                 }
             }
-            return ActionResult.PASS;
         });
     }
 

@@ -10,7 +10,6 @@ import me.cubert3d.palladium.util.annotation.Interaction;
 import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -23,11 +22,7 @@ import net.minecraft.util.ActionResult;
                 @Listener(where = ToolSaverModule.class)
         },
         interactions = {
-                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "attackBlockInject"),
-                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "interactBlockInject"),
-                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "interactItemInject"),
-                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "attackEntityInject"),
-                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = "interactEntityInject"),
+                @Interaction(where = ClientPlayerInteractionManagerMixin.class, method = {"attackBlockInject", "interactBlockInject", "interactItemInject", "attackEntityInject", "interactEntityInject"}),
                 @Interaction(where = LivingEntityMixin.class, method = "damageInject")
         }
 )
@@ -48,14 +43,9 @@ public interface ToolSaverCallback {
     Event<ToolSaverCallback> EVENT = EventFactory.createArrayBacked(ToolSaverCallback.class,
             listeners -> armorSwap -> {
                 for (ToolSaverCallback listener : listeners) {
-                    ActionResult result = listener.interact(armorSwap);
-
-                    if (result != ActionResult.PASS) {
-                        return result;
-                    }
+                    listener.interact(armorSwap);
                 }
-                return ActionResult.PASS;
             });
 
-    ActionResult interact(boolean armorSwap);
+    void interact(boolean armorSwap);
 }

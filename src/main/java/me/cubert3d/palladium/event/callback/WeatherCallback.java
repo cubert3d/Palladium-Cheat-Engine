@@ -23,9 +23,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
                 @Listener(where = WeatherModule.class)
         },
         interactions = {
-                @Interaction(where = WorldRendererMixin.class, method = "getPrecipitationRedirect"),
-                @Interaction(where = WorldRendererMixin.class, method = "getTemperatureRedirect"),
-                @Interaction(where = WorldRendererMixin.class, method = "tickRainSplashingInject"),
+                @Interaction(where = WorldRendererMixin.class, method = {"getPrecipitationRedirect", "getTemperatureRedirect", "tickRainSplashingInject"}),
                 @Interaction(where = WorldMixin.class, method = "getRainGradientInject")
         }
 )

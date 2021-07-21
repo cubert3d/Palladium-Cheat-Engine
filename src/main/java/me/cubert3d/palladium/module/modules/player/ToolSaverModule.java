@@ -12,7 +12,6 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -63,7 +62,6 @@ public final class ToolSaverModule extends ToggleModule {
                     }
                 }
             }
-            return ActionResult.PASS;
         });
     }
 

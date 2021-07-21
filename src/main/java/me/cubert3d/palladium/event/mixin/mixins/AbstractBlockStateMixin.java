@@ -14,7 +14,6 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.State;
 import net.minecraft.state.property.Property;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,10 +62,8 @@ public abstract class AbstractBlockStateMixin extends State<Block, BlockState> i
          shouldDrawSide method in the Block class is not enough for blocks
          which are not full blocks, such as stairs, or flowers.
         */
-
-        ActionResult result = BlockRenderCallback.EVENT.invoker().interact(self().getBlock());
-
-        if (result.equals(ActionResult.FAIL)) {
+        boolean render = BlockRenderCallback.EVENT.invoker().shouldRender(self().getBlock());
+        if (!render) {
             info.setReturnValue(BlockRenderType.INVISIBLE);
         }
     }

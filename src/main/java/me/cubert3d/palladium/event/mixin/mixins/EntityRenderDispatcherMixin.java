@@ -22,7 +22,6 @@ import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,9 +62,8 @@ public abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityR
                                                  float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                  int light, final CallbackInfo info) {
 
-        ActionResult result = EntityRenderCallback.EVENT.invoker().interact(entity);
-
-        if (result.equals(ActionResult.FAIL)) {
+        boolean drawESP = EntityRenderCallback.EVENT.invoker().shouldDrawESP(entity);
+        if (drawESP) {
             try {
                 EntityRenderer entityRenderer = self().getRenderer(entity);
                 Vec3d vec3d = entityRenderer.getPositionOffset(entity, tickDelta);

@@ -4,7 +4,6 @@ import me.cubert3d.palladium.event.callback.EntityControlCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -20,13 +19,6 @@ public final class EntityControlModule extends ToggleModule {
 
     @Override
     public void onLoad() {
-        EntityControlCallback.EVENT.register(() -> {
-            if (isEnabled()) {
-                return ActionResult.SUCCESS;
-            }
-            else {
-                return ActionResult.PASS;
-            }
-        });
+        EntityControlCallback.EVENT.register(this::isEnabled);
     }
 }

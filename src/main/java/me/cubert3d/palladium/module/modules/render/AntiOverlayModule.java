@@ -5,7 +5,6 @@ import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.single.BooleanSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -14,6 +13,19 @@ import net.minecraft.util.ActionResult;
 )
 
 public final class AntiOverlayModule extends ToggleModule {
+
+    public AntiOverlayModule() {
+        super("AntiOverlay", "Removes obtrusive overlays.");
+        this.addSetting(new BooleanSetting("Pumpkin", true));
+        this.addSetting(new BooleanSetting("Portal", true));
+        this.addSetting(new BooleanSetting("Nausea", true));
+        this.addSetting(new BooleanSetting("Blindness", true));
+    }
+
+    @Override
+    public void onLoad() {
+        OverlayCallback.EVENT.register(overlay -> isEnabled() && getSetting(overlay.getName()).asBooleanSetting().getValue());
+    }
 
     public enum Overlay {
         PUMPKIN("Pumpkin"),
@@ -30,25 +42,5 @@ public final class AntiOverlayModule extends ToggleModule {
         public final String getName() {
             return name;
         }
-    }
-
-    public AntiOverlayModule() {
-        super("AntiOverlay", "Removes obtrusive overlays.");
-        this.addSetting(new BooleanSetting("Pumpkin", true));
-        this.addSetting(new BooleanSetting("Portal", true));
-        this.addSetting(new BooleanSetting("Nausea", true));
-        this.addSetting(new BooleanSetting("Blindness", true));
-    }
-
-    @Override
-    public void onLoad() {
-        OverlayCallback.EVENT.register(overlay -> {
-            if (this.isEnabled() && this.getSetting(overlay.getName()).asBooleanSetting().getValue()) {
-                return ActionResult.FAIL;
-            }
-            else {
-                return ActionResult.PASS;
-            }
-        });
     }
 }

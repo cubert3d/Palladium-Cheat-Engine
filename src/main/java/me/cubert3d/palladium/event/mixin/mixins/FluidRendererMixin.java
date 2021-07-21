@@ -6,7 +6,6 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.FluidRenderer;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,9 +33,8 @@ public abstract class FluidRendererMixin {
     private void renderInject(BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, FluidState state,
                               final CallbackInfoReturnable<Boolean> info) {
         // Helps the X-Ray module handle fluid blocks in addition to solid blocks.
-        ActionResult result = BlockRenderCallback.EVENT.invoker().interact(state.getBlockState().getBlock());
-
-        if (result.equals(ActionResult.FAIL)) {
+        boolean render = BlockRenderCallback.EVENT.invoker().shouldRender(state.getBlockState().getBlock());
+        if (!render) {
             info.setReturnValue(false);
         }
     }
