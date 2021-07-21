@@ -5,7 +5,8 @@ import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.module.setting.list.StringListSetting;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import net.minecraft.util.ActionResult;
+
+import java.util.List;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -15,25 +16,34 @@ import net.minecraft.util.ActionResult;
 
 public final class ChatFilterModule extends ToggleModule {
 
+    private final StringListSetting blacklistSetting;
+
     public ChatFilterModule() {
-        super("ChatFilter", "Blocks any messages that contain a blocked phrase.");
-        this.addSetting(new StringListSetting("Blacklist"));
+        super("ChatFilter", "Blocks any messages that contain a blacklisted phrase.");
+        this.blacklistSetting = new StringListSetting("Blacklist");
+        this.addSetting(blacklistSetting);
     }
 
     @Override
     public void onLoad() {
         ChatFilterCallback.EVENT.register(message -> {
-
-            message = message.trim().toLowerCase();
-
             if (this.isEnabled()) {
-                for (String phrase : this.getSetting("Blacklist").asStringListSetting().getList()) {
-                    if (message.contains(phrase.trim().toLowerCase())) {
-                        return ActionResult.FAIL;
-                    }
-                }
+                return shouldFilterMessage(message);
             }
-            return ActionResult.PASS;
+            else {
+                return false;
+            }
         });
+    }
+
+    private boolean shouldFilterMessage(String message) {
+        List<String> blacklist = blacklistSetting.getList();
+        message = message.trim().toLowerCase();
+        for (String phrase : blacklist) {
+            if (message.contains(phrase.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

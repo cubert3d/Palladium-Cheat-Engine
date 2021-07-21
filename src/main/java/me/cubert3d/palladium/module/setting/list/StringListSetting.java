@@ -59,6 +59,11 @@ public final class StringListSetting extends ListSetting<String> {
 
     @Override
     public final Optional<String> convertStringToElement(String string) {
-        return Optional.of(string);
+        if (string.length() > 0) {
+            return Optional.of(string);
+        }
+        else {
+            return Optional.empty();
+        }
     }
 }

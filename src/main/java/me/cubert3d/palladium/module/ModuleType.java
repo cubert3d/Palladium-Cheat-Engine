@@ -11,6 +11,6 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 )
 
 public enum ModuleType {
-    TOGGLE,         // This module can be turned on and off
-    COMMAND         // This module is executed once, like a command
+    TOGGLE, // This module can be turned on and off
+    COMMAND // This module is executed once, like a command
 }

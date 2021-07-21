@@ -9,7 +9,6 @@ import me.cubert3d.palladium.util.annotation.Interaction;
 import me.cubert3d.palladium.util.annotation.Listener;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.ActionResult;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -18,6 +17,7 @@ import net.minecraft.util.ActionResult;
 )
 
 @CallbackInfo(
+        returns = Boolean.class,
         listeners = {
                 @Listener(where = ChatFilterModule.class)
         },
@@ -31,14 +31,13 @@ public interface ChatFilterCallback {
     Event<ChatFilterCallback> EVENT = EventFactory.createArrayBacked(ChatFilterCallback.class,
             (listeners) -> (message) -> {
                 for (ChatFilterCallback listener : listeners) {
-                    ActionResult result = listener.interact(message);
-
-                    if (result != ActionResult.PASS)
-                        return result;
+                    boolean result = listener.shouldFilter(message);
+                    if (result) {
+                        return true;
+                    }
                 }
-
-                return ActionResult.PASS;
+                return false;
             });
 
-    ActionResult interact(String message);
+    boolean shouldFilter(String message);
 }
