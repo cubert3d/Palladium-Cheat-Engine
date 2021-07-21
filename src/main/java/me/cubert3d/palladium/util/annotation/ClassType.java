@@ -15,7 +15,6 @@ public enum ClassType {
     SETTING,
     MACRO,
     WIDGET,
-    PROVIDER,
     MIXIN,
     CALLBACK,
     LISTENER,

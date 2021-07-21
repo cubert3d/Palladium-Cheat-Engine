@@ -1,7 +1,8 @@
-package me.cubert3d.palladium.gui.widget;
+package me.cubert3d.palladium.gui.widget.window;
 
 import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.Colors;
+import me.cubert3d.palladium.gui.widget.WidgetManager;
 import me.cubert3d.palladium.module.ModuleGroup;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
@@ -20,7 +21,7 @@ public final class ModuleGroupWindow extends Window {
     private ModuleGroup moduleGroup;
 
     public ModuleGroupWindow(String id, WidgetManager widgetManager) {
-        super(id, "Window", widgetManager);
+        super(id, "Window");
     }
 
     public ModuleGroupWindow(String id, ModuleGroup moduleGroup, WidgetManager widgetManager) {

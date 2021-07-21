@@ -23,11 +23,9 @@ import java.util.ArrayList;
 
 public final class TextHudRenderer {
 
-    private final TextRenderer textRenderer;
     private final HudTextManager textManager;
 
     TextHudRenderer() {
-        this.textRenderer = MinecraftClient.getInstance().textRenderer;
         this.textManager = new HudTextManager();
     }
 
@@ -45,15 +43,14 @@ public final class TextHudRenderer {
     private void drawText(MatrixStack matrices, @NotNull ColorText text, int x, int y) {
         int x1 = x - 1;
         int y1 = y - 1;
-        int x2 = x1 + textRenderer.getWidth(text.getString()) + 2;
-        int y2 = y1 + textRenderer.fontHeight;
+        int x2 = x1 + getTextRenderer().getWidth(text.getString()) + 2;
+        int y2 = y1 + getTextRenderer().fontHeight;
 
         DrawableHelper.fill(matrices, x1, y1, x2, y2, text.getBackgroundColor());
-        textRenderer.draw(matrices, text.getString(), x, y, text.getTextColor());
+        getTextRenderer().draw(matrices, text.getString(), x, y, text.getTextColor());
     }
 
     private void drawTopLeftList(MatrixStack matrices) {
-
         if (textManager.getTopLeftList().isPresent()) {
             ArrayList<ColorText> list = textManager.getTopLeftList().get().getAll();
 
@@ -71,8 +68,8 @@ public final class TextHudRenderer {
                 ColorText text = list.get(i);
 
                 int x = 1;
-                int y = 1 + ((textRenderer.fontHeight) * i);
-                int width = textRenderer.getWidth(text.getString());
+                int y = 1 + ((getTextRenderer().fontHeight) * i);
+                int width = getTextRenderer().getWidth(text.getString());
 
                 // Draw
 
@@ -80,7 +77,7 @@ public final class TextHudRenderer {
                 drawText(matrices, text, x, y);
 
                 // Draw the vertical line at the end of the text.
-                DrawHelper.drawVerticalLine(matrices, width + 2, y - 1, y + textRenderer.fontHeight - 1, Colors.LAVENDER);
+                DrawHelper.drawVerticalLine(matrices, width + 2, y - 1, y + getTextRenderer().fontHeight - 1, Colors.LAVENDER);
 
                 /*
                  Draw the horizontal line connecting this text's vertical line with the last one's,
@@ -114,7 +111,7 @@ public final class TextHudRenderer {
 
             // Draw the final horizontal line after the loop is complete, if there was anything in the list.
             if (listSize > 0) {
-                DrawHelper.drawHorizontalLine(matrices, 0, lastWidth + 3, finalYPos + textRenderer.fontHeight - 1, Colors.LAVENDER);
+                DrawHelper.drawHorizontalLine(matrices, 0, lastWidth + 3, finalYPos + getTextRenderer().fontHeight - 1, Colors.LAVENDER);
             }
         }
     }
@@ -131,12 +128,12 @@ public final class TextHudRenderer {
             for (int i = 0; i < listSize; i++) {
                 ColorText text = list.get(i);
 
-                int x = MinecraftClient.getInstance().getWindow().getScaledWidth() - textRenderer.getWidth(text.getString()) - 1;
-                int y = 1 + (textRenderer.fontHeight * i);
-                int width = textRenderer.getWidth(text.getString());
+                int x = MinecraftClient.getInstance().getWindow().getScaledWidth() - getTextRenderer().getWidth(text.getString()) - 1;
+                int y = 1 + (getTextRenderer().fontHeight * i);
+                int width = getTextRenderer().getWidth(text.getString());
 
                 drawText(matrices, text, x, y);
-                DrawHelper.drawVerticalLine(matrices, x - 2, y - 1, y + textRenderer.fontHeight - 1, Colors.LAVENDER);
+                DrawHelper.drawVerticalLine(matrices, x - 2, y - 1, y + getTextRenderer().fontHeight - 1, Colors.LAVENDER);
 
                 if (i > 0) {
                     if (width > lastWidth) {
@@ -153,7 +150,7 @@ public final class TextHudRenderer {
             }
 
             if (listSize > 0) {
-                DrawHelper.drawHorizontalLine(matrices, finalXPos - 2, finalXPos + lastWidth + 1, finalYPos + textRenderer.fontHeight - 1, Colors.LAVENDER);
+                DrawHelper.drawHorizontalLine(matrices, finalXPos - 2, finalXPos + lastWidth + 1, finalYPos + getTextRenderer().fontHeight - 1, Colors.LAVENDER);
             }
         }
     }
@@ -170,21 +167,21 @@ public final class TextHudRenderer {
             for (int i = 0; i < listSize; i++) {
                 ColorText text = list.get(i);
 
-                int width = textRenderer.getWidth(text.getString());
-                int x = MinecraftClient.getInstance().getWindow().getScaledWidth() - textRenderer.getWidth(text.getString()) - 1;
-                int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - textRenderer.fontHeight) - (textRenderer.fontHeight * i);
+                int width = getTextRenderer().getWidth(text.getString());
+                int x = MinecraftClient.getInstance().getWindow().getScaledWidth() - getTextRenderer().getWidth(text.getString()) - 1;
+                int y = (MinecraftClient.getInstance().getWindow().getScaledHeight() - getTextRenderer().fontHeight) - (getTextRenderer().fontHeight * i);
 
                 drawText(matrices, text, x, y);
-                DrawHelper.drawVerticalLine(matrices, x - 2, y - 1, y + textRenderer.fontHeight - 1, Colors.LAVENDER);
+                DrawHelper.drawVerticalLine(matrices, x - 2, y - 1, y + getTextRenderer().fontHeight - 1, Colors.LAVENDER);
 
                 if (i > 0) {
                     // Going right
                     if (width > lastWidth) {
-                        DrawHelper.drawHorizontalLine(matrices, x - 2, x + (width - lastWidth) - 2, y + textRenderer.fontHeight - 1, Colors.LAVENDER);
+                        DrawHelper.drawHorizontalLine(matrices, x - 2, x + (width - lastWidth) - 2, y + getTextRenderer().fontHeight - 1, Colors.LAVENDER);
                     }
                     // Going left
                     else if (width < lastWidth) {
-                        DrawHelper.drawHorizontalLine(matrices, x - 2, x + (width - lastWidth) - 2, y + textRenderer.fontHeight - 2, Colors.LAVENDER);
+                        DrawHelper.drawHorizontalLine(matrices, x - 2, x + (width - lastWidth) - 2, y + getTextRenderer().fontHeight - 2, Colors.LAVENDER);
                     }
                 }
 
@@ -201,8 +198,14 @@ public final class TextHudRenderer {
 
     // Master render method that uses all the other methods to draw everything.
     public void render(MatrixStack matrices) {
-        drawTopLeftList(matrices);
-        drawTopRightList(matrices);
-        drawBottomRightList(matrices);
+        if (getTextRenderer() != null) {
+            drawTopLeftList(matrices);
+            drawTopRightList(matrices);
+            drawBottomRightList(matrices);
+        }
+    }
+
+    private TextRenderer getTextRenderer() {
+        return MinecraftClient.getInstance().textRenderer;
     }
 }

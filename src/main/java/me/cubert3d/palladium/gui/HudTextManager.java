@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.gui;
 
-import me.cubert3d.palladium.gui.text.provider.TextProvider;
+import me.cubert3d.palladium.gui.text.TextProvider;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 

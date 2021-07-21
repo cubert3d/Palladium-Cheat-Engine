@@ -1,15 +1,12 @@
-package me.cubert3d.palladium.gui.widget;
+package me.cubert3d.palladium.gui.widget.window;
 
 import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.text.provider.TextProvider;
+import me.cubert3d.palladium.gui.text.TextProvider;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.ArrayList;
-import java.util.function.Supplier;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -23,25 +20,20 @@ This is a window that simply displays information, in the form of text.
 
 public final class DisplayWindow extends Window {
 
-    private static final Supplier<ArrayList<ColorText>> emptySupplier = ArrayList::new;
-
-    private Supplier<ArrayList<ColorText>> textSupplier;
-
     private TextProvider textProvider;
 
-    public DisplayWindow(String id, WidgetManager widgetManager) {
-        super(id, "Window", widgetManager);
-        this.textSupplier = emptySupplier;
+    public DisplayWindow(String id) {
+        super(id, "Window");
     }
 
-    public DisplayWindow(String id, String label, TextProvider textProvider, WidgetManager widgetManager) {
-        super(id, label, widgetManager);
+    public DisplayWindow(String id, TextProvider textProvider) {
+        super(id, "Window");
         this.textProvider = textProvider;
     }
 
     @Override
     public final String getLabel() {
-        return textProvider.getHeader().getString();
+        return textProvider.getTitle().getString();
     }
 
     public void setTextProvider(TextProvider textProvider) {
@@ -62,7 +54,7 @@ public final class DisplayWindow extends Window {
 
     private void drawTextInWindow(MatrixStack matrices) {
         int counter = 0;
-        int size = textSupplier.get().size();
+        int size = textProvider.getBody().size();
         boolean isListTooBig = size > getListSpaceAvailable();
         for (ColorText text : textProvider.getBody()) {
 

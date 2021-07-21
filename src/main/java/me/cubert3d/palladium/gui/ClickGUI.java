@@ -2,12 +2,10 @@ package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.widget.DisplayWindow;
-import me.cubert3d.palladium.gui.widget.ModuleGroupWindow;
 import me.cubert3d.palladium.gui.widget.Widget;
 import me.cubert3d.palladium.gui.widget.WidgetManager;
+import me.cubert3d.palladium.gui.widget.window.ModuleGroupWindow;
 import me.cubert3d.palladium.module.ModuleGroupManager;
-import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -47,14 +45,6 @@ public final class ClickGUI {
         Palladium.getLogger().info("Initializing ClickGUI...");
 
         // The default windows that the ClickGUI begins with.
-        DisplayWindow enabledModulesWindow = new DisplayWindow("enabled_modules", widgetManager);
-        enabledModulesWindow.setX(25);
-        enabledModulesWindow.setY(25);
-        enabledModulesWindow.setWidth(150);
-        enabledModulesWindow.setHeight(91);
-        enabledModulesWindow.setColor(Colors.BACKGROUND_LAVENDER);
-        enabledModulesWindow.setTextProvider(EnabledModListModule.modList);
-
         ModuleGroupWindow guiModulesWindow = new ModuleGroupWindow("gui_modules", Palladium.getInstance().getModuleGroupManager().getGroup("gui"), widgetManager);
         guiModulesWindow.setX(200);
         guiModulesWindow.setY(25);

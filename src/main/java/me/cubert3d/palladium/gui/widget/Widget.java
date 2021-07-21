@@ -28,9 +28,9 @@ public abstract class Widget {
     // Special color of this widget.
     private int color;
 
-    protected Widget(String id, WidgetManager widgetManager) {
+    protected Widget(String id) {
         this.id = id;
-        widgetManager.addWidget(this);
+        Palladium.getInstance().getGuiRenderer().getClickGUI().getWidgetManager().addWidget(this);
     }
 
     @Override

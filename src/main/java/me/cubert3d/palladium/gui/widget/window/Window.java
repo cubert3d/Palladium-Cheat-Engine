@@ -1,7 +1,8 @@
-package me.cubert3d.palladium.gui.widget;
+package me.cubert3d.palladium.gui.widget.window;
 
 import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.Colors;
+import me.cubert3d.palladium.gui.widget.Widget;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.gui.DrawableHelper;
@@ -33,8 +34,8 @@ public class Window extends Widget {
     protected int cursorDistanceX = 0;
     protected int cursorDistanceY = 0;
 
-    public Window(String id, String label, WidgetManager widgetManager) {
-        super(id, widgetManager);
+    public Window(String id, String label) {
+        super(id);
         this.label = label;
     }
 

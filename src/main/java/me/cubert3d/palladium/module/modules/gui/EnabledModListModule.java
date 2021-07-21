@@ -1,10 +1,17 @@
 package me.cubert3d.palladium.module.modules.gui;
 
-import me.cubert3d.palladium.gui.text.provider.EnabledModulesProvider;
-import me.cubert3d.palladium.gui.text.provider.TextProvider;
-import me.cubert3d.palladium.module.modules.ToggleModule;
+import me.cubert3d.palladium.Palladium;
+import me.cubert3d.palladium.gui.text.ColorText;
+import me.cubert3d.palladium.gui.text.Colors;
+import me.cubert3d.palladium.gui.text.TextProvider;
+import me.cubert3d.palladium.gui.widget.window.DisplayWindow;
+import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 @ClassInfo(
         authors = "cubert3d",
@@ -12,21 +19,61 @@ import me.cubert3d.palladium.util.annotation.ClassType;
         type = ClassType.MODULE
 )
 
-public final class EnabledModListModule extends ToggleModule {
+public final class EnabledModListModule extends AbstractHudModule {
 
-    public static final TextProvider modList = new EnabledModulesProvider();
+    private final EnabledModulesProvider modList;
 
     public EnabledModListModule() {
         super("ModList", "Displays a list of enabled modules on your screen.");
+        this.modList = new EnabledModulesProvider();
     }
 
     @Override
-    protected void onEnable() {
-        //TextHudRenderer.getTextManager().setTopRightList(modList);
+    protected final @NotNull DisplayWindow createWindow() {
+        DisplayWindow newWindow = new DisplayWindow("enabled_modules", modList);
+        newWindow.setX(25);
+        newWindow.setY(25);
+        newWindow.setWidth(150);
+        newWindow.setHeight(91);
+        newWindow.setColor(Colors.BACKGROUND_LAVENDER);
+        return newWindow;
     }
 
-    @Override
-    protected void onDisable() {
-        //TextHudRenderer.getTextManager().clearTopRightList();
+    private static class EnabledModulesProvider extends TextProvider {
+
+        private int numberEnabledModules = 0;
+
+        private EnabledModulesProvider() {
+            super();
+        }
+
+        @Override
+        public ColorText getTitle() {
+            return new ColorText("Enabled Modules (" + numberEnabledModules + ")");
+        }
+
+        @Override
+        public ArrayList<ColorText> getBody() {
+            ArrayList<ColorText> text = new ArrayList<>();
+
+            int counter = 0;
+            for (Module module : Palladium.getInstance().getModuleManager().getModules()) {
+                if (module.isEnabled()) {
+                    String string;
+                    Optional<String> info = module.getPrimaryInfo();
+                    if (info.isPresent()) {
+                        string = String.format("%s (%s)", module.getName(), info.get());
+                    }
+                    else {
+                        string = module.getName();
+                    }
+                    text.add(new ColorText(string));
+                    counter++;
+                }
+            }
+            numberEnabledModules = counter;
+
+            return text;
+        }
     }
 }
