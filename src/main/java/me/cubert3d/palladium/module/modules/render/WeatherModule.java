@@ -43,6 +43,25 @@ public final class WeatherModule extends ToggleModule {
         return Optional.of(weatherSetting.getAsString());
     }
 
+    private static final class WeatherSetting extends EnumSetting<Setting> {
+
+        public WeatherSetting(String name, Setting defaultValue) {
+            super(name, defaultValue);
+        }
+
+        @Override
+        protected final Optional<Setting> parseString(@NotNull String string) {
+            Setting setting;
+            switch (string.toUpperCase()) {
+                case "CLEAR": setting = Setting.CLEAR; break;
+                case "RAIN": setting = Setting.RAIN; break;
+                case "SNOW": setting = Setting.SNOW; break;
+                default: setting = null;
+            }
+            return Optional.ofNullable(setting);
+        }
+    }
+
     public enum Setting {
         NONE(0.15F, 0.0F),
         CLEAR(0.15F, 0.0F),
@@ -72,25 +91,6 @@ public final class WeatherModule extends ToggleModule {
                 case SNOW: return Biome.Precipitation.SNOW;
                 default: return null;
             }
-        }
-    }
-
-    private static final class WeatherSetting extends EnumSetting<Setting> {
-
-        public WeatherSetting(String name, Setting defaultValue) {
-            super(name, defaultValue);
-        }
-
-        @Override
-        protected final Optional<Setting> parseString(@NotNull String string) {
-            Setting setting;
-            switch (string.toUpperCase()) {
-                case "CLEAR": setting = Setting.CLEAR; break;
-                case "RAIN": setting = Setting.RAIN; break;
-                case "SNOW": setting = Setting.SNOW; break;
-                default: setting = null;
-            }
-            return Optional.ofNullable(setting);
         }
     }
 }
