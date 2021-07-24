@@ -69,6 +69,12 @@ public final class ClickGUI {
         playerModulesWindow.setWidth(120);
         playerModulesWindow.setColor(Colors.BACKGROUND_RED);
 
+        ModuleGroupWindow combatModulesWindow = new ModuleGroupWindow("combat_modules", moduleGroupManager.getGroup("combat"), widgetManager);
+        combatModulesWindow.setX(400);
+        combatModulesWindow.setY(150);
+        combatModulesWindow.setWidth(120);
+        combatModulesWindow.setColor(Colors.BACKGROUND_RED);
+
         Palladium.getLogger().info("Done initializing ClickGUI!");
     }
 

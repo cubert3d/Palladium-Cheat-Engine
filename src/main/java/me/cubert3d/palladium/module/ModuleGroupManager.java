@@ -2,12 +2,14 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.modules.combat.KillAuraModule;
 import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
 import me.cubert3d.palladium.module.modules.gui.EffectListModule;
 import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
 import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
 import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
 import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
+import me.cubert3d.palladium.module.modules.movement.AutoWalkModule;
 import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.EntityControlModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
@@ -18,11 +20,11 @@ import me.cubert3d.palladium.module.modules.player.BlinkModule;
 import me.cubert3d.palladium.module.modules.player.ChatFilterModule;
 import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
 import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.module.modules.render.ChamsModule;
 import me.cubert3d.palladium.module.modules.render.ESPModule;
 import me.cubert3d.palladium.module.modules.render.FreecamModule;
 import me.cubert3d.palladium.module.modules.render.FullBrightModule;
 import me.cubert3d.palladium.module.modules.render.TooltipsModule;
+import me.cubert3d.palladium.module.modules.render.WeatherModule;
 import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -71,11 +73,12 @@ public final class ModuleGroupManager {
                     TooltipsModule.class,
                     FullBrightModule.class,
                     XRayModule.class,
-                    ChamsModule.class,
                     ESPModule.class,
-                    FreecamModule.class);
+                    FreecamModule.class,
+                    WeatherModule.class);
 
             ModuleGroup movementModules = newModuleGroup("Movement",
+                    AutoWalkModule.class,
                     SneakModule.class,
                     SprintModule.class,
                     ClickTPModule.class,
@@ -88,10 +91,14 @@ public final class ModuleGroupManager {
                     ToolSaverModule.class,
                     BlinkModule.class);
 
+            ModuleGroup combatModules = newModuleGroup("Combat",
+                    KillAuraModule.class);
+
             addModuleGroup(guiModules);
             addModuleGroup(renderModules);
             addModuleGroup(movementModules);
             addModuleGroup(playerModules);
+            addModuleGroup(combatModules);
         }
         catch (ModuleNotFoundException e) {
             e.printStackTrace();
