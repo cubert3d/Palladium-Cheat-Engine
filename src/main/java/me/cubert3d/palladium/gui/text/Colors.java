@@ -18,6 +18,7 @@ public final class Colors {
     public static final int BLACK = 0xFF000000;
     public static final int WHITE = 0xFFFFFFFF;
     public static final int LAVENDER = 0xFFD3C7FF;
+    public static final int HIGHLIGHT = 0xFFFFF69E;
 
 
 
@@ -32,11 +33,11 @@ public final class Colors {
 
 
 
-    public static int of(int opacity, int red, int green, int blue) {
+    public static int of(int red, int green, int blue, int alpha) {
 
-        opacity = Math.max(0x0, opacity);
-        opacity = Math.min(opacity, 0xFF);
-        opacity *= 0x01000000;
+        alpha = Math.max(0x0, alpha);
+        alpha = Math.min(alpha, 0xFF);
+        alpha *= 0x01000000;
 
         red = Math.max(0x0, red);
         red = Math.min(red, 0xFF);
@@ -49,6 +50,6 @@ public final class Colors {
         blue = Math.max(0x0, blue);
         blue = Math.min(blue, 0xFF);
 
-        return opacity + red + green + blue;
+        return alpha + red + green + blue;
     }
 }

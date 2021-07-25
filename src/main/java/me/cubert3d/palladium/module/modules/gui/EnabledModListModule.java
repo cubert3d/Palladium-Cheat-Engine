@@ -4,7 +4,7 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.gui.text.TextProvider;
-import me.cubert3d.palladium.gui.widget.window.DisplayWindow;
+import me.cubert3d.palladium.gui.window.TextProviderWindow;
 import me.cubert3d.palladium.module.modules.Module;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -29,8 +29,8 @@ public final class EnabledModListModule extends AbstractHudModule {
     }
 
     @Override
-    protected final @NotNull DisplayWindow createWindow() {
-        DisplayWindow newWindow = new DisplayWindow("enabled_modules", modList);
+    protected final @NotNull TextProviderWindow createWindow() {
+        TextProviderWindow newWindow = TextProviderWindow.newDisplayWindow("enabled_modules", modList, this);
         newWindow.setX(25);
         newWindow.setY(25);
         newWindow.setWidth(150);

@@ -2,8 +2,8 @@ package me.cubert3d.palladium.module.modules.gui;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.HudTextManager;
-import me.cubert3d.palladium.gui.widget.WidgetManager;
-import me.cubert3d.palladium.gui.widget.window.DisplayWindow;
+import me.cubert3d.palladium.gui.window.TextProviderWindow;
+import me.cubert3d.palladium.gui.window.WindowManager;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -14,9 +14,9 @@ import me.cubert3d.palladium.util.annotation.ClassType;
         type = ClassType.MODULE
 )
 
-abstract class AbstractHudModule extends ToggleModule {
+public abstract class AbstractHudModule extends ToggleModule {
 
-    private DisplayWindow window;
+    private TextProviderWindow window;
 
     protected AbstractHudModule(String name, String description) {
         super(name, description);
@@ -25,40 +25,42 @@ abstract class AbstractHudModule extends ToggleModule {
     @Override
     public void onLoad() {
         if (isEnabled()) {
-            addWindow();
+            openWindow();
         }
     }
 
     @Override
     protected void onEnable() {
-        addWindow();
+        openWindow();
     }
 
     @Override
     protected void onDisable() {
-        removeWindow();
+        closeWindow();
     }
 
-    private void addWindow() {
+    private void openWindow() {
         if (window == null) {
             window = createWindow();
         }
-        else {
-            getWidgetManager().getWidgets().add(window);
+        if (!window.isOpen()) {
+            window.open();
         }
     }
 
-    protected abstract DisplayWindow createWindow();
+    protected abstract TextProviderWindow createWindow();
 
-    private void removeWindow() {
-        getWidgetManager().getWidgets().remove(window);
+    private void closeWindow() {
+        if (window != null && window.isOpen()) {
+            window.close();
+        }
     }
 
     protected final HudTextManager getTextManager() {
         return Palladium.getInstance().getGuiRenderer().getTextHudRenderer().getTextManager();
     }
 
-    protected final WidgetManager getWidgetManager() {
-        return Palladium.getInstance().getGuiRenderer().getClickGUI().getWidgetManager();
+    protected final WindowManager getWindowManager() {
+        return Palladium.getInstance().getGuiRenderer().getClickGUI().getWindowManager();
     }
 }

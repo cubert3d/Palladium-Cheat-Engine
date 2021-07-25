@@ -3,7 +3,7 @@ package me.cubert3d.palladium.module.modules.gui;
 import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
 import me.cubert3d.palladium.gui.text.TextProvider;
-import me.cubert3d.palladium.gui.widget.window.DisplayWindow;
+import me.cubert3d.palladium.gui.window.TextProviderWindow;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -44,8 +44,8 @@ public final class EffectListModule extends AbstractHudModule {
     }
 
     @Override
-    protected final DisplayWindow createWindow() {
-        DisplayWindow newWindow = new DisplayWindow("effect_list", effectList);
+    protected final TextProviderWindow createWindow() {
+        TextProviderWindow newWindow = TextProviderWindow.newDisplayWindow("effect_list", effectList, this);
         newWindow.setX(25);
         newWindow.setY(25);
         newWindow.setWidth(150);

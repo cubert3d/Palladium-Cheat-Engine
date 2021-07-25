@@ -43,7 +43,7 @@ public final class WeatherModule extends ToggleModule {
 
     @Override
     public @NotNull Optional<String> getPrimaryInfo() {
-        return Optional.of(weatherSetting.getAsString());
+        return Optional.of(weatherSetting.getValue().toString());
     }
 
     private static final class WeatherSetting extends EnumSetting<SettingEnum> {

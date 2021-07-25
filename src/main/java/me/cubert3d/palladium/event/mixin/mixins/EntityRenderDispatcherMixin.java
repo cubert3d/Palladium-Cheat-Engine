@@ -6,7 +6,7 @@ import me.cubert3d.palladium.event.mixin.MixinCaster;
 import me.cubert3d.palladium.event.mixin.accessors.RenderPhaseAccessor;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import me.cubert3d.palladium.util.render.ColorF;
+import me.cubert3d.palladium.util.render.Color4F;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexConsumer;
@@ -75,7 +75,7 @@ public abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityR
 
                 VertexConsumer vertices = vertexConsumers.getBuffer(ESP_LAYER);
                 Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
-                ColorF color = getEntityColor(entity);
+                Color4F color = getEntityColor(entity);
                 WorldRenderer.drawBox(matrices, vertices, box, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 
                 matrices.pop();
@@ -86,7 +86,7 @@ public abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityR
         }
     }
 
-    private ColorF getEntityColor(Entity entity) {
+    private Color4F getEntityColor(Entity entity) {
         /*
         GREEN = PASSIVE
         BLUE = NEUTRAL
@@ -95,19 +95,19 @@ public abstract class EntityRenderDispatcherMixin implements MixinCaster<EntityR
         WHITE = MISCELLANEOUS
          */
         if (entity instanceof PlayerEntity) {
-            return ColorF.YELLOW;
+            return Color4F.YELLOW;
         }
         else if (entity instanceof LivingEntity) {
             if (entity instanceof Angerable) {
-                return ColorF.BLUE;
+                return Color4F.BLUE;
             }
             else if (entity instanceof PassiveEntity) {
-                return ColorF.GREEN;
+                return Color4F.GREEN;
             }
             else if (entity instanceof MobEntity) {
-                return ColorF.RED;
+                return Color4F.RED;
             }
         }
-        return ColorF.WHITE;
+        return Color4F.WHITE;
     }
 }

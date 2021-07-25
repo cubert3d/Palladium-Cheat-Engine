@@ -2,10 +2,10 @@ package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.widget.Widget;
-import me.cubert3d.palladium.gui.widget.WidgetManager;
-import me.cubert3d.palladium.gui.widget.window.ModuleGroupWindow;
+import me.cubert3d.palladium.gui.window.ModuleGroupWindow;
+import me.cubert3d.palladium.gui.window.WindowManager;
 import me.cubert3d.palladium.module.ModuleGroupManager;
+import me.cubert3d.palladium.util.Vector2X;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.MinecraftClient;
@@ -32,10 +32,10 @@ public final class ClickGUI {
     tracked separately here.
      */
     private boolean leftMouseButtonPressed = false;
-    private final WidgetManager widgetManager;
+    private final WindowManager windowManager;
 
     ClickGUI() {
-        this.widgetManager = new WidgetManager(this);
+        this.windowManager = new WindowManager(this);
     }
 
     public void initialize() {
@@ -45,41 +45,46 @@ public final class ClickGUI {
         Palladium.getLogger().info("Initializing ClickGUI...");
 
         // The default windows that the ClickGUI begins with.
-        ModuleGroupWindow guiModulesWindow = new ModuleGroupWindow("gui_modules", Palladium.getInstance().getModuleGroupManager().getGroup("gui"), widgetManager);
+        ModuleGroupWindow guiModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("gui"));
         guiModulesWindow.setX(200);
         guiModulesWindow.setY(25);
         guiModulesWindow.setWidth(120);
         guiModulesWindow.setColor(Colors.BACKGROUND_YELLOW);
+        guiModulesWindow.open();
 
-        ModuleGroupWindow renderModulesWindow = new ModuleGroupWindow("render_modules", moduleGroupManager.getGroup("render"), widgetManager);
+        ModuleGroupWindow renderModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("render"));
         renderModulesWindow.setX(25);
         renderModulesWindow.setY(150);
         renderModulesWindow.setWidth(120);
         renderModulesWindow.setColor(Colors.BACKGROUND_BLUE);
+        renderModulesWindow.open();
 
-        ModuleGroupWindow movementModulesWindow = new ModuleGroupWindow("movement_modules", moduleGroupManager.getGroup("movement"), widgetManager);
+        ModuleGroupWindow movementModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("movement"));
         movementModulesWindow.setX(160);
         movementModulesWindow.setY(150);
         movementModulesWindow.setWidth(120);
         movementModulesWindow.setColor(Colors.BACKGROUND_GREEN);
+        movementModulesWindow.open();
 
-        ModuleGroupWindow playerModulesWindow = new ModuleGroupWindow("player_modules", moduleGroupManager.getGroup("player"), widgetManager);
+        ModuleGroupWindow playerModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("player"));
         playerModulesWindow.setX(300);
         playerModulesWindow.setY(150);
         playerModulesWindow.setWidth(120);
         playerModulesWindow.setColor(Colors.BACKGROUND_RED);
+        playerModulesWindow.open();
 
-        ModuleGroupWindow combatModulesWindow = new ModuleGroupWindow("combat_modules", moduleGroupManager.getGroup("combat"), widgetManager);
+        ModuleGroupWindow combatModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("combat"));
         combatModulesWindow.setX(400);
         combatModulesWindow.setY(150);
         combatModulesWindow.setWidth(120);
         combatModulesWindow.setColor(Colors.BACKGROUND_RED);
+        combatModulesWindow.open();
 
         Palladium.getLogger().info("Done initializing ClickGUI!");
     }
 
-    public final WidgetManager getWidgetManager() {
-        return widgetManager;
+    public final WindowManager getWindowManager() {
+        return windowManager;
     }
 
     public final boolean isOpen() {
@@ -94,7 +99,7 @@ public final class ClickGUI {
 
     public final void close() {
         MinecraftClient.getInstance().mouse.lockCursor();
-        widgetManager.resetClickedWidget();
+        windowManager.resetDraggedWindow();
         open = false;
     }
 
@@ -114,11 +119,7 @@ public final class ClickGUI {
     }
 
     final void render(MatrixStack matrices) {
-        for (Widget widget : widgetManager.getWidgets()) {
-            if (widget.shouldRender()) {
-                widget.render(matrices);
-            }
-        }
+        windowManager.renderWindows(matrices);
     }
 
     public final void onMouseButton(@NotNull Mouse mouse) {
@@ -142,18 +143,13 @@ public final class ClickGUI {
         boolean isRelease = isLeftMouseButtonPressed();
         toggleLeftMouseButtonPressed();
 
-        widgetManager.onClick(scaledX, scaledY, isRelease);
+        windowManager.onClick(scaledX, scaledY, isRelease);
     }
 
     public final void onMouseCursorMove(double x, double y) {
         if (shouldRender()) {
-            double width = MinecraftClient.getInstance().getWindow().getWidth();
-            double height = MinecraftClient.getInstance().getWindow().getHeight();
-            double scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
-            double scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
-            int scaledX = (int) (x / (width / scaledWidth));
-            int scaledY = (int) (y / (height / scaledHeight));
-            widgetManager.onMouseMove(scaledX, scaledY);
+            Vector2X<Integer> scaledMousePosition = windowManager.scaleMousePosition(x, y);
+            windowManager.onMouseMove(scaledMousePosition.getX(), scaledMousePosition.getY());
         }
     }
 
