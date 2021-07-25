@@ -4,11 +4,8 @@ import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.ClickGUI;
 import me.cubert3d.palladium.gui.DrawHelper;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.util.Vector2X;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -27,12 +24,12 @@ public abstract class Window {
     public static final int DEFAULT_HEIGHT = 90;
     public static final int DEFAULT_X = 200;
     public static final int DEFAULT_Y = 25;
-    public static int BORDER_COLOR = Colors.BACKGROUND_WHITE;
-    public static int LABEL_COLOR = Colors.LAVENDER;
+    public static int BORDER_COLOR = Colors.BACKGROUND_GRAY;
 
     private final String id;
     private boolean pinned;
     private boolean minimized;
+    private boolean focused;
     private int x;
     private int y;
     private int width;
@@ -79,6 +76,30 @@ public abstract class Window {
         return id;
     }
 
+    /**
+     * <p>
+     *     Determines the color with which the label will be printed. If this window is focused,
+     *     then the label will be white; if not, then the label will be lavender.
+     * </p>
+     *
+     * @return the color of the label
+     */
+    public final int getLabelColor() {
+        return focused ? Colors.WHITE : Colors.LAVENDER;
+    }
+
+    /**
+     * <p>
+     *     Determines the color with which the borders of this window will be drawn. If this window is focused,
+     *     then the label will be a bright white; if not, then the label will be a gray, or off-white.
+     * </p>
+     *
+     * @return the color of the label
+     */
+    public final int getBorderColor() {
+        return focused ? Colors.BACKGROUND_WHITE : Colors.BACKGROUND_GRAY;
+    }
+
     public boolean isOpen() {
         return true;
     }
@@ -89,6 +110,15 @@ public abstract class Window {
 
     public void close() {
 
+    }
+
+    public final void focus() {
+        this.windowManager.focusWindow(this);
+        this.focused = true;
+    }
+
+    public final void unfocus() {
+        this.focused = false;
     }
 
     public final boolean isPinned() {
@@ -135,6 +165,7 @@ public abstract class Window {
      * <p>
      *     Returns the width of this window.
      * </p>
+     *
      * @return the width of this window, in pixels.
      */
     public final int getWidth() {
@@ -149,6 +180,7 @@ public abstract class Window {
      * <p>
      *     Returns the height of this window.
      * </p>
+     *
      * @return the height of this window, in pixels.
      */
     public int getHeight() {
@@ -161,6 +193,7 @@ public abstract class Window {
 
     /**
      * Returns the width of the box inside the borders, underneath the label.
+     *
      * @return the width of inner box, in pixels
      */
     protected final int getWindowWidth() {
@@ -169,6 +202,7 @@ public abstract class Window {
 
     /**
      * Returns the height of the box inside the borders, underneath the label.
+     *
      * @return the height of the inner box, in pixels
      */
     protected final int getWindowHeight() {
@@ -179,6 +213,7 @@ public abstract class Window {
      * <p>
      *     Returns the color of this window, which is usually used as the color of the window body itself.
      * </p>
+     *
      * @return the color of this window
      */
     public final int getColor() {
@@ -189,6 +224,7 @@ public abstract class Window {
      * <p>
      *     Sets the color of this window, which is usually used as the color of the window body itself.
      * </p>
+     *
      * @param color the new color to be applied to this window
      */
     public final void setColor(int color) {
@@ -199,6 +235,7 @@ public abstract class Window {
      * <p>
      *     Builds a set of controls for this window. This method can be overriden to give a window a different set of controls.
      * </p>
+     *
      * @return the set of controls that this window will have
      */
     protected Set<Control> buildControls() {
@@ -208,8 +245,20 @@ public abstract class Window {
         return controls;
     }
 
-
-
+    /**
+     * <p>
+     *     Checks whether this window ought to be render.
+     * </p>
+     * <p>
+     *     This window should only be rendered if either the click-GUI is currently open, or if this window is currently pinned.
+     *     In addition to this, this method checks if this window is actually open, even though this window should not be processed
+     *     for rendering if it is closed in the first place.
+     * </p>
+     *
+     * @param clickGUI Palladium's click-GUI, to be checked if it is currently open
+     *
+     * @return {@code true} if this window should rendered, {@code false} if it should not
+     */
     public final boolean shouldRender(ClickGUI clickGUI) {
         return isOpen() && (clickGUI.shouldRender() || isPinned());
     }
@@ -218,9 +267,12 @@ public abstract class Window {
      * <p>
      *     Renders this window.
      * </p>
+     *
      * @param matrices matrix-stack with which to render this window
+     * @param mouseX the x-position of the mouse
+     * @param mouseY the y-position of the mouse
      */
-    public void render(MatrixStack matrices) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY) {
         if (!isMinimized()) {
             drawMainWindow(matrices);
         }
@@ -233,44 +285,52 @@ public abstract class Window {
     protected final void drawMainWindow(MatrixStack matrices) {
 
         // Toolbar
-        DrawableHelper.fill(matrices, getX(), getY(), getX2(), getY() + DrawHelper.getTextHeight(), BORDER_COLOR);
+        DrawableHelper.fill(matrices, getX(), getY(), getX2(), getY() + DrawHelper.getTextHeight(), getBorderColor());
 
         // Label
-        DrawHelper.drawText(matrices, getLabel(), getX() + 1, getY() + 1, getWidth() - 2 - 8 - 9, LABEL_COLOR);
+        DrawHelper.drawText(matrices, getLabel(), getX() + 1, getY() + 1, getWidth() - 2 - 8 - 9, getLabelColor());
 
         // Main box
         DrawableHelper.fill(matrices, getX() + 1, getY() + DrawHelper.getTextHeight(), getX2() - 1, getY2() - 1, getColor());
 
         // Right Border
-        DrawableHelper.fill(matrices, getX2() - 1, getY() + DrawHelper.getTextHeight(), getX2(), getY2() - 1, BORDER_COLOR);
+        DrawableHelper.fill(matrices, getX2() - 1, getY() + DrawHelper.getTextHeight(), getX2(), getY2() - 1, getBorderColor());
 
         // Bottom Border
-        DrawableHelper.fill(matrices, getX(), getY2() - 1, getX2(), getY2(), BORDER_COLOR);
+        DrawableHelper.fill(matrices, getX(), getY2() - 1, getX2(), getY2(), getBorderColor());
 
         // Left Border
-        DrawableHelper.fill(matrices, getX(), getY() + DrawHelper.getTextHeight(), getX() + 1, getY2() - 1, BORDER_COLOR);
+        DrawableHelper.fill(matrices, getX(), getY() + DrawHelper.getTextHeight(), getX() + 1, getY2() - 1, getBorderColor());
     }
 
     protected final void drawMinimizedWindow(MatrixStack matrices) {
 
         // Toolbar
-        DrawableHelper.fill(matrices, getX(), getY(), getX2(), getY() + DrawHelper.getTextHeight(), BORDER_COLOR);
+        DrawableHelper.fill(matrices, getX(), getY(), getX2(), getY() + DrawHelper.getTextHeight(), getBorderColor());
 
         // Label
-        DrawHelper.drawText(matrices, getLabel(), getX() + 1, getY() + 1, getWidth() - 2 - 8 - 9, LABEL_COLOR);
+        DrawHelper.drawText(matrices, getLabel(), getX() + 1, getY() + 1, getWidth() - 2 - 8 - 9, getLabelColor());
     }
 
     protected final void drawWindowControls(MatrixStack matrices) {
         controls.forEach(control -> control.draw(matrices));
     }
 
-
-
-    public boolean isClicked(int mouseX, int mouseY) {
+    /**
+     * <p>
+     *     Checks whether the mouse is hovering over this window.
+     * </p>
+     * @param mouseX the x-position of the mouse
+     * @param mouseY the y-position of the mouse
+     * @return {@code true} if the mouse position is inside the window, {@code false} if it is not
+     */
+    public boolean isMouseOverThis(int mouseX, int mouseY) {
         return mouseX >= getX() && mouseX <= getX2() && mouseY >= getY() && mouseY <= getY2();
     }
 
     protected final void onClick(int mouseX, int mouseY, boolean isRelease) {
+        this.focus();
+
         controls.forEach(control -> {
             if (control.isClicked(mouseX, mouseY) && !isRelease) {
                 control.onClick();
@@ -296,29 +356,6 @@ public abstract class Window {
     protected final void drag(int mouseX, int mouseY) {
         this.setX(mouseX - cursorDistanceX);
         this.setY(mouseY - cursorDistanceY);
-    }
-
-    // Returns the index of the line that was clicked, or -1 if none were clicked.
-    protected final int getLineMouseOver(int mouseX, int mouseY) {
-        if (mouseX > getX() && mouseX < getX2() && mouseY > getY() + DrawHelper.FONT_HEIGHT && mouseY < getY2()) {
-            /*
-            Subtract the Y-mouse-position by the Y-position of this window, so that
-            it is relative to the position of this window. Then subtract 9 to account
-            for the toolbar. Finally, divide by 9, the height of a line of text, to
-            determine which line of text--that is, module--was clicked.
-             */
-            return (mouseY - getY() - 9) / 9;
-        }
-        else {
-            return -1;
-        }
-    }
-
-    protected final boolean isMouseOverLine(int index) {
-        Mouse mouse = MinecraftClient.getInstance().mouse;
-        Vector2X<Integer> position = windowManager.scaleMousePosition(mouse.getX(), mouse.getY());
-        int lineIndex = getLineMouseOver(position.getX(), position.getY());
-        return index == lineIndex;
     }
 
     protected static WindowManager getWindowManager() {

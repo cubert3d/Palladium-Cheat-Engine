@@ -1,14 +1,14 @@
 package me.cubert3d.palladium.gui.window;
 
+import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.DrawHelper;
-import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.text.TextProvider;
-import me.cubert3d.palladium.module.modules.gui.AbstractHudModule;
-import me.cubert3d.palladium.util.Vector2X;
+import me.cubert3d.palladium.module.ModuleGroup;
+import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import net.minecraft.client.util.math.MatrixStack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,43 +16,29 @@ import java.util.stream.Collectors;
 
 @ClassInfo(
         authors = "cubert3d",
-        date = "7/24/2021",
+        date = "7/25/2021",
         type = ClassType.WIDGET
 )
 
-public final class TextProviderWindow extends CloseableWindow implements Displayable {
+public final class ModuleGroupManagerWindow extends Window implements Displayable {
 
-    private final TextProvider textProvider;
-    private final AbstractHudModule module;
+    private final ModuleGroupManager moduleGroupManager;
 
-    private TextProviderWindow(String id, int x, int y, int width, int height, int color, TextProvider textProvider, AbstractHudModule module) {
+    private ModuleGroupManagerWindow(String id, int x, int y, int width, int height, int color, ModuleGroupManager moduleGroupManager) {
         super(id, x, y, width, height, color);
-        this.textProvider = textProvider;
-        this.module = module;
+        this.moduleGroupManager = moduleGroupManager;
     }
 
     @Override
-    public final String getLabel() {
-        return textProvider.getTitle().getString();
-    }
-
-    @Override
-    public void open() {
-        super.open();
-        module.enable();
-    }
-
-    @Override
-    public void close() {
-        super.close();
-        module.disable();
+    public final @NotNull String getLabel() {
+        return "Module Groups";
     }
 
     @Override
     public final void render(MatrixStack matrices, int mouseX, int mouseY) {
         if (!isMinimized()) {
             drawMainWindow(matrices);
-            drawText(matrices);
+            drawText(matrices, mouseX, mouseY);
         }
         else {
             drawMinimizedWindow(matrices);
@@ -60,9 +46,9 @@ public final class TextProviderWindow extends CloseableWindow implements Display
         drawWindowControls(matrices);
     }
 
-    private void drawText(MatrixStack matrices) {
+    private void drawText(MatrixStack matrices, int mouseX, int mouseY) {
         int counter = 0;
-        int size = textProvider.getBody().size();
+        int size = moduleGroupManager.getGroups().size();
         boolean isListTooBig = size > getListSpaceAvailable(this);
         for (String line : getText()) {
 
@@ -92,17 +78,37 @@ public final class TextProviderWindow extends CloseableWindow implements Display
     }
 
     @Override
-    public ArrayList<String> getText() {
-        return textProvider.getBody().stream().map(ColorText::getString).collect(Collectors.toCollection(ArrayList::new));
+    protected void onClickWindow(int mouseX, int mouseY, boolean isRelease) {
+        int index = getLineMouseOver(mouseX, mouseY, this);
+        if (index >= 0 && !isRelease) {
+            int counter = 0;
+            for (ModuleGroup moduleGroup : moduleGroupManager.getGroups().values()) {
+                if (counter == index) {
+                    ModuleGroupWindow window = getOrCreateModuleGroupWindow(moduleGroup);
+                    window.open();
+                }
+                counter++;
+            }
+        }
     }
 
-    public static @NotNull TextProviderWindow newDisplayWindow(String id, TextProvider textProvider, AbstractHudModule module) {
-        Vector2X<Integer> coordinate = getWindowManager().getNextWindowPosition();
-        int x = coordinate.getX();
-        int y = coordinate.getY();
-        int width = DEFAULT_WIDTH;
-        int height = DEFAULT_HEIGHT;
-        int color = getWindowManager().getNextColor();
-        return new TextProviderWindow(id, x, y, width, height, color, textProvider, module);
+    private ModuleGroupWindow getOrCreateModuleGroupWindow(ModuleGroup moduleGroup) {
+        for (Window window : windowManager.getWindows()) {
+            if (window instanceof ModuleGroupWindow && ((ModuleGroupWindow) window).getModuleGroup().equals(moduleGroup)) {
+                return (ModuleGroupWindow) window;
+            }
+        }
+        return ModuleGroupWindow.newModuleGroupWindow(moduleGroup);
+    }
+
+    @Override
+    public ArrayList<String> getText() {
+        return moduleGroupManager.getGroups().values().stream().map(ModuleGroup::getName).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Contract(" -> new")
+    public static @NotNull ModuleGroupManagerWindow newModuleGroupManagerWindow() {
+        ModuleGroupManager moduleGroupManager = Palladium.getInstance().getModuleGroupManager();
+        return new ModuleGroupManagerWindow("module_group_manager", 25, 25, DEFAULT_WIDTH, DEFAULT_HEIGHT, Colors.BACKGROUND_PINK, moduleGroupManager);
     }
 }

@@ -11,8 +11,6 @@ import me.cubert3d.palladium.util.annotation.ClassType;
 
 public final class Colors {
 
-
-
     // TEXT COLORS
 
     public static final int BLACK = 0xFF000000;
@@ -20,18 +18,16 @@ public final class Colors {
     public static final int LAVENDER = 0xFFD3C7FF;
     public static final int HIGHLIGHT = 0xFFFFF69E;
 
-
-
     // BACKGROUND COLORS
 
-    public static final int BACKGROUND_WHITE = 0x6FAFAFB0;
+    public static final int BACKGROUND_WHITE = 0x6FFFFFFF;
+    public static final int BACKGROUND_GRAY = 0x6FAFAFB0;
     public static final int BACKGROUND_LAVENDER = 0x6F6D5197;
     public static final int BACKGROUND_GREEN = 0x6F28A12C;
     public static final int BACKGROUND_RED = 0x6F9C2828;
     public static final int BACKGROUND_BLUE = 0x6F2844A1;
     public static final int BACKGROUND_YELLOW = 0x6FFFEC99;
-
-
+    public static final int BACKGROUND_PINK = 0x6FFFB9F2;
 
     public static int of(int red, int green, int blue, int alpha) {
 

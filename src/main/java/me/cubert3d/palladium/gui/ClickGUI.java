@@ -2,6 +2,7 @@ package me.cubert3d.palladium.gui;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.gui.text.Colors;
+import me.cubert3d.palladium.gui.window.ModuleGroupManagerWindow;
 import me.cubert3d.palladium.gui.window.ModuleGroupWindow;
 import me.cubert3d.palladium.gui.window.WindowManager;
 import me.cubert3d.palladium.module.ModuleGroupManager;
@@ -40,11 +41,13 @@ public final class ClickGUI {
 
     public void initialize() {
 
+        Palladium.getLogger().info("Initializing ClickGUI...");
         ModuleGroupManager moduleGroupManager = Palladium.getInstance().getModuleGroupManager();
 
-        Palladium.getLogger().info("Initializing ClickGUI...");
-
         // The default windows that the ClickGUI begins with.
+        ModuleGroupManagerWindow moduleGroupManagerWindow = ModuleGroupManagerWindow.newModuleGroupManagerWindow();
+        windowManager.openWindow(moduleGroupManagerWindow);
+
         ModuleGroupWindow guiModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("gui"));
         guiModulesWindow.setX(200);
         guiModulesWindow.setY(25);
@@ -66,12 +69,15 @@ public final class ClickGUI {
         movementModulesWindow.setColor(Colors.BACKGROUND_GREEN);
         movementModulesWindow.open();
 
+        /*
         ModuleGroupWindow playerModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("player"));
         playerModulesWindow.setX(300);
         playerModulesWindow.setY(150);
         playerModulesWindow.setWidth(120);
         playerModulesWindow.setColor(Colors.BACKGROUND_RED);
         playerModulesWindow.open();
+
+         */
 
         ModuleGroupWindow combatModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("combat"));
         combatModulesWindow.setX(400);

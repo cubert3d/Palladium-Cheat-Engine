@@ -28,14 +28,19 @@ public abstract class CloseableWindow extends Window {
 
     @Override
     public void open() {
-        windowManager.openWindow(this);
-        this.open = true;
+        if (!open) {
+            windowManager.openWindow(this);
+            this.open = true;
+        }
+        this.focus();
     }
 
     @Override
     public void close() {
-        windowManager.closeWindow(this);
-        this.open = false;
+        if (open) {
+            windowManager.closeWindow(this);
+            this.open = false;
+        }
     }
 
     @Override
