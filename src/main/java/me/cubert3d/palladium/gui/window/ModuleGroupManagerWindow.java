@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @ClassInfo(
         authors = "cubert3d",
         date = "7/25/2021",
-        type = ClassType.WIDGET
+        type = ClassType.WINDOW
 )
 
 public final class ModuleGroupManagerWindow extends Window implements Displayable {
@@ -78,7 +78,7 @@ public final class ModuleGroupManagerWindow extends Window implements Displayabl
     }
 
     @Override
-    protected void onClickWindow(int mouseX, int mouseY, boolean isRelease) {
+    protected final void onClickWindow(int mouseX, int mouseY, boolean isRelease) {
         int index = getLineMouseOver(mouseX, mouseY, this);
         if (index >= 0 && !isRelease) {
             int counter = 0;
@@ -102,7 +102,7 @@ public final class ModuleGroupManagerWindow extends Window implements Displayabl
     }
 
     @Override
-    public ArrayList<String> getText() {
+    public final ArrayList<String> getText() {
         return moduleGroupManager.getGroups().values().stream().map(ModuleGroup::getName).collect(Collectors.toCollection(ArrayList::new));
     }
 

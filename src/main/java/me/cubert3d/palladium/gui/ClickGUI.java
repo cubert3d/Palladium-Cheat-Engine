@@ -46,7 +46,6 @@ public final class ClickGUI {
 
         // The default windows that the ClickGUI begins with.
         ModuleGroupManagerWindow moduleGroupManagerWindow = ModuleGroupManagerWindow.newModuleGroupManagerWindow();
-        windowManager.openWindow(moduleGroupManagerWindow);
 
         ModuleGroupWindow guiModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("gui"));
         guiModulesWindow.setX(200);
@@ -69,15 +68,12 @@ public final class ClickGUI {
         movementModulesWindow.setColor(Colors.BACKGROUND_GREEN);
         movementModulesWindow.open();
 
-        /*
         ModuleGroupWindow playerModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("player"));
         playerModulesWindow.setX(300);
         playerModulesWindow.setY(150);
         playerModulesWindow.setWidth(120);
         playerModulesWindow.setColor(Colors.BACKGROUND_RED);
         playerModulesWindow.open();
-
-         */
 
         ModuleGroupWindow combatModulesWindow = ModuleGroupWindow.newModuleGroupWindow(moduleGroupManager.getGroup("combat"));
         combatModulesWindow.setX(400);
@@ -86,6 +82,8 @@ public final class ClickGUI {
         combatModulesWindow.setColor(Colors.BACKGROUND_RED);
         combatModulesWindow.open();
 
+        windowManager.openWindow(moduleGroupManagerWindow);
+        moduleGroupManagerWindow.focus();
         Palladium.getLogger().info("Done initializing ClickGUI!");
     }
 
@@ -99,7 +97,6 @@ public final class ClickGUI {
 
     public final void open() {
         MinecraftClient.getInstance().mouse.unlockCursor();
-        //KeyBinding.unpressAll();
         open = true;
     }
 

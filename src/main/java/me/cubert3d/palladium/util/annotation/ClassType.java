@@ -14,7 +14,7 @@ public enum ClassType {
     MODULE,
     SETTING,
     MACRO,
-    WIDGET,
+    WINDOW,
     MIXIN,
     CALLBACK,
     LISTENER,

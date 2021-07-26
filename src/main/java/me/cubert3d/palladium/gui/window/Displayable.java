@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @ClassInfo(
         authors = "cubert3d",
         date = "7/25/2021",
-        type = ClassType.WIDGET
+        type = ClassType.WINDOW
 )
 
 public interface Displayable {

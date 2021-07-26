@@ -26,6 +26,10 @@ public final class DrawHelper {
         return MinecraftClient.getInstance().textRenderer.fontHeight;
     }
 
+    public static int getTextWidth(String text) {
+        return MinecraftClient.getInstance().textRenderer.getWidth(text);
+    }
+
     private static int getEllipsesWidth() {
         return MinecraftClient.getInstance().textRenderer.getWidth("...");
     }
@@ -156,7 +160,7 @@ public final class DrawHelper {
 
     public static void drawText(MatrixStack matrices, String text, int x, int y, int width, int color) {
 
-        int textWidth = MinecraftClient.getInstance().textRenderer.getWidth(text);
+        int textWidth = getTextWidth(text);
 
         if (textWidth > width) {
             String trimmedText = text;

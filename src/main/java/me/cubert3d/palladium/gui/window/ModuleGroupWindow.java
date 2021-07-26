@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @ClassInfo(
         authors = "cubert3d",
         date = "7/25/2021",
-        type = ClassType.WIDGET
+        type = ClassType.WINDOW
 )
 
 public final class ModuleGroupWindow extends CloseableWindow implements Displayable {
@@ -38,18 +38,18 @@ public final class ModuleGroupWindow extends CloseableWindow implements Displaya
     }
 
     @Override
-    public int getHeight() {
+    public final int getHeight() {
         int size = moduleGroup.getModules().size();
         return DrawHelper.FONT_HEIGHT + (size * DrawHelper.FONT_HEIGHT) + 1;
     }
 
     @Override
-    public void setHeight(int height) {
+    public final void setHeight(int height) {
 
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY) {
+    public final void render(MatrixStack matrices, int mouseX, int mouseY) {
         if (!isMinimized()) {
             drawMainWindow(matrices);
             drawWindowControls(matrices);
@@ -112,18 +112,32 @@ public final class ModuleGroupWindow extends CloseableWindow implements Displaya
     }
 
     @Override
-    protected void onClickWindow(int mouseX, int mouseY, boolean isRelease) {
+    protected final void onClickWindow(int mouseX, int mouseY, boolean isRelease) {
         int index = getLineMouseOver(mouseX, mouseY, this);
         MouseOver mouseOver = isMouseOverControlOrText(mouseX, mouseY, index);
         if (index >= 0 && !isRelease) {
-            if (mouseOver == MouseOver.CONTROL) {
+            if (mouseOver.equals(MouseOver.CONTROL)) {
                 moduleGroup.getModules().get(index).toggle();
+            }
+            else if (mouseOver.equals(MouseOver.MODULE)) {
+                Module module = moduleGroup.getModules().get(index);
+                ModuleWindow window = getOrCreateModuleWindow(module);
+                window.open();
             }
         }
     }
 
+    private ModuleWindow getOrCreateModuleWindow(Module module) {
+        for (Window window : windowManager.getWindows()) {
+            if (window instanceof ModuleWindow && ((ModuleWindow) window).getModule().equals(module)) {
+                return (ModuleWindow) window;
+            }
+        }
+        return ModuleWindow.newModuleWindow(module);
+    }
+
     @Override
-    public ArrayList<String> getText() {
+    public final ArrayList<String> getText() {
         return moduleGroup.getModules().stream().map(Module::getName).collect(Collectors.toCollection(ArrayList::new));
     }
 

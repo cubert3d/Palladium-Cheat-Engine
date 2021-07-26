@@ -1,10 +1,9 @@
 package me.cubert3d.palladium.gui.window;
 
 import me.cubert3d.palladium.gui.DrawHelper;
-import me.cubert3d.palladium.gui.text.ColorText;
 import me.cubert3d.palladium.gui.text.Colors;
-import me.cubert3d.palladium.gui.text.TextProvider;
-import me.cubert3d.palladium.module.modules.gui.AbstractHudModule;
+import me.cubert3d.palladium.module.modules.Module;
+import me.cubert3d.palladium.module.setting.Setting;
 import me.cubert3d.palladium.util.Vector2X;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -16,36 +15,37 @@ import java.util.stream.Collectors;
 
 @ClassInfo(
         authors = "cubert3d",
-        date = "7/24/2021",
+        date = "7/25/2021",
         type = ClassType.WINDOW
 )
 
-public final class TextProviderWindow extends CloseableWindow implements Displayable {
+public final class ModuleWindow extends CloseableWindow implements Displayable {
 
-    private final TextProvider textProvider;
-    private final AbstractHudModule module;
+    private final Module module;
 
-    private TextProviderWindow(String id, int x, int y, int width, int height, int color, TextProvider textProvider, AbstractHudModule module) {
+    private ModuleWindow(String id, int x, int y, int width, int height, int color, Module module) {
         super(id, x, y, width, height, color);
-        this.textProvider = textProvider;
         this.module = module;
     }
 
-    @Override
-    public final String getLabel() {
-        return textProvider.getTitle().getString();
+    public final Module getModule() {
+        return module;
     }
 
     @Override
-    public final void open() {
-        super.open();
-        module.enable();
+    public String getLabel() {
+        return String.format("%s: %s", module.getName(), module.isEnabled() ? "Enabled" : "Disabled");
     }
 
     @Override
-    public final void close() {
-        super.close();
-        module.disable();
+    public final int getHeight() {
+        int size = module.getSettings().size();
+        return DrawHelper.FONT_HEIGHT + (size * DrawHelper.FONT_HEIGHT) + 1;
+    }
+
+    @Override
+    public final void setHeight(int height) {
+
     }
 
     @Override
@@ -62,9 +62,14 @@ public final class TextProviderWindow extends CloseableWindow implements Display
 
     private void drawText(MatrixStack matrices, int mouseX, int mouseY) {
         int counter = 0;
-        int size = textProvider.getBody().size();
+        int size = module.getSettings().size();
         boolean isListTooBig = size > getListSpaceAvailable(this);
-        for (String line : getText()) {
+        ArrayList<String> settingNames = getText();
+        ArrayList<String> settingValues = getSettingValues();
+        for (int i = 0; i < settingNames.size(); i++) {
+
+            String settingName = settingNames.get(i);
+            String settingValue = settingValues.get(i);
 
             boolean isMouseOverHigherWindow = windowManager.isMouseOverHigherWindow(mouseX, mouseY, this);
             int color = isMouseOverLine(counter, windowManager, this)
@@ -73,6 +78,7 @@ public final class TextProviderWindow extends CloseableWindow implements Display
 
             int x3 = getX() + 2;
             int y3 = getY() + DrawHelper.getTextHeight() + 1 + (DrawHelper.getTextHeight() * counter);
+            int x4 = getX2() - 2 - DrawHelper.getTextWidth(settingValue);
 
             /*
             Check if there is enough room to keep printing the list.
@@ -83,9 +89,9 @@ public final class TextProviderWindow extends CloseableWindow implements Display
             an addition line that says how many lines are not displayed. (...and x more)
              */
             if (!isListTooBig || counter < getListSpaceAvailable(this) - 1) {
-                DrawHelper.drawText(matrices, line, x3, y3, getWindowWidth(), color);
-            }
-            else if (counter == getListSpaceAvailable(this) - 1) {
+                DrawHelper.drawText(matrices, settingName, x3, y3, x4 - x3, color);
+                DrawHelper.drawText(matrices, settingValue, x4, y3, getX2() - x4, color);
+            } else if (counter == getListSpaceAvailable(this) - 1) {
                 int remainder = size - counter;
                 String string2 = "...and " + remainder + " more";
                 DrawHelper.drawText(matrices, string2, x3, y3, getWindowWidth(), color);
@@ -96,17 +102,20 @@ public final class TextProviderWindow extends CloseableWindow implements Display
     }
 
     @Override
-    public ArrayList<String> getText() {
-        return textProvider.getBody().stream().map(ColorText::getString).collect(Collectors.toCollection(ArrayList::new));
+    public final ArrayList<String> getText() {
+        return module.getSettings().stream().map(Setting::getName).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static @NotNull TextProviderWindow newDisplayWindow(String id, TextProvider textProvider, AbstractHudModule module) {
-        Vector2X<Integer> coordinate = getWindowManager().getNextWindowPosition();
-        int x = coordinate.getX();
-        int y = coordinate.getY();
-        int width = DEFAULT_WIDTH;
-        int height = DEFAULT_HEIGHT;
+    public final ArrayList<String> getSettingValues() {
+        return module.getSettings().stream()
+                .map(setting -> !setting.isListSetting() ? setting.getAsString() : "...")
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static @NotNull ModuleWindow newModuleWindow(@NotNull Module module) {
+        String id = module.getName().toLowerCase().concat("_window");
+        Vector2X<Integer> newPosition = getWindowManager().getNextWindowPosition();
         int color = getWindowManager().getNextColor();
-        return new TextProviderWindow(id, x, y, width, height, color, textProvider, module);
+        return new ModuleWindow(id, newPosition.getX(), newPosition.getY(), DEFAULT_WIDTH, DEFAULT_HEIGHT, color, module);
     }
 }

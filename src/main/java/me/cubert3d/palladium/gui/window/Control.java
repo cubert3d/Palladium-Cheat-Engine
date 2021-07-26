@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 @ClassInfo(
         authors = "cubert3d",
         date = "7/24/2021",
-        type = ClassType.WIDGET
+        type = ClassType.WINDOW
 )
 
 public abstract class Control {
