@@ -25,6 +25,11 @@ public final class ModuleGroup {
         this.modules = modules;
     }
 
+    public ModuleGroup(String name) {
+        this.setName(name);
+        this.modules = new ArrayList<>();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ModuleGroup) {

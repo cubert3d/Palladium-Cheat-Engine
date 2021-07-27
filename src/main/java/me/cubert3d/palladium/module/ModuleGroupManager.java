@@ -2,38 +2,17 @@ package me.cubert3d.palladium.module;
 
 import me.cubert3d.palladium.Palladium;
 import me.cubert3d.palladium.module.modules.Module;
-import me.cubert3d.palladium.module.modules.combat.KillAuraModule;
-import me.cubert3d.palladium.module.modules.gui.ClickGUIModule;
-import me.cubert3d.palladium.module.modules.gui.EffectListModule;
-import me.cubert3d.palladium.module.modules.gui.EnabledModListModule;
-import me.cubert3d.palladium.module.modules.gui.PalladiumHudModule;
-import me.cubert3d.palladium.module.modules.gui.PlayerInfoModule;
-import me.cubert3d.palladium.module.modules.gui.SuppliesModule;
-import me.cubert3d.palladium.module.modules.movement.AutoWalkModule;
-import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
-import me.cubert3d.palladium.module.modules.movement.EntityControlModule;
-import me.cubert3d.palladium.module.modules.movement.SneakModule;
-import me.cubert3d.palladium.module.modules.movement.SprintModule;
-import me.cubert3d.palladium.module.modules.player.AutoDisconnectModule;
-import me.cubert3d.palladium.module.modules.player.AutoToolModule;
-import me.cubert3d.palladium.module.modules.player.BlinkModule;
-import me.cubert3d.palladium.module.modules.player.ChatFilterModule;
-import me.cubert3d.palladium.module.modules.player.ToolSaverModule;
-import me.cubert3d.palladium.module.modules.render.AntiOverlayModule;
-import me.cubert3d.palladium.module.modules.render.ESPModule;
-import me.cubert3d.palladium.module.modules.render.FreecamModule;
-import me.cubert3d.palladium.module.modules.render.FullBrightModule;
-import me.cubert3d.palladium.module.modules.render.TooltipsModule;
-import me.cubert3d.palladium.module.modules.render.WeatherModule;
-import me.cubert3d.palladium.module.modules.render.XRayModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import me.cubert3d.palladium.util.exception.ModuleNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ClassInfo(
         description = "Manages all module groups, whether the default groups, or groups created by the player.",
@@ -60,45 +39,35 @@ public final class ModuleGroupManager {
 
     void loadDefaultGroups() {
         try {
-            ModuleGroup guiModules = newModuleGroup("GUI",
-                    PalladiumHudModule.class,
-                    ClickGUIModule.class,
-                    PlayerInfoModule.class,
-                    EnabledModListModule.class,
-                    EffectListModule.class,
-                    SuppliesModule.class);
 
-            ModuleGroup renderModules = newModuleGroup("Render",
-                    AntiOverlayModule.class,
-                    TooltipsModule.class,
-                    FullBrightModule.class,
-                    XRayModule.class,
-                    ESPModule.class,
-                    FreecamModule.class,
-                    WeatherModule.class);
+            Map<String, ModuleGroup> defaultGroups = new HashMap<>();
+            LinkedHashSet<Module> modules = moduleManager.getModules().stream()
+                    .filter(module -> module.getType().equals(ModuleType.TOGGLE))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
 
-            ModuleGroup movementModules = newModuleGroup("Movement",
-                    AutoWalkModule.class,
-                    SneakModule.class,
-                    SprintModule.class,
-                    ClickTPModule.class,
-                    EntityControlModule.class);
+            for (Module module : modules) {
 
-            ModuleGroup playerModules = newModuleGroup("Player",
-                    ChatFilterModule.class,
-                    AutoDisconnectModule.class,
-                    AutoToolModule.class,
-                    ToolSaverModule.class,
-                    BlinkModule.class);
+                String packageName = module.getClass().getPackage().getName();
+                packageName = packageName.substring(packageName.lastIndexOf(".") + 1).toUpperCase();
 
-            ModuleGroup combatModules = newModuleGroup("Combat",
-                    KillAuraModule.class);
+                String finalPackageName = packageName;
+                defaultGroups.compute(packageName, ((s, moduleGroup) -> {
+                    if (moduleGroup != null) {
+                        moduleGroup.addModule(module);
+                        return moduleGroup;
+                    }
+                    else {
+                        ModuleGroup newModuleGroup = new ModuleGroup(finalPackageName);
+                        newModuleGroup.addModule(module);
+                        return newModuleGroup;
+                    }
+                }));
 
-            addModuleGroup(guiModules);
-            addModuleGroup(renderModules);
-            addModuleGroup(movementModules);
-            addModuleGroup(playerModules);
-            addModuleGroup(combatModules);
+            }
+
+            for (ModuleGroup moduleGroup : defaultGroups.values()) {
+                addModuleGroup(moduleGroup);
+            }
         }
         catch (ModuleNotFoundException e) {
             e.printStackTrace();
@@ -125,8 +94,6 @@ public final class ModuleGroupManager {
             }
         }
         group = new ModuleGroup(name.trim(), modules);
-        //addModuleGroup(group);
-
         return group;
     }
 
