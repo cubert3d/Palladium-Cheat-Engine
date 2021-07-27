@@ -1,6 +1,6 @@
 package me.cubert3d.palladium.module.modules.render;
 
-import me.cubert3d.palladium.event.callback.SendPacketCallback;
+import me.cubert3d.palladium.event.callback.CancelPacketCallback;
 import me.cubert3d.palladium.module.modules.ToggleModule;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
@@ -24,7 +24,7 @@ public final class FreecamModule extends ToggleModule {
 
     @Override
     public final void onLoad() {
-        SendPacketCallback.EVENT.register(packet -> isEnabled() && packet instanceof PlayerMoveC2SPacket);
+        CancelPacketCallback.EVENT.register(packet -> isEnabled() && packet instanceof PlayerMoveC2SPacket);
     }
 
     @Override

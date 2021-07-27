@@ -23,6 +23,7 @@ import me.cubert3d.palladium.module.modules.movement.ClickTPModule;
 import me.cubert3d.palladium.module.modules.movement.EntityControlModule;
 import me.cubert3d.palladium.module.modules.movement.SneakModule;
 import me.cubert3d.palladium.module.modules.movement.SprintModule;
+import me.cubert3d.palladium.module.modules.network.PacketLoggerModule;
 import me.cubert3d.palladium.module.modules.player.AutoDisconnectModule;
 import me.cubert3d.palladium.module.modules.player.AutoToolModule;
 import me.cubert3d.palladium.module.modules.player.BlinkModule;
@@ -112,6 +113,7 @@ public final class ModuleManager {
         addModule(new BlinkModule());
         addModule(new ChatFilterModule());
         addModule(new AutoDisconnectModule());
+        addModule(new PacketLoggerModule());
 
         // COMBAT
         addModule(new KillAuraModule());

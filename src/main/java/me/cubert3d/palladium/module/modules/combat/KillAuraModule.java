@@ -1,7 +1,7 @@
 package me.cubert3d.palladium.module.modules.combat;
 
+import me.cubert3d.palladium.event.callback.CancelPacketCallback;
 import me.cubert3d.palladium.event.callback.KillAuraCallback;
-import me.cubert3d.palladium.event.callback.SendPacketCallback;
 import me.cubert3d.palladium.event.mixin.accessors.ClientPlayNetworkHandlerAccessor;
 import me.cubert3d.palladium.event.mixin.accessors.MinecraftClientAccessor;
 import me.cubert3d.palladium.module.modules.ToggleModule;
@@ -90,7 +90,7 @@ public final class KillAuraModule extends ToggleModule {
             }
         });
 
-        SendPacketCallback.EVENT.register(packet -> {
+        CancelPacketCallback.EVENT.register(packet -> {
             if (packet instanceof PlayerMoveC2SPacket.LookOnly) {
                 if (isEnabled()) {
                     return true;

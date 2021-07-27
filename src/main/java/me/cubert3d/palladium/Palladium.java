@@ -7,6 +7,7 @@ import me.cubert3d.palladium.macro.MacroManager;
 import me.cubert3d.palladium.module.ModuleGroupManager;
 import me.cubert3d.palladium.module.ModuleManager;
 import me.cubert3d.palladium.module.command.CommandListener;
+import me.cubert3d.palladium.network.PacketLogger;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
 import me.cubert3d.palladium.util.annotation.ClassType;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 public final class Palladium {
 
     public static final String NAME = "Palladium Cheat Engine";
-    public static final String VERSION = "0.1.15.2";
+    public static final String VERSION = "0.1.16";
     private static final Logger LOGGER = LogManager.getLogger();
     private static Palladium INSTANCE;
 
@@ -31,6 +32,7 @@ public final class Palladium {
     private MacroManager macroManager;
     private ModuleConfig moduleConfig;
     private MacroConfig macroConfig;
+    private PacketLogger packetLogger;
     private GUIRenderer guiRenderer;
     /*
     In debug mode, modules and other features that are
@@ -50,6 +52,7 @@ public final class Palladium {
         this.macroManager = new MacroManager();
         this.moduleConfig = new ModuleConfig();
         this.macroConfig = new MacroConfig(macroManager);
+        this.packetLogger = new PacketLogger();
         this.guiRenderer = new GUIRenderer();
         this.debug = true;
 
@@ -96,6 +99,10 @@ public final class Palladium {
 
     public final MacroConfig getMacroConfig() {
         return macroConfig;
+    }
+
+    public final PacketLogger getPacketManager() {
+        return packetLogger;
     }
 
     public final GUIRenderer getGuiRenderer() {

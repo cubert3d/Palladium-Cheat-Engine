@@ -9,6 +9,7 @@
     "MinecraftClientMixin",
     "ClientPlayNetworkHandlerMixin",
     "ClientPlayerInteractionManagerMixin",
+    "NetworkThreadUtilsMixin",
     "ClientPlayerEntityMixin",
     "KeyboardMixin",
     "KeyBindingMixin",

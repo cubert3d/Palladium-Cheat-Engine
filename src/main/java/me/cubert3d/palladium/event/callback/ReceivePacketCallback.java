@@ -12,14 +12,14 @@ import net.minecraft.network.Packet;
         type = ClassType.CALLBACK
 )
 
-public interface SendPacketCallback {
+public interface ReceivePacketCallback {
 
-    Event<SendPacketCallback> EVENT = EventFactory.createArrayBacked(SendPacketCallback.class,
-            listeners -> (packet, isCancelled) -> {
-                for (SendPacketCallback listener : listeners) {
-                    listener.logPacket(packet, isCancelled);
+    Event<ReceivePacketCallback> EVENT = EventFactory.createArrayBacked(ReceivePacketCallback.class,
+            listeners -> packet -> {
+                for (ReceivePacketCallback listener : listeners) {
+                    listener.logPacket(packet);
                 }
             });
 
-    void logPacket(Packet<?> packet, boolean isCancelled);
+    void logPacket(Packet<?> packet);
 }

@@ -1,5 +1,6 @@
 package me.cubert3d.palladium.event.mixin.mixins;
 
+import me.cubert3d.palladium.event.callback.CancelPacketCallback;
 import me.cubert3d.palladium.event.callback.HealthUpdateCallback;
 import me.cubert3d.palladium.event.callback.SendPacketCallback;
 import me.cubert3d.palladium.util.annotation.ClassInfo;
@@ -27,14 +28,14 @@ public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketL
             at = @At(value = "HEAD"),
             cancellable = true)
     private void sendPacketInject(Packet<?> packet, final CallbackInfo info) {
-        boolean shouldCancel = SendPacketCallback.EVENT.invoker().shouldCancel(packet);
+        boolean shouldCancel = CancelPacketCallback.EVENT.invoker().shouldCancel(packet);
+        SendPacketCallback.EVENT.invoker().logPacket(packet, shouldCancel);
         if (shouldCancel) {
             info.cancel();
         }
     }
 
-    @Inject(method = "onHealthUpdate(Lnet/minecraft/network/packet/s2c/play/HealthUpdateS2CPacket;)V",
-            at = @At(value = "TAIL"))
+    @Inject(method = "onHealthUpdate(Lnet/minecraft/network/packet/s2c/play/HealthUpdateS2CPacket;)V", at = @At(value = "TAIL"))
     private void onHealthUpdateInject(@NotNull HealthUpdateS2CPacket packet, final CallbackInfo info) {
         HealthUpdateCallback.EVENT.invoker().interact(packet.getHealth());
     }

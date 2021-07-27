@@ -329,7 +329,9 @@ public abstract class Window {
     }
 
     protected final void onClick(int mouseX, int mouseY, boolean isRelease) {
-        this.focus();
+        if (!isRelease) {
+            this.focus();
+        }
 
         controls.forEach(control -> {
             if (control.isClicked(mouseX, mouseY) && !isRelease) {
